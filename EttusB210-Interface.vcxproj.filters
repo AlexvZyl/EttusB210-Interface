@@ -1,0 +1,1067 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Examples\Ettus_TXRX_Example.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Examples\fromSkripsie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\pulseCompression.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\samplingBenchmark.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TXRX_Modified.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\waveGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\External\UHD\share\uhd\images\usrp_b100_fpga.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Source\External\UHD\share\uhd\images\usrp_b100_fpga_2rx.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Source\External\UHD\share\uhd\images\usrp_b200_fpga.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Source\External\UHD\share\uhd\images\usrp_b200mini_fpga.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Source\External\UHD\share\uhd\images\usrp_b205mini_fpga.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Source\External\UHD\share\uhd\images\usrp_b210_fpga.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Source\External\UHD\share\uhd\images\usrp_n200_fw.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Source\External\UHD\share\uhd\images\usrp_n200_r2_fpga.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Source\External\UHD\share\uhd\images\usrp_n200_r3_fpga.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Source\External\UHD\share\uhd\images\usrp_n200_r4_fpga.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Source\External\UHD\share\uhd\images\usrp_n210_fw.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Source\External\UHD\share\uhd\images\usrp_n210_r2_fpga.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Source\External\UHD\share\uhd\images\usrp_n210_r3_fpga.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Source\External\UHD\share\uhd\images\usrp_n210_r4_fpga.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Source\External\UHD\share\uhd\images\usrp_n230_fpga.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Source\External\UHD\share\uhd\images\usrp2_fpga.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Source\External\UHD\share\uhd\images\usrp2_fw.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Source\External\UHD\bin\uhd.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Source\External\UHD\lib\uhd.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\External\UHD\include\uhd\cal\container.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\cal\database.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\cal\dsa_cal.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\cal\dsa_cal_generated.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\cal\iq_cal.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\cal\iq_cal_generated.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\cal\pwr_cal.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\cal\pwr_cal_generated.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\features\discoverable_feature.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\features\discoverable_feature_getter_iface.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\features\ref_clk_calibration_iface.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\rf_control\core_iface.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\rf_control\power_reference_iface.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\actions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\addsub_block_control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\constants.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\ddc_block_control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\defaults.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\dirtifier.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\dmafifo_block_control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\duc_block_control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\fft_block_control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\filter_node.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\fir_filter_block_control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\fosphor_block_control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\graph_edge.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\keep_one_in_n_block_control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\logpwr_block_control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\mb_controller.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\mock_block.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\moving_average_block_control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\multichan_register_iface.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\noc_block_base.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\noc_block_make_args.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\node.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\node.ipp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\null_block_control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\property.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\property.ipp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\radio_control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\register_iface.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\register_iface_holder.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\registry.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\replay_block_control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\res_source_info.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\rfnoc_types.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\siggen_block_control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\split_stream_block_control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\switchboard_block_control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\traffic_counter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\vector_iir_block_control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\window_block_control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\transport\adapter_id.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\transport\frame_buff.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\transport\if_addrs.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\transport\tcp_zero_copy.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\transport\udp_constants.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\transport\udp_simple.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\transport\udp_zero_copy.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\transport\usb_control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\transport\usb_device_handle.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\transport\usb_zero_copy.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\transport\vrt_if_packet.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\transport\zero_copy.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\transport\zero_copy_flow_ctrl.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\device_addr.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\dict.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\dict.ipp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\direction.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\eeprom.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\endianness.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\filters.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\mac_addr.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\memmap_iface.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\metadata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\metadata.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\ranges.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\ranges.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\ref_vector.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\sensors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\sensors.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\serial.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\stream_cmd.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\string_vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\time_spec.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\tune_request.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\tune_request.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\tune_result.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\tune_result.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\usrp_info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\wb_iface.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\usrp\dboard_base.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\usrp\dboard_eeprom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\usrp\dboard_eeprom.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\usrp\dboard_id.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\usrp\dboard_iface.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\usrp\dboard_manager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\usrp\fe_connection.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\usrp\gpio_defs.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\usrp\gps_ctrl.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\usrp\mboard_eeprom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\usrp\mboard_eeprom.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\usrp\multi_usrp.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\usrp\subdev_spec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\usrp\subdev_spec.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\usrp\usrp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\usrp_clock\multi_usrp_clock.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\usrp_clock\octoclock_eeprom.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\usrp_clock\usrp_clock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\algorithm.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\assert_has.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\assert_has.ipp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\csv.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\dirty_tracked.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\fp_compare_delta.ipp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\fp_compare_epsilon.ipp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\gain_group.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\graph_utils.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\interpolation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\log.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\log_add.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\math.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\msg_task.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\noncopyable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\paths.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\pimpl.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\platform.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\pybind_adaptors.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\safe_call.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\safe_main.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\scope_exit.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\static.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\tasks.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\thread.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\thread_priority.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\thread_priority.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\config.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\convert.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\device.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\error.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\exception.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\property_tree.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\property_tree.ipp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc_graph.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\stream.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\version.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\wavetable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\cal\cal_metadata_generated.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\block_control.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\block_id.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\blockdef.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\rfnoc\chdr_types.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\transport\bounded_buffer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\transport\bounded_buffer.ipp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\transport\buffer_pool.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\transport\chdr.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\types\byte_vector.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\chdr\chdr_packet.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\chdr\chdr_packet.ipp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\byteswap.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\byteswap.ipp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\utils\cast.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\UHD\include\uhd\build_info.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\align.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\aligned_storage.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\any.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\array.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\asio.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\assert.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\assign.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\atomic.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\beast.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\bimap.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\bind.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\blank.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\blank_fwd.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\call_traits.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\callable_traits.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\cast.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\cerrno.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\checked_delete.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\chrono.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\circular_buffer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\circular_buffer_fwd.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\compressed_pair.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\compute.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\concept_archetype.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\concept_check.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\config.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\contract.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\contract_macro.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\convert.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\crc.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\cregex.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\cstdfloat.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\cstdint.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\cstdlib.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\current_function.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\cxx11_char_types.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\date_time.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\describe.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\dll.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\dynamic_bitset.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\dynamic_bitset_fwd.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\enable_shared_from_this.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\endian.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\exception_ptr.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\filesystem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\flyweight.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\foreach.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\foreach_fwd.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\format.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\function.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\function_equal.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\function_output_iterator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\functional.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\generator_iterator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\geometry.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\get_pointer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\gil.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\hana.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\histogram.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\hof.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\implicit_cast.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\indirect_reference.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\integer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\integer_fwd.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\integer_traits.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\intrusive_ptr.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\io_fwd.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\is_placeholder.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\iterator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\iterator_adaptors.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\lambda2.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\leaf.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\lexical_cast.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\limits.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\local_function.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\locale.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\make_default.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\make_shared.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\make_unique.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\math_fwd.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\mem_fn.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\memory_order.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\metaparse.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\mp11.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\mpi.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\multi_array.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\multi_index_container.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\multi_index_container_fwd.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\next_prior.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\non_type.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\noncopyable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\nondet_random.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\none.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\none_t.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\operators.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\operators_v1.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\optional.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\outcome.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\parameter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\pfr.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\phoenix.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\pointee.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\pointer_cast.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\pointer_to_other.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\polymorphic_cast.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\polymorphic_pointer_cast.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\predef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\preprocessor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\process.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\program_options.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\progress.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\python.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\qvm.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\qvm_lite.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\random.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\range.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\ratio.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\rational.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\ref.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\regex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\regex.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\regex_fwd.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\scope_exit.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\scoped_array.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\scoped_ptr.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\shared_array.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\shared_container_iterator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\shared_ptr.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\signals2.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\smart_ptr.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\spirit.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\stacktrace.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\static_assert.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\static_string.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\swap.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\system.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\thread.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\throw_exception.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\timer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\token_functions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\token_iterator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\tokenizer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\type.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\type_index.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\type_traits.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\unordered_map.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\unordered_set.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\utility.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\variant.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\version.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\visit_each.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\wave.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\External\Boost\Includes\boost\weak_ptr.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources\EttusB210-Interface.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

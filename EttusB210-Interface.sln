@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31808.319
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EttusB210-Interface", "EttusB210-Interface.vcxproj", "{E13FD196-6393-4033-A723-F170D7EE66DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E13FD196-6393-4033-A723-F170D7EE66DE}.Debug|x64.ActiveCfg = Debug|x64
+		{E13FD196-6393-4033-A723-F170D7EE66DE}.Debug|x64.Build.0 = Debug|x64
+		{E13FD196-6393-4033-A723-F170D7EE66DE}.Debug|x86.ActiveCfg = Debug|Win32
+		{E13FD196-6393-4033-A723-F170D7EE66DE}.Debug|x86.Build.0 = Debug|Win32
+		{E13FD196-6393-4033-A723-F170D7EE66DE}.Release|x64.ActiveCfg = Release|x64
+		{E13FD196-6393-4033-A723-F170D7EE66DE}.Release|x64.Build.0 = Release|x64
+		{E13FD196-6393-4033-A723-F170D7EE66DE}.Release|x86.ActiveCfg = Release|Win32
+		{E13FD196-6393-4033-A723-F170D7EE66DE}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {44813A58-C1FE-4D3A-A704-0F5D9E3A7192}
+	EndGlobalSection
+EndGlobal

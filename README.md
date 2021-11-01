@@ -1,2 +1,2 @@
 # EttusB210-Interface
-The C++ SDR interfacing project used in my Master's degree.
+The C++ project used to run the Ettus B210 SDR.
