@@ -42,6 +42,12 @@
     <ClCompile Include="Source\InterfaceSDR.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\InterfaceSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\InterfaceFiles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\External\UHD\share\uhd\images\usrp_b100_fpga.bin">

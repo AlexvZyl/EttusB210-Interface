@@ -1,10 +1,1 @@
-c:\github_repos\ettusb210-interface\binaries\intermediates\x64\release\vc142.pdb
-c:\github_repos\ettusb210-interface\binaries\intermediates\x64\release\wavegenerator.obj
-c:\github_repos\ettusb210-interface\binaries\intermediates\x64\release\txrx_modified.obj
-c:\github_repos\ettusb210-interface\binaries\intermediates\x64\release\samplingbenchmark.obj
-c:\github_repos\ettusb210-interface\binaries\intermediates\x64\release\pulsecompression.obj
-c:\github_repos\ettusb210-interface\binaries\intermediates\x64\release\fromskripsie.obj
-c:\github_repos\ettusb210-interface\binaries\intermediates\x64\release\ettus_txrx_example.obj
-c:\github_repos\ettusb210-interface\binaries\intermediates\x64\release\ettusb21.e13fd196.tlog\cl.command.1.tlog
-c:\github_repos\ettusb210-interface\binaries\intermediates\x64\release\ettusb21.e13fd196.tlog\cl.read.1.tlog
-c:\github_repos\ettusb210-interface\binaries\intermediates\x64\release\ettusb21.e13fd196.tlog\cl.write.1.tlog
+c:\github_repos\ettusb210-interface\binaries\executables\x64\release\ettusb210-interface.exe

@@ -16,23 +16,47 @@ Interface::Interface()
     m_currentFileName = "None";
     m_latestFileName = "None";
     m_autoFiling = false;
-    m_samplingFrequency = 4e6;
-    m_waveFrequency = 900e6;
+    m_txSamplingFrequencyTarget = 4e6;
+    m_rxSamplingFrequencyTarget = 4e6;
+    m_txFreqTarget = 900e6;
+    m_rxFreqTarget = 900e6;
+    m_txGainTarget = 89;
+    m_rxGainTarget = 70;
     m_status = "Idle.";
+    m_txBWTarget = 8000000;
+    m_rxBWTarget = 8000000;
 
     // SDR Defaults.
+    tx_rate = m_txSamplingFrequencyTarget;
+    rx_rate = m_rxSamplingFrequencyTarget;
+    tx_freq = m_txFreqTarget;
+    rx_freq = m_rxFreqTarget;
+    tx_gain = m_txGainTarget;
+    rx_gain = m_rxGainTarget;
+    tx_bw = m_txBWTarget;
+    rx_bw = m_rxBWTarget;
+    tx_args = "";
+    rx_args = "";
     ref = "internal";
-    tx_rate = 1e6;
-    rx_rate = 1e6;
-    tx_freq = 1.1e9;
-    rx_freq = 1.1e9;
     tx_channels = "0";
     rx_channels = "0";
+    tx_ant = "";
+    rx_ant = "";
+    tx_int_n = "";
+    rx_int_n = "";
+    wave_freq = 0;
+    wave_type = "CONST";
+    type = "short";
+    settling = 0.2;
+    spb = 0;
+    ampl = 0.3;
+    otw = "sc16";
 }
 
 Interface::~Interface()
 {
-
+    delete buff;
+    delete wave_table;
 }
 
 // ================================================================================================================================================================================ //
@@ -41,67 +65,72 @@ Interface::~Interface()
 
 void Interface::systemInfo() 
 {
-    std::cout <<
-        red <<                 "----------------------------------\n" <<               
-        red << "|" << yellow << "              ¶¶¶               "  << red << "|" << blue << "\t[STATUS]: " << white << m_status << "\n" <<
-        red << "|" << yellow << "             ¶¶ ¶¶¶¶            "  << red << "|" << blue << "\n" <<
-        red << "|" << yellow << "            ¶¶    ¶¶¶           "  << red << "|" << blue << "\t[FOLDER]: " << white << "'" << m_folderName << "'.\n" <<
-        red << "|" << yellow << "           ¶¶¶      ¶¶          "  << red << "|" << blue << "\t[LATEST FILE]: " << white << "'" << m_latestFileName << "'.\n" <<
-        red << "|" << yellow << "           ¶¶¶       ¶¶         "  << red << "|" << blue << "\t[FILE TARGET]: " << white << "'" << m_currentFileName << "'.\n" <<
-        red << "|" << yellow << "          ¶¶¶¶        ¶¶        "  << red << "|" << blue << "\t[AUTO FILING]: " << white << m_autoFiling << ".\n" <<
-        red << "|" << yellow << "          ¶ ¶¶         ¶¶       "  << red << "|" << blue << "\n" <<
-        red << "|" << yellow << "          ¶  ¶¶         ¶¶    ¶¶"  << red << "|" << blue << "\t[SMAMPLING FREQUENCY]: " << white << m_samplingFrequency << " Hz.\n" <<
-        red << "|" << yellow << "          ¶  ¶¶          ¶¶¶¶¶¶¶"  << red << "|" << blue << "\t[TX/RX FREQUENCY]: " << white << m_waveFrequency << " Hz.\n" <<
-        red << "|" << yellow << "         ¶¶  ¶¶¶      ¶¶¶¶¶¶   ¶"  << red << "|" << blue << "\t[CLOCK REF]: " << white << ref << ".\n" <<
-        red << "|" << yellow << "         ¶¶   ¶¶  ¶¶¶¶¶¶  ¶¶    "  << red << "|" << blue << "\t[TX CHANNELS]: " << white << tx_channels << ".\n" <<
-        red << "|" << yellow << "       ¶¶ ¶    ¶¶¶¶        ¶¶   "  << red << "|" << blue << "\t[RX CHANNELS]: " << white <<rx_channels << ".\n" <<
-        red << "|" << yellow << "      ¶¶  ¶¶   ¶¶          ¶¶   "  << red << "|" << blue << "\t" << white << "\n" <<
-        red << "|" << yellow << "     ¶¶    ¶¶   ¶¶          ¶¶  "  << red << "|" << blue << "\t" << white << "\n" <<
-        red << "|" << yellow << "   ¶¶       ¶¶   ¶¶         ¶¶  "  << red << "|" << blue << "\t" << white << "\n" <<
-        red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶  ¶¶         ¶  "  << red << "|" << blue << "\t" << white << "\n" <<
-        red << "|" << yellow << " ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶        ¶¶ "  << red << "|" << blue << "\t" << white << "\n" <<
-        red << "|" << yellow << "¶¶  ¶¶¶¶¶¶    ¶¶¶¶¶¶¶¶¶      ¶¶ "  << red << "|" << blue << "\t" << white << "\n" <<
-        red << "|" << yellow << "¶¶¶¶¶   ¶      ¶   ¶¶¶¶¶     ¶¶ "  << red << "|" << blue << "\t" << white << "\n" <<
-        red << "|" << yellow << "        ¶¶¶¶¶¶¶¶      ¶¶¶¶¶ ¶¶  "  << red << "|" << blue << "\t" << white << "\n" <<
-        red << "|" << yellow << "      ¶¶¶¶¶¶¶¶¶¶¶        ¶¶¶¶   "  << red << "|" << blue << "\t" << white << "\n" <<
-        red << "|" << yellow << "      ¶¶¶¶¶¶¶¶¶¶¶¶              "  << red << "|" << blue << "\t" << white << "\n" <<
-        red << "|" << yellow << "      ¶  ¶¶ ¶¶¶¶¶¶              "  << red << "|" << blue << "\t" << white << "\n" <<
-        red << "|" << yellow << "     ¶¶      ¶   ¶              "  << red << "|" << blue << "\t" << white << "\n" <<
-        red << "|" << yellow << "     ¶¶     ¶¶   ¶              "  << red << "|" << blue << "\t" << white << "\n" <<
-        red << "|" << yellow << "     ¶      ¶¶   ¶              "  << red << "|" << blue << "\t" << white << "\n" <<
-        red << "|" << yellow << "    ¶¶      ¶¶   ¶¶             "  << red << "|" << blue << "\t" << white << "\n" <<
-        red << "|" << yellow << "    ¶¶      ¶¶   ¶¶             "  << red << "|" << blue << "\t" << white << "\n" <<
-        red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶             "  << red << "|" << blue << "\t" << white << "\n" <<
-        red << "|" << yellow << "  ¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶            "  << red << "|" << blue << "\t" << white << "\n" <<
-        red << "|" << yellow << "  ¶¶        ¶¶¶    ¶¶           "  << red << "|" << blue << "\t" << white << "\n" <<
-        red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶            "  << red << "|" << blue << "\t[COPYRIGHT]:" << white <<" C.A van Zyl, calexandervanzyl@gmail.com, +27 76 888 7559.\n" <<
-        red <<                 "----------------------------------\n"<< white;
+    std::cout << blue << "[COPYRIGHT]:" << white << " C.A van Zyl, calexandervanzyl@gmail.com, +27 76 888 7559.\n\n" << 
+        red <<                 "----------------------------------\n" <<
+        red << "|" << yellow << "              ¶¶¶               " << red << "|" << blue << "\t[APP STATUS]: " << white << m_status << "\n" <<
+        red << "|" << yellow << "             ¶¶ ¶¶¶¶            " << red << "|" << blue << "\t[SDR STATUS]: " << white << m_sdrInfo << "\n" <<
+        red << "|" << yellow << "            ¶¶    ¶¶¶           " << red << "|" << blue << "\t[SETTINGS STATUS]: " << white << m_settingsStatus << '\n' <<
+        red << "|" << yellow << "           ¶¶¶      ¶¶          " << red << "|" << blue << "\n" <<
+        red << "|" << yellow << "           ¶¶¶       ¶¶         " << red << "|" << blue << "\t[FOLDER]: " << white << "'" << m_folderName << "'\n" <<
+        red << "|" << yellow << "          ¶¶¶¶        ¶¶        " << red << "|" << blue << "\t[LATEST FILE]: " << white << "'" << m_latestFileName << "'\n" <<
+        red << "|" << yellow << "          ¶ ¶¶         ¶¶       " << red << "|" << blue << "\t[TARGET FILE]: " << white << "'" << m_currentFileName << "'\n" <<
+        red << "|" << yellow << "          ¶  ¶¶         ¶¶    ¶¶" << red << "|" << blue << "\t[AUTO FILING]: " << white << m_autoFiling << "\n" <<
+        red << "|" << yellow << "          ¶  ¶¶          ¶¶¶¶¶¶¶" << red << "|" << blue << "\n" <<
+        red << "|" << yellow << "         ¶¶  ¶¶¶      ¶¶¶¶¶¶   ¶" << red << "|" << blue << "\t[TX SMAMPLING TARGET]: " << white << m_txSamplingFrequencyTarget / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "         ¶¶   ¶¶  ¶¶¶¶¶¶  ¶¶    " << red << "|" << blue << "\t[TX SMAMPLING " << green << "ACTUAL" << blue << "]: " << white << m_txSamplingFrequencyActual / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "      ¶¶  ¶¶   ¶¶          ¶¶   " << red << "|" << blue << "\t[RX SMAMPLING TARGET]: " << white << m_rxSamplingFrequencyTarget / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "       ¶¶ ¶    ¶¶¶¶        ¶¶   " << red << "|" << blue << "\t[RX SMAMPLING " << green << "ACTUAL" << blue << "]: " << white << m_rxSamplingFrequencyActual / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "     ¶¶    ¶¶   ¶¶          ¶¶  " << red << "|" << blue << "\t[TX FREQUENCY TARGET]: " << white << m_txFreqTarget / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "   ¶¶       ¶¶   ¶¶         ¶¶  " << red << "|" << blue << "\t[TX FREQUENCY " << green << "ACTUAL" << blue << "]: " << white << m_txFreqActual / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶  ¶¶         ¶  " << red << "|" << blue << "\t[RX FREQUENCY TARGET]: " << white << m_rxFreqTarget / (1e6) << " MHz\n" <<
+        red << "|" << yellow << " ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶        ¶¶ " << red << "|" << blue << "\t[RX FREQUENCY " << green << "ACTUAL" << blue << "]: " << white << m_rxFreqActual / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "¶¶  ¶¶¶¶¶¶    ¶¶¶¶¶¶¶¶¶      ¶¶ " << red << "|" << blue << "\t[TX GAIN TARGET]: " << white << m_txGainTarget << " dB\n" <<
+        red << "|" << yellow << "¶¶¶¶¶   ¶      ¶   ¶¶¶¶¶     ¶¶ " << red << "|" << blue << "\t[TX GAIN " << green << "ACTUAL" << blue << "]: " << white << m_txGainActual << " dB\n" <<
+        red << "|" << yellow << "        ¶¶¶¶¶¶¶¶      ¶¶¶¶¶ ¶¶  " << red << "|" << blue << "\t[RX GAIN TARGET]: " << white << m_rxGainTarget << " dB\n" <<
+        red << "|" << yellow << "      ¶¶¶¶¶¶¶¶¶¶¶        ¶¶¶¶   " << red << "|" << blue << "\t[RX GAIN " << green << "ACTUAL" << blue << "]: " << white << m_rxGainActual << " dB\n" <<
+        red << "|" << yellow << "      ¶¶¶¶¶¶¶¶¶¶¶¶              " << red << "|" << blue << "\t[TX BW TARGET]: " << white << m_txBWTarget / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "      ¶  ¶¶ ¶¶¶¶¶¶              " << red << "|" << blue << "\t[TX BW " << green << "ACTUAL" << blue << "]: " << white << m_txBWActual / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "     ¶¶      ¶   ¶              " << red << "|" << blue << "\t[RX BW TARGET]: " << white << m_rxBWTarget / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "     ¶¶     ¶¶   ¶              " << red << "|" << blue << "\t[RX BW " << green << "ACTUAL" << blue << "]: " << white << m_rxBWActual / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "     ¶      ¶¶   ¶              " << red << "|" << blue << "\n" <<
+        red << "|" << yellow << "    ¶¶      ¶¶   ¶¶             " << red << "|" << blue << "\t[CLOCK REF]: " << white << ref << "\n" <<
+        red << "|" << yellow << "    ¶¶      ¶¶   ¶¶             " << red << "|" << blue << "\t[TX CHANNELS]: " << white << tx_channels << "\n" <<
+        red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶             " << red << "|" << blue << "\t[RX CHANNELS]: " << white << rx_channels << "\n" <<
+        red << "|" << yellow << "  ¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶            " << red << "|" << blue << "\t[TX ANTENNA]: " << white << tx_ant << "\n" <<
+        red << "|" << yellow << "  ¶¶        ¶¶¶    ¶¶           " << red << "|" << blue << "\t[RX ANTENNA]: " << white << rx_ant << "\n" <<
+        red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶            " << red << "|" << "\n" <<
+        red <<                "----------------------------------\n" << white;
 }
 
 void Interface::mainMenu() 
 {
+    m_status = "Idle.";
     clear();
     systemInfo();
-    std::cout << green << "\n\n[APP] [MENU]: " << white << "Select an option:\n";
-    std::cout << green << "\t[1]: " << white << "Setup the SDR.\n";
-    std::cout << green << "\t[2]: " << white << "Change folder name.\n";
-    std::cout << green << "\t[3]: " << white << "Change file name.\n";
-    std::cout << green << "\t[4]: " << white << "Toggle auto file naming.\n";
+    std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
+    std::cout << green << "\t[1]: " << white << "Connect/Update SDR.\n";
+    std::cout << green << "\t[2]: " << white << "Start transmission.\n";
+    std::cout << green << "\t[3]: " << white << "Settings.\n";
+    std::cout << green << "\t[4]: " << white << "Set folder.\n";
+    std::cout << green << "\t[5]: " << white << "Set file.\n";
+    std::cout << green << "\t[6]: " << white << "Toggle auto filing.\n";
     std::cout << green << "\t[0]: " << white << "Quit.\n";
     std::cout << green << "\t[INPUT]: " << white;
     int answer=0;
     std::cin >> answer;
-    while (answer<0 || answer >4) 
+    while (answer < 0 || answer > 6) 
     {
         clear();
         systemInfo();
-        std::cout << green << "\n\n[APP] [MENU]: " << white << "Select an option:\n";
-        std::cout << green << "\t[1]: " << white << "Setup the SDR.\n";
-        std::cout << green << "\t[2]: " << white << "Change folder name.\n";
-        std::cout << green << "\t[3]: " << white << "Change file name.\n";
-        std::cout << green << "\t[4]: " << white << "Toggle auto file naming.\n";
+        std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
+        std::cout << green << "\t[1]: " << white << "Connect/Update SDR.\n";
+        std::cout << green << "\t[2]: " << white << "Start transmission.\n";
+        std::cout << green << "\t[3]: " << white << "Settings.\n";
+        std::cout << green << "\t[4]: " << white << "Set folder.\n";
+        std::cout << green << "\t[5]: " << white << "Set file.\n";
+        std::cout << green << "\t[6]: " << white << "Toggle auto filing.\n";
         std::cout << green << "\t[0]: " << white << "Quit.\n";
-        std::cout << red   << "\t[ERROR]: " << white << "Please select a valid option.\n";
+        std::cout << red   << "\t[ERROR]: " << white << "'" << answer << "' is not a valid option.\n";
         std::cout << green << "\t[INPUT]: " << white;
         std::cin >> answer;
     }
@@ -112,12 +141,18 @@ void Interface::mainMenu()
         setupSDR();
         break;
     case 2:
-        setFolder();
+        startTransmission();
         break;
     case 3:
-        setFile();
+        settingsMenu();
         break;
     case 4:
+        setFolder();
+        break;
+    case 5:
+        setFile();
+        break;
+    case 6:
         toggleAutoFiling();
         break;
     case 0:
@@ -126,85 +161,23 @@ void Interface::mainMenu()
     }
 }
 
-void Interface::clear() 
+void Interface::clear()
 {
     system("cls");
 }
 
-
-// ================================================================================================================================================================================ //
-//	Main Menu Functions.																																							//
-// ================================================================================================================================================================================ //
-
-void Interface::setFolder()
-{
-
-}
-
-void Interface::setFile()
-{
-
-}
-
-void Interface::toggleAutoFiling()
+void Interface::quit()
 {
     clear();
     systemInfo();
-    // Disable auto filing.
-    if (m_autoFiling) 
-    {
-        int answer;
-        std::cout << green << "\n\n[APP] [MENU]: " << white << "Disable auto filing?\n";
-        std::cout << green << "\t[1]: " << white << "Yes.\n";
-        std::cout << green << "\t[0]: " << white << "No.\n";
-        std::cout << green << "\t[INPUT]: " << white;
-        std::cin >> answer;
-        while (answer < 0 || answer > 1) 
-        {
-            clear();
-            systemInfo();
-            std::cout << green  << "\n\n[APP] [MENU]: " << white << "Disable auto filing?\n";
-            std::cout << green  << "\t[1]: " << white << "Yes.\n";
-            std::cout << green  << "\t[0]: " << white << "No.\n";
-            std::cout << red    << "\t[ERROR]: " << white << "Please select a valid option.\n";
-            std::cout << green  << "\t[INPUT]: " << white;
-            std::cin >> answer;
-        }
-        if (answer == 1) { m_autoFiling = false; }
-        else { return; }
-    }
-    // Enable auto filing.
-    else
-    {
-        int answer;
-        std::cout << green << "\n\n[APP] [MENU]: " << white << "Enable auto filing?\n";
-        std::cout << green << "\t[1]: " << white << "Yes.\n";
-        std::cout << green << "\t[0]: " << white << "No.\n";
-        std::cout << green << "\t[INPUT]: " << white;
-        std::cin >> answer;
-        while (answer < 0 || answer > 1)
-        {
-            clear();
-            systemInfo();
-            std::cout << green << "\n\n[APP] [MENU]: " << white << "Enable auto filing?\n";
-            std::cout << green << "\t[1]: " << white << "Yes.\n";
-            std::cout << green << "\t[0]: " << white << "No.\n";
-            std::cout << red << "\t[ERROR]: " << white << "Please select a valid option.\n";
-            std::cout << green << "\t[INPUT]: " << white;
-            std::cin >> answer;
-        }
-        if (answer == 1) { m_autoFiling = true; }
-        else { return; }
-    }
-}
-
-void Interface::quit() 
-{
-    clear();
-    systemInfo();
-    std::cout << green << "\n\n[APP] [MENU]: " << white << "Are you sure you want to quit?\n";
-    std::cout << green << "\t[1]: " << white << "Yes.\n";
-    std::cout << green << "\t[0]: " << white << "No.\n";
+    std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
+    std::cout << green << "\t   |-> " << yellow << "Quit.\n";
+    std::cout << green << "\t  [i]: " << white << "Are you sure you want to quit?\n";
+    std::cout << green << "\t  [1]: " << white << "Yes.\n";
+    std::cout << green << "\t  [0]: " << white << "No.\n";
+    std::cout << green << "\t   |\n";
+    std::cout << green << "\t   |\n";
+    std::cout << green << "\t   |\n";
     std::cout << green << "\t[INPUT]: " << white;
     int answer;
     std::cin >> answer;
@@ -212,10 +185,14 @@ void Interface::quit()
     {
         clear();
         systemInfo();
-        std::cout << green << "\n\n[APP] [MENU]: " << white << "Are you sure you want to quit?\n";
-        std::cout << green << "\t[1]: " << white << "Yes.\n";
-        std::cout << green << "\t[0]: " << white << "No.\n";
-        std::cout << red << "\t[ERROR]: " << white << "Please select a valid option.\n";
+        std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
+        std::cout << green << "\t   |-> " << yellow << "Quit.\n";
+        std::cout << green << "\t  [i]: " << white << "Are you sure you want to quit?\n";
+        std::cout << green << "\t  [1]: " << white << "Yes.\n";
+        std::cout << green << "\t  [0]: " << white << "No.\n";
+        std::cout << green << "\t   |\n";
+        std::cout << green << "\t   |\n";
+        std::cout << red << "\t[ERROR]: " << white << "'" << answer << "' is not a valid option.\n";
         std::cout << green << "\t[INPUT]: " << white;
         std::cin >> answer;
     }
@@ -224,12 +201,6 @@ void Interface::quit()
     systemInfo();
     std::cout << "\n";
 }
-
-// ================================================================================================================================================================================ //
-//	SDR Interface.																																									//
-// ================================================================================================================================================================================ //
-
-
 
 // ================================================================================================================================================================================ //
 //  EOF.																																											//

@@ -23,6 +23,13 @@
 #include <boost/math/special_functions/round.hpp>	// \/ 
 #include <boost/program_options.hpp>				// \/ 
 #include <boost/thread/thread.hpp>					// --
+#include <csignal>
+#include <fstream>
+#include <functional>
+#include <iostream>
+#include "../External/Misc/ConsoleColor.h"
+#include <numbers>
+#include <stdio.h>
 #include <complex>
 
 // ================================================================================================================================================================================ //
@@ -48,25 +55,61 @@ private:
 	std::string m_currentFileName;			// The current file data will be written to.
 	bool m_autoFiling;						// Sets if the application should determine the file name and
 											// automatically increment as required.
-	float m_samplingFrequency;				// Set the sampling frequency of the SDR.
-	float m_waveFrequency;					// Set the TX/RX frequency of the variable.
+	float m_txSamplingFrequencyTarget;		// Requested sampling freq for the SDR.
+	float m_txSamplingFrequencyActual=0;	// Actual sampling freq set by the SDR.
+	float m_rxSamplingFrequencyTarget;		// Requested sampling freq for the SDR.
+	float m_rxSamplingFrequencyActual=0;	// Actual sampling freq set by the SDR.
+	double m_txGainTarget;					// Requested TX gain for the SDR.
+	double m_txGainActual=0;				// Actual TX gain set for the SDR.	
+	double m_rxGainTarget;					// Requested RX gain for the SDR.
+	double m_rxGainActual=0;				// Actual RX gain set for the SDR.
+	double m_txBWTarget;
+	double m_txBWActual=0;
+	double m_rxBWTarget;
+	double m_rxBWActual=0;
+	double m_txFreqTarget;
+	double m_txFreqActual=0;
+	double m_rxFreqTarget;
+	double m_rxFreqActual = 0;
 	std::vector<void*> m_mainMenuOptions;	// Vector containing all of the menu otption as functions.
 	std::string m_status;					// The status of the app.
+	std::string m_sdrInfo = "SDR has not been connected.";
+	std::string m_settingsStatus = "Settings not loaded.";
+
+	// ------------------------------------- //
+	//  W A V E F O R M   V A R I A B L E S  //
+	// ------------------------------------- //
+
+	std::vector<std::complex<float>>* buff;
+	const wave_table_class* wave_table;
+	uhd::tx_streamer::sptr tx_stream;
+	uhd::tx_metadata_t md;
+	size_t step;
+	size_t index = 0;
+	int num_channels;
 
 	// -------------------------- //
 	// S D R   V A R I A B L E S  //
 	// -------------------------- //
 
-	// Transmit variables set by po.
+	// Device.
+	std::vector<size_t> tx_channel_nums;
+	std::vector<size_t> rx_channel_nums;
+	uhd::usrp::multi_usrp::sptr tx_usrp;
+	uhd::usrp::multi_usrp::sptr rx_usrp;
+
+	// Transmit variables.
 	std::string tx_args, wave_type, tx_ant, tx_subdev, ref, otw, tx_channels;
 	double tx_rate, tx_freq, tx_gain, wave_freq, tx_bw;
 	float ampl;
-
-	// Receive variables set by po.
+	std::string tx_int_n;
+	
+	// Receive variables.
 	std::string rx_args, file, type, rx_ant, rx_subdev, rx_channels;
-	size_t total_num_samps, spb;
+	size_t total_num_samps, spb=0;
 	double rx_rate, rx_freq, rx_gain, rx_bw;
 	double settling;
+	std::string rx_int_n;
 
 
 public:
@@ -95,10 +138,19 @@ public:
 
 	// Main menu functions.
 	void setupSDR();
+	void startTransmission();
+	void settingsMenu();
 	void setFolder();
 	void setFile();
 	void toggleAutoFiling();
 	void quit();
+
+	// Settings options.
+	void setSamplingFrequency();
+	void setWaveFrequency();
+	void setTXGain();
+	void setRXGain();
+	void setFilterBandwidth();
 
 	// --------------------------- //
 	//  S D R   I N T E R F A C E  //
