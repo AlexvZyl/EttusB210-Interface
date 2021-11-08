@@ -102,6 +102,32 @@ void Interface::systemInfo()
         red <<                "----------------------------------\n" << white;
 }
 
+void Interface::readInput(unsigned int* answer)
+{
+    std::cout << green << "\t[INPUT]: " << white;
+    std::string answerString = "";
+    std::cin >> answerString;
+    // Make sure the user enters a number and not a string.
+    try { *answer =  std::stoi(answerString); }
+    catch (const std::exception& e) { *answer = -1; }
+}
+
+void Interface::readInput(double* answer)
+{
+    std::cout << green << "\t[INPUT]: " << white;
+    std::string answerString = "";
+    std::cin >> answerString;
+    // Make sure the user enters a number and not a string.
+    try { *answer = std::stod(answerString); }
+    catch (const std::exception& e) { *answer = -1; }
+}
+
+void Interface::printError(unsigned int answer) 
+{
+    if (answer == -1) { std::cout << red << "\t[ERROR]: " << white << "Answer contained only characters.\n"; }
+    else { std::cout << red << "\t[ERROR]: " << white << "'" << answer << "' is not in the list of options.\n"; }
+}
+
 void Interface::mainMenu() 
 {
     m_status = "Idle.";
@@ -115,10 +141,9 @@ void Interface::mainMenu()
     std::cout << green << "\t[5]: " << white << "Set file.\n";
     std::cout << green << "\t[6]: " << white << "Toggle auto filing.\n";
     std::cout << green << "\t[0]: " << white << "Quit.\n";
-    std::cout << green << "\t[INPUT]: " << white;
-    int answer=0;
-    std::cin >> answer;
-    while (answer < 0 || answer > 6) 
+    unsigned int answer;
+    readInput(&answer);
+    while (answer < 0 || answer > 6)
     {
         clear();
         systemInfo();
@@ -130,9 +155,8 @@ void Interface::mainMenu()
         std::cout << green << "\t[5]: " << white << "Set file.\n";
         std::cout << green << "\t[6]: " << white << "Toggle auto filing.\n";
         std::cout << green << "\t[0]: " << white << "Quit.\n";
-        std::cout << red   << "\t[ERROR]: " << white << "'" << answer << "' is not a valid option.\n";
-        std::cout << green << "\t[INPUT]: " << white;
-        std::cin >> answer;
+        printError(answer);
+        readInput(&answer);
     }
     // Handle the cases for the options.
     switch (answer) 
@@ -178,9 +202,8 @@ void Interface::quit()
     std::cout << green << "\t   |\n";
     std::cout << green << "\t   |\n";
     std::cout << green << "\t   |\n";
-    std::cout << green << "\t[INPUT]: " << white;
-    int answer;
-    std::cin >> answer;
+    unsigned int answer;
+    readInput(&answer);
     while (answer < 0 || answer > 1)
     {
         clear();
@@ -192,9 +215,8 @@ void Interface::quit()
         std::cout << green << "\t  [0]: " << white << "No.\n";
         std::cout << green << "\t   |\n";
         std::cout << green << "\t   |\n";
-        std::cout << red << "\t[ERROR]: " << white << "'" << answer << "' is not a valid option.\n";
-        std::cout << green << "\t[INPUT]: " << white;
-        std::cin >> answer;
+        printError(answer);
+        readInput(&answer);
     }
     if (answer == 1) { shouldClose = true; }
     clear();

@@ -10,56 +10,14 @@ namespace fs = std::filesystem;
 // Functions.																																										//
 // ================================================================================================================================================================================ //
 
-void Interface::setFolder() 
-{
-    std::string dataPath = "Data\\";
-    int answer;
-	clear();
-	systemInfo();
-    std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
-	std::cout << green << "\t   |-> " << yellow << "Set folder.\n";
-    int it = 0;
-    for (const auto& entry : fs::directory_iterator(dataPath)) 
-    {   
-        std::cout << green << "\t  [" << it << "] " << white << entry.path() << std::endl;
-        it++;
-    }
-    std::cout << green << "\t[INPUT]: " << white;
-	std::cin >> answer;
-
-    // Check if the answer is valid.
-    if (answer<0 || answer > it) 
-    {
-        clear();
-        systemInfo();
-        std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
-        std::cout << green << "\t   |-> " << yellow << "Set folder.\n";        int it = 0;
-        for (const auto& entry : fs::directory_iterator(dataPath))
-        {
-            std::cout << green << "\t  [" << it << "] " << white << entry.path() << std::endl;
-            it++;
-        }
-        std::cout << red << "\t[ERROR]: " << white << "'" << answer << "' is not a valid option.\n";
-        std::cout << green << "\t[INPUT]: " << white;
-        std::cin >> answer;
-    }
-    it = 0;
-    // Set the current folder path.
-    for (const auto& entry : fs::directory_iterator(dataPath)) 
-    { 
-        if (it == answer) { m_folderName = entry.path().string(); }
-        it++;
-    }
-}
-
 void Interface::toggleAutoFiling()
 {
+    unsigned int answer;
     clear();
     systemInfo();
     // Disable auto filing.
     if (m_autoFiling)
     {
-        int answer;
         std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
         std::cout << green << "\t   |-> " << yellow << "Toggle auto filing.";
         std::cout << green << "\n\t  [i]: " << white << "Disable auto filing?\n";
@@ -68,8 +26,7 @@ void Interface::toggleAutoFiling()
         std::cout << green << "\t   |\n";
         std::cout << green << "\t   |\n";
         std::cout << green << "\t   |\n";
-        std::cout << green << "\t[INPUT]: " << white;
-        std::cin >> answer;
+        readInput(&answer);
         while (answer < 0 || answer > 1)
         {
             clear();
@@ -81,9 +38,8 @@ void Interface::toggleAutoFiling()
             std::cout << green << "\t  [0]: " << white << "No.\n";
             std::cout << green << "\t   |\n";
             std::cout << green << "\t   |\n";
-            std::cout << red << "\t[ERROR]: " << white << "'" << answer << "' is not a valid option.\n";
-            std::cout << green << "\t[INPUT]: " << white;
-            std::cin >> answer;
+            printError(answer);
+            readInput(&answer);
         }
         if (answer == 1) { m_autoFiling = false; }
         else { return; }
@@ -91,7 +47,6 @@ void Interface::toggleAutoFiling()
     // Enable auto filing.
     else
     {
-        int answer;
         std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
         std::cout << green << "\t   |-> " << yellow << "Toggle auto filing.";
         std::cout << green << "\n\t  [i]: " << white << "Enable auto filing?\n";
@@ -100,8 +55,7 @@ void Interface::toggleAutoFiling()
         std::cout << green << "\t   |\n";
         std::cout << green << "\t   |\n";
         std::cout << green << "\t   |\n";
-        std::cout << green << "\t[INPUT]: " << white;
-        std::cin >> answer;
+        readInput(&answer);
         while (answer < 0 || answer > 1)
         {
             clear();
@@ -113,12 +67,60 @@ void Interface::toggleAutoFiling()
             std::cout << green << "\t  [0]: " << white << "No.\n";
             std::cout << green << "\t   |\n";
             std::cout << green << "\t   |\n";
-            std::cout << red << "\t[ERROR]: " << white << "'" << answer << "' is not a valid option.\n";
-            std::cout << green << "\t[INPUT]: " << white;
-            std::cin >> answer;
+            printError(answer);
+            readInput(&answer);
         }
         if (answer == 1) { m_autoFiling = true; }
         else { return; }
+    }
+}
+
+void Interface::setFolder()
+{
+    std::string dataPath = "Data\\";
+    clear();
+    systemInfo();
+    std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
+    std::cout << green << "\t   |-> " << yellow << "Set folder.\n";
+    int it = 1;
+    for (const auto& entry : fs::directory_iterator(dataPath))
+    {
+        std::cout << green << "\t  [" << it << "] " << white << entry.path() << std::endl;
+        it++;
+    }
+    it--;
+    std::cout << green << "\t  [0] " << white << "Return." << std::endl;
+    unsigned int answer;
+    readInput(&answer);
+
+    // Check if the answer is valid.
+    while (answer<0 || answer>it)
+    {
+        clear();
+        systemInfo();
+        std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
+        std::cout << green << "\t   |-> " << yellow << "Set folder.\n";
+        it = 1;
+        for (const auto& entry : fs::directory_iterator(dataPath))
+        {
+            std::cout << green << "\t  [" << it << "] " << white << entry.path() << std::endl;
+            it++;
+        }
+        std::cout << green << "\t  [0] " << white << "Return." << std::endl;
+        printError(answer);
+        readInput(&answer);
+    }
+
+    if (answer == 0) { return; }
+    else 
+    {
+        it = 0;
+        // Set the current folder path.
+        for (const auto& entry : fs::directory_iterator(dataPath))
+        {
+            if (it == answer - 1) { m_folderName = entry.path().string(); }
+            it++;
+        }
     }
 }
 
@@ -137,44 +139,49 @@ void Interface::setFile()
     }
     else
     {
-        int answer;
-        //std::string dataPth = "Data/"
         clear();
         systemInfo();
         std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
         std::cout << green << "\t   |-> " << yellow << "Set file.\n";
-        int it = 0;
+        int it = 1;
         for (const auto& entry : fs::directory_iterator(m_folderName))
         {
             std::cout << green << "\t  [" << it << "] " << white << entry.path() << std::endl;
             it++;
         }
-        std::cout << green << "\t[INPUT]: " << white;
-        std::cin >> answer;
+        it--;
+        std::cout << green << "\t  [0] " << white << "Return." << std::endl;
+        unsigned int answer;
+        readInput(&answer);
 
         // Check if the answer is valid.
-        if (answer<0 || answer > it)
+        while (answer < 0 || answer > it)
         {
             clear();
             systemInfo();
             std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
             std::cout << green << "\t   |-> " << yellow << "Set file.\n";
-            int it = 0;
+            int it = 1;
             for (const auto& entry : fs::directory_iterator(m_folderName))
             {
                 std::cout << green << "\t  [" << it << "] " << white << entry.path() << std::endl;
                 it++;
             }
-            std::cout << red << "\t[ERROR]: " << white << "'" << answer << "' is not a valid option.\n";
-            std::cout << green << "\t[INPUT]: " << white;
-            std::cin >> answer;
+            it--;
+            std::cout << green << "\t  [0] " << white << "Return." << std::endl;
+            printError(answer);
+            readInput(&answer);
         }
-        it = 0;
-        // Set the current folder path.
-        for (const auto& entry : fs::directory_iterator(m_folderName))
-        {
-            if (it == answer) { m_currentFileName = entry.path().string(); }
-            it++;
+
+        if (answer == 0) { return; }
+        else {
+            it = 0;
+            // Set the current folder path.
+            for (const auto& entry : fs::directory_iterator(m_folderName))
+            {
+                if (it == answer) { m_currentFileName = entry.path().string(); }
+                it++;
+            }
         }
     }
 }

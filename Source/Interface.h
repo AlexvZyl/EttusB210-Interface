@@ -135,6 +135,10 @@ public:
 	void mainMenu();
 	// Clears the console.
 	void clear();
+	// Reads input from the user.
+	void readInput(unsigned int* answer);
+	void readInput(double* answer);
+	void printError(unsigned int answer);
 
 	// Main menu functions.
 	void setupSDR();

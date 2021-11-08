@@ -1,7 +1,10 @@
-﻿  InterfaceSettings.cpp
+﻿  Interface.cpp
+C:\GitHub_Repos\EttusB210-Interface\Source\Interface.cpp(52,15): warning C4305: '=': truncation from 'double' to 'float'
+C:\GitHub_Repos\EttusB210-Interface\Source\Interface.cpp(112,34): warning C4101: 'e': unreferenced local variable
+C:\GitHub_Repos\EttusB210-Interface\Source\Interface.cpp(122,34): warning C4101: 'e': unreferenced local variable
   Generating code
-  10 of 2557 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
+  1 of 2561 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    9 functions had inline decision re-evaluated but remain unchanged
+    14 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   EttusB210-Interface.vcxproj -> C:\GitHub_Repos\EttusB210-Interface\Binaries\Executables\x64\Release\EttusB210-Interface.exe
