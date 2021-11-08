@@ -23,9 +23,8 @@ void Interface::toggleAutoFiling()
         std::cout << green << "\n\t  [i]: " << white << "Disable auto filing?\n";
         std::cout << green << "\t  [1]: " << white << "Yes.\n";
         std::cout << green << "\t  [0]: " << white << "No.\n";
-        std::cout << green << "\t   |\n";
-        std::cout << green << "\t   |\n";
-        std::cout << green << "\t   |\n";
+        m_currentTerminalLine += 5;
+        menuListBar(1);
         readInput(&answer);
         while (answer < 0 || answer > 1)
         {
@@ -36,8 +35,8 @@ void Interface::toggleAutoFiling()
             std::cout << green << "\n\t  [i]: " << white << "Disable auto filing?\n";
             std::cout << green << "\t  [1]: " << white << "Yes.\n";
             std::cout << green << "\t  [0]: " << white << "No.\n";
-            std::cout << green << "\t   |\n";
-            std::cout << green << "\t   |\n";
+            m_currentTerminalLine += 6;
+            menuListBar(1);
             printError(answer);
             readInput(&answer);
         }
@@ -52,9 +51,8 @@ void Interface::toggleAutoFiling()
         std::cout << green << "\n\t  [i]: " << white << "Enable auto filing?\n";
         std::cout << green << "\t  [1]: " << white << "Yes.\n";
         std::cout << green << "\t  [0]: " << white << "No.\n";
-        std::cout << green << "\t   |\n";
-        std::cout << green << "\t   |\n";
-        std::cout << green << "\t   |\n";
+        m_currentTerminalLine += 5;
+        menuListBar(1);
         readInput(&answer);
         while (answer < 0 || answer > 1)
         {
@@ -65,8 +63,8 @@ void Interface::toggleAutoFiling()
             std::cout << green << "\n\t  [i]: " << white << "Enable auto filing?\n";
             std::cout << green << "\t  [1]: " << white << "Yes.\n";
             std::cout << green << "\t  [0]: " << white << "No.\n";
-            std::cout << green << "\t   |\n";
-            std::cout << green << "\t   |\n";
+            m_currentTerminalLine += 6;
+            menuListBar(1);
             printError(answer);
             readInput(&answer);
         }
@@ -90,6 +88,8 @@ void Interface::setFolder()
     }
     it--;
     std::cout << green << "\t  [0] " << white << "Return." << std::endl;
+    m_currentTerminalLine += it+3;
+    menuListBar(1);
     unsigned int answer;
     readInput(&answer);
 
@@ -107,6 +107,8 @@ void Interface::setFolder()
             it++;
         }
         std::cout << green << "\t  [0] " << white << "Return." << std::endl;
+        m_currentTerminalLine += it + 3;
+        menuListBar(1);
         printError(answer);
         readInput(&answer);
     }
@@ -152,6 +154,8 @@ void Interface::setFile()
         it--;
         std::cout << green << "\t  [0] " << white << "Return." << std::endl;
         unsigned int answer;
+        m_currentTerminalLine += it + 3;
+        menuListBar(1);
         readInput(&answer);
 
         // Check if the answer is valid.
@@ -169,6 +173,8 @@ void Interface::setFile()
             }
             it--;
             std::cout << green << "\t  [0] " << white << "Return." << std::endl;
+            m_currentTerminalLine += it + 4;
+            menuListBar(1);
             printError(answer);
             readInput(&answer);
         }

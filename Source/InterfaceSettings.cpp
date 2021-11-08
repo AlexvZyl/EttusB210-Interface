@@ -20,9 +20,12 @@ void Interface::settingsMenu()
 	std::cout << green << "\t  [4]: " << white << "RX Gain.\n";
 	std::cout << green << "\t  [5]: " << white << "Filter bandwidth.\n";
 	std::cout << green << "\t  [0]: " << white << "Return.\n";
+	m_currentTerminalLine += 8;
+	menuListBar(1);
 	unsigned int answer;
 	readInput(&answer);
 
+	// Handle errors.
 	while (answer < 0 || answer > 5) 
 	{
 		clear();
@@ -35,6 +38,8 @@ void Interface::settingsMenu()
 		std::cout << green << "\t  [4]: " << white << "RX Gain.\n";
 		std::cout << green << "\t  [5]: " << white << "Filter bandwidth.\n";
 		std::cout << green << "\t  [0]: " << white << "Return.\n";
+		m_currentTerminalLine += 9;
+		menuListBar(1);
 		printError(answer);
 		readInput(&answer);
 	}
@@ -72,11 +77,9 @@ void Interface::setSamplingFrequency()
 	std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
 	std::cout << green << "\t   |-> " << yellow << "Settings.\n";
 	std::cout << green << "\t   |-> " << yellow << "Sampling frequency.\n";
-	std::cout << green << "\t  [i]: " << white << "Enter the new value:\n";
-	std::cout << green << "\t   |\n";
-	std::cout << green << "\t   |\n";
-	std::cout << green << "\t   |\n";
-	std::cout << green << "\t   |\n";
+	std::cout << green << "\t  [i]: " << white << "Enter the new value [MHz]:\n";
+	m_currentTerminalLine += 4;
+	menuListBar(1);
 	double answer;
 	readInput(&answer);
 
@@ -87,14 +90,14 @@ void Interface::setSamplingFrequency()
 		std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
 		std::cout << green << "\t   |-> " << yellow << "Settings.\n";
 		std::cout << green << "\t   |-> " << yellow << "Sampling frequency.\n";
-		std::cout << green << "\t  [i]: " << white << "Enter the new value:\n";
-		std::cout << green << "\t   |\n";
-		std::cout << green << "\t   |\n";
-		std::cout << green << "\t   |\n";
+		std::cout << green << "\t  [i]: " << white << "Enter the new value [MHz]:\n";
+		m_currentTerminalLine += 5;
+		menuListBar(1);
 		printError(answer);
 		readInput(&answer);
 	}
 
+	answer *= 1e6;
 	m_settingsStatus = "Changed settings not uploaded.";
 	m_txSamplingFrequencyTarget = answer;
 	m_rxSamplingFrequencyTarget = answer;
@@ -110,13 +113,27 @@ void Interface::setWaveFrequency()
 	std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
 	std::cout << green << "\t   |-> " << yellow << "Settings.\n";
 	std::cout << green << "\t   |-> " << yellow << "Wave frequency.\n";
-	std::cout << green << "\t  [i]: " << white << "Enter the new value:\n";
-	std::cout << green << "\t   |\n";
-	std::cout << green << "\t   |\n";
-	std::cout << green << "\t   |\n";
-	std::cout << green << "\t   |\n";
+	std::cout << green << "\t  [i]: " << white << "Enter the new value [MHz]:\n";
+	m_currentTerminalLine += 4;
+	menuListBar(1);
 	double answer;
 	readInput(&answer);
+
+	while (answer == -1)
+	{
+		clear();
+		systemInfo();
+		std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
+		std::cout << green << "\t   |-> " << yellow << "Settings.\n";
+		std::cout << green << "\t   |-> " << yellow << "Wave frequency.\n";
+		std::cout << green << "\t  [i]: " << white << "Enter the new value [MHz]:\n";
+		m_currentTerminalLine += 5;
+		menuListBar(1);
+		printError(answer);
+		readInput(&answer);
+	}
+
+	answer *= 1e6;
 	m_settingsStatus = "Changed settings not uploaded.";
 	m_txFreqTarget = answer;
 	m_rxFreqTarget = answer;
@@ -132,13 +149,26 @@ void Interface::setTXGain()
 	std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
 	std::cout << green << "\t   |-> " << yellow << "Settings.\n";
 	std::cout << green << "\t   |-> " << yellow << "TX gain.\n";
-	std::cout << green << "\t  [i]: " << white << "Enter the new value:\n";
-	std::cout << green << "\t   |\n";
-	std::cout << green << "\t   |\n";
-	std::cout << green << "\t   |\n";
-	std::cout << green << "\t   |\n";
+	std::cout << green << "\t  [i]: " << white << "Enter the new value [dB]:\n";
+	m_currentTerminalLine += 4;
+	menuListBar(1);
 	double answer;
 	readInput(&answer);
+
+	while (answer == -1)
+	{
+		clear();
+		systemInfo();
+		std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
+		std::cout << green << "\t   |-> " << yellow << "Settings.\n";
+		std::cout << green << "\t   |-> " << yellow << "TX Gain.\n";
+		std::cout << green << "\t  [i]: " << white << "Enter the new value [dB]:\n";
+		m_currentTerminalLine += 5;
+		menuListBar(1);
+		printError(answer);
+		readInput(&answer);
+	}
+
 	m_settingsStatus = "Changed settings not uploaded.";
 	m_txGainTarget = answer;
 	tx_gain = m_txGainTarget;
@@ -152,13 +182,26 @@ void Interface::setRXGain()
 	std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
 	std::cout << green << "\t   |-> " << yellow << "Settings.\n";
 	std::cout << green << "\t   |-> " << yellow << "RX gain.\n";
-	std::cout << green << "\t  [i]: " << white << "Enter the new value:\n";
-	std::cout << green << "\t   |\n";
-	std::cout << green << "\t   |\n";
-	std::cout << green << "\t   |\n";
-	std::cout << green << "\t   |\n";
+	std::cout << green << "\t  [i]: " << white << "Enter the new value [dB]:\n";
+	m_currentTerminalLine += 4;
+	menuListBar(1);
 	double answer;
 	readInput(&answer);
+
+	while (answer == -1)
+	{
+		clear();
+		systemInfo();
+		std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
+		std::cout << green << "\t   |-> " << yellow << "Settings.\n";
+		std::cout << green << "\t   |-> " << yellow << "RX Gain.\n";
+		std::cout << green << "\t  [i]: " << white << "Enter the new value [dB]:\n";
+		m_currentTerminalLine += 5;
+		menuListBar(1);
+		printError(answer);
+		readInput(&answer);
+	}
+
 	m_settingsStatus = "Changed settings not uploaded.";
 	m_rxGainTarget = answer;
 	rx_gain = m_rxGainTarget;
@@ -173,19 +216,38 @@ void Interface::setFilterBandwidth()
 	std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
 	std::cout << green << "\t   |-> " << yellow << "Settings.\n";
 	std::cout << green << "\t   |-> " << yellow << "Filter bandwidth.\n";
-	std::cout << green << "\t  [i]: " << white << "Enter the new value:\n";
-	std::cout << green << "\t   |\n";
-	std::cout << green << "\t   |\n";
-	std::cout << green << "\t   |\n";
-	std::cout << green << "\t   |\n";
+	std::cout << green << "\t  [i]: " << white << "Enter the new value [Mhz]:\n";
+	m_currentTerminalLine += 4;
+	menuListBar(1);
 	double answer;
 	readInput(&answer);
+
+	while (answer == -1)
+	{
+		clear();
+		systemInfo();
+		std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
+		std::cout << green << "\t   |-> " << yellow << "Settings.\n";
+		std::cout << green << "\t   |-> " << yellow << "Filter bandwidth.\n";
+		std::cout << green << "\t  [i]: " << white << "Enter the new value [MHz]:\n";
+		m_currentTerminalLine += 5;
+		menuListBar(1);
+		printError(answer);
+		readInput(&answer);
+	}
+
+	answer *= 1e6;
 	m_settingsStatus = "Changed settings not uploaded.";
 	m_txBWTarget = answer;
 	m_rxBWTarget = answer;
 	tx_bw = m_txBWTarget;
 	rx_bw = m_rxBWTarget;
 	settingsMenu();
+}
+
+void Interface::saveSettings() 
+{
+	
 }
 
 // ================================================================================================================================================================================ //

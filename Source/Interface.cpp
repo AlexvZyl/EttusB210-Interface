@@ -66,40 +66,43 @@ Interface::~Interface()
 void Interface::systemInfo() 
 {
     std::cout << blue << "[COPYRIGHT]:" << white << " C.A van Zyl, calexandervanzyl@gmail.com, +27 76 888 7559.\n\n" << 
-        red <<                 "----------------------------------\n" <<
-        red << "|" << yellow << "              ¶¶¶               " << red << "|" << blue << "\t[APP STATUS]: " << white << m_status << "\n" <<
-        red << "|" << yellow << "             ¶¶ ¶¶¶¶            " << red << "|" << blue << "\t[SDR STATUS]: " << white << m_sdrInfo << "\n" <<
-        red << "|" << yellow << "            ¶¶    ¶¶¶           " << red << "|" << blue << "\t[SETTINGS STATUS]: " << white << m_settingsStatus << '\n' <<
-        red << "|" << yellow << "           ¶¶¶      ¶¶          " << red << "|" << blue << "\n" <<
-        red << "|" << yellow << "           ¶¶¶       ¶¶         " << red << "|" << blue << "\t[FOLDER]: " << white << "'" << m_folderName << "'\n" <<
-        red << "|" << yellow << "          ¶¶¶¶        ¶¶        " << red << "|" << blue << "\t[LATEST FILE]: " << white << "'" << m_latestFileName << "'\n" <<
-        red << "|" << yellow << "          ¶ ¶¶         ¶¶       " << red << "|" << blue << "\t[TARGET FILE]: " << white << "'" << m_currentFileName << "'\n" <<
-        red << "|" << yellow << "          ¶  ¶¶         ¶¶    ¶¶" << red << "|" << blue << "\t[AUTO FILING]: " << white << m_autoFiling << "\n" <<
-        red << "|" << yellow << "          ¶  ¶¶          ¶¶¶¶¶¶¶" << red << "|" << blue << "\n" <<
-        red << "|" << yellow << "         ¶¶  ¶¶¶      ¶¶¶¶¶¶   ¶" << red << "|" << blue << "\t[TX SMAMPLING TARGET]: " << white << m_txSamplingFrequencyTarget / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "         ¶¶   ¶¶  ¶¶¶¶¶¶  ¶¶    " << red << "|" << blue << "\t[TX SMAMPLING " << green << "ACTUAL" << blue << "]: " << white << m_txSamplingFrequencyActual / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "      ¶¶  ¶¶   ¶¶          ¶¶   " << red << "|" << blue << "\t[RX SMAMPLING TARGET]: " << white << m_rxSamplingFrequencyTarget / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "       ¶¶ ¶    ¶¶¶¶        ¶¶   " << red << "|" << blue << "\t[RX SMAMPLING " << green << "ACTUAL" << blue << "]: " << white << m_rxSamplingFrequencyActual / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "     ¶¶    ¶¶   ¶¶          ¶¶  " << red << "|" << blue << "\t[TX FREQUENCY TARGET]: " << white << m_txFreqTarget / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "   ¶¶       ¶¶   ¶¶         ¶¶  " << red << "|" << blue << "\t[TX FREQUENCY " << green << "ACTUAL" << blue << "]: " << white << m_txFreqActual / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶  ¶¶         ¶  " << red << "|" << blue << "\t[RX FREQUENCY TARGET]: " << white << m_rxFreqTarget / (1e6) << " MHz\n" <<
-        red << "|" << yellow << " ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶        ¶¶ " << red << "|" << blue << "\t[RX FREQUENCY " << green << "ACTUAL" << blue << "]: " << white << m_rxFreqActual / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "¶¶  ¶¶¶¶¶¶    ¶¶¶¶¶¶¶¶¶      ¶¶ " << red << "|" << blue << "\t[TX GAIN TARGET]: " << white << m_txGainTarget << " dB\n" <<
-        red << "|" << yellow << "¶¶¶¶¶   ¶      ¶   ¶¶¶¶¶     ¶¶ " << red << "|" << blue << "\t[TX GAIN " << green << "ACTUAL" << blue << "]: " << white << m_txGainActual << " dB\n" <<
-        red << "|" << yellow << "        ¶¶¶¶¶¶¶¶      ¶¶¶¶¶ ¶¶  " << red << "|" << blue << "\t[RX GAIN TARGET]: " << white << m_rxGainTarget << " dB\n" <<
-        red << "|" << yellow << "      ¶¶¶¶¶¶¶¶¶¶¶        ¶¶¶¶   " << red << "|" << blue << "\t[RX GAIN " << green << "ACTUAL" << blue << "]: " << white << m_rxGainActual << " dB\n" <<
-        red << "|" << yellow << "      ¶¶¶¶¶¶¶¶¶¶¶¶              " << red << "|" << blue << "\t[TX BW TARGET]: " << white << m_txBWTarget / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "      ¶  ¶¶ ¶¶¶¶¶¶              " << red << "|" << blue << "\t[TX BW " << green << "ACTUAL" << blue << "]: " << white << m_txBWActual / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "     ¶¶      ¶   ¶              " << red << "|" << blue << "\t[RX BW TARGET]: " << white << m_rxBWTarget / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "     ¶¶     ¶¶   ¶              " << red << "|" << blue << "\t[RX BW " << green << "ACTUAL" << blue << "]: " << white << m_rxBWActual / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "     ¶      ¶¶   ¶              " << red << "|" << blue << "\n" <<
-        red << "|" << yellow << "    ¶¶      ¶¶   ¶¶             " << red << "|" << blue << "\t[CLOCK REF]: " << white << ref << "\n" <<
+        red <<                 "----------------------------------" << blue << "\t[APP STATUS]: " << white << m_status << "\n" <<
+        red << "|" << yellow << "              ¶¶¶               " << red << "|" << blue << "\t[SDR STATUS]: " << white << m_sdrInfo << "\n" <<
+        red << "|" << yellow << "             ¶¶ ¶¶¶¶            " << red << "|" << blue << "\t[SETTINGS STATUS]: " << white << m_settingsStatus << '\n' <<
+        red << "|" << yellow << "            ¶¶    ¶¶¶           " << red << "|" << blue << "\n" <<
+        red << "|" << yellow << "           ¶¶¶      ¶¶          " << red << "|" << blue << "\t[FOLDER]: " << white << "'" << m_folderName << "'\n" <<
+        red << "|" << yellow << "           ¶¶¶       ¶¶         " << red << "|" << blue << "\t[LATEST FILE]: " << white << "'" << m_latestFileName << "'\n" <<
+        red << "|" << yellow << "          ¶¶¶¶        ¶¶        " << red << "|" << blue << "\t[TARGET FILE]: " << white << "'" << m_currentFileName << "'\n" <<
+        red << "|" << yellow << "          ¶ ¶¶         ¶¶       " << red << "|" << blue << "\t[AUTO FILING]: " << white << m_autoFiling << "\n" <<
+        red << "|" << yellow << "          ¶  ¶¶         ¶¶    ¶¶" << red << "|" << blue << "\n" <<
+        red << "|" << yellow << "          ¶  ¶¶          ¶¶¶¶¶¶¶" << red << "|" << blue << "\t[TX SMAMPLING]--[TARGET]: " << white << m_txSamplingFrequencyTarget / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "         ¶¶  ¶¶¶      ¶¶¶¶¶¶   ¶" << red << "|" << blue << "\t\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_txSamplingFrequencyActual / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "         ¶¶   ¶¶  ¶¶¶¶¶¶  ¶¶    " << red << "|" << blue << "\t[RX SMAMPLING]--[TARGET]: " << white << m_rxSamplingFrequencyTarget / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "      ¶¶  ¶¶   ¶¶          ¶¶   " << red << "|" << blue << "\t\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_rxSamplingFrequencyActual / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "       ¶¶ ¶    ¶¶¶¶        ¶¶   " << red << "|" << blue << "\t[TX FREQUENCY]--[TARGET]: " << white << m_txFreqTarget / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "     ¶¶    ¶¶   ¶¶          ¶¶  " << red << "|" << blue << "\t\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_txFreqActual / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "   ¶¶       ¶¶   ¶¶         ¶¶  " << red << "|" << blue << "\t[RX FREQUENCY]--[TARGET]: " << white << m_rxFreqTarget / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶  ¶¶         ¶  " << red << "|" << blue << "\t\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_rxFreqActual / (1e6) << " MHz\n" <<
+        red << "|" << yellow << " ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶        ¶¶ " << red << "|" << blue << "\t[TX GAIN]-------[TARGET]: " << white << m_txGainTarget << " dB\n" <<
+        red << "|" << yellow << "¶¶  ¶¶¶¶¶¶    ¶¶¶¶¶¶¶¶¶      ¶¶ " << red << "|" << blue << "\t\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_txGainActual << " dB\n" <<
+        red << "|" << yellow << "¶¶¶¶¶   ¶      ¶   ¶¶¶¶¶     ¶¶ " << red << "|" << blue << "\t[RX GAIN]-------[TARGET]: " << white << m_rxGainTarget << " dB\n" <<
+        red << "|" << yellow << "        ¶¶¶¶¶¶¶¶      ¶¶¶¶¶ ¶¶  " << red << "|" << blue << "\t\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_rxGainActual << " dB\n" <<
+        red << "|" << yellow << "      ¶¶¶¶¶¶¶¶¶¶¶        ¶¶¶¶   " << red << "|" << blue << "\t[TX BW]---------[TARGET]: " << white << m_txBWTarget / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "      ¶¶¶¶¶¶¶¶¶¶¶¶              " << red << "|" << blue << "\t\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_txBWActual / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "      ¶  ¶¶ ¶¶¶¶¶¶              " << red << "|" << blue << "\t[RX BW]---------[TARGET]: " << white << m_rxBWTarget / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "     ¶¶      ¶   ¶              " << red << "|" << blue << "\t\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_rxBWActual / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "     ¶¶     ¶¶   ¶              " << red << "|" << blue << "\n" <<
+        red << "|" << yellow << "     ¶      ¶¶   ¶              " << red << "|" << blue << "\t[CLOCK REF]: " << white << ref << "\n" <<
         red << "|" << yellow << "    ¶¶      ¶¶   ¶¶             " << red << "|" << blue << "\t[TX CHANNELS]: " << white << tx_channels << "\n" <<
-        red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶             " << red << "|" << blue << "\t[RX CHANNELS]: " << white << rx_channels << "\n" <<
-        red << "|" << yellow << "  ¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶            " << red << "|" << blue << "\t[TX ANTENNA]: " << white << tx_ant << "\n" <<
-        red << "|" << yellow << "  ¶¶        ¶¶¶    ¶¶           " << red << "|" << blue << "\t[RX ANTENNA]: " << white << rx_ant << "\n" <<
+        red << "|" << yellow << "    ¶¶      ¶¶   ¶¶             " << red << "|" << blue << "\t[RX CHANNELS]: " << white << rx_channels << "\n" <<
+        red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶             " << red << "|" << blue << "\t[TX ANTENNA]: " << white << tx_ant << "\n" <<
+        red << "|" << yellow << "  ¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶            " << red << "|" << blue << "\t[RX ANTENNA]: " << white << rx_ant << "\n" <<
+        red << "|" << yellow << "  ¶¶        ¶¶¶    ¶¶           " << red << "|" << "\n" <<
         red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶            " << red << "|" << "\n" <<
         red <<                "----------------------------------\n" << white;
+
+    // Update the terminal line.
+    m_currentTerminalLine = 38;
 }
 
 void Interface::readInput(unsigned int* answer)
@@ -122,13 +125,41 @@ void Interface::readInput(double* answer)
     catch (const std::exception& e) { *answer = -1; }
 }
 
-void Interface::printError(unsigned int answer) 
+void Interface::menuListBar(unsigned level) 
 {
-    if (answer == -1) { std::cout << red << "\t[ERROR]: " << white << "Answer contained only characters.\n"; }
-    else { std::cout << red << "\t[ERROR]: " << white << "'" << answer << "' is not in the list of options.\n"; }
+    if (level == 0) 
+    {
+        if (m_currentTerminalLine >= m_maxTerminalLine)
+        {
+            std::cout << green << "\t |\n";
+        }
+        for (int i = m_currentTerminalLine; i < m_maxTerminalLine; i++)
+        {
+            std::cout << green << "\t |\n";
+        }
+    }
+    else if (level == 1) 
+    {
+        if (m_currentTerminalLine >= m_maxTerminalLine)
+        {
+            std::cout << green << "\t   |\n";
+        }
+        for (int i = m_currentTerminalLine; i < m_maxTerminalLine; i++)
+        {
+            std::cout << green << "\t   |\n";
+        }
+    }
+    m_currentTerminalLine = m_maxTerminalLine;
 }
 
-void Interface::mainMenu() 
+void Interface::printError(unsigned int answer) 
+{
+    if (answer == -1) { std::cout << red << "\t[ERROR]: " << white << "Input contained only characters.\n"; }
+    else { std::cout << red << "\t[ERROR]: " << white << "'" << answer << "' is not in the list of options.\n"; }
+    m_currentTerminalLine += 1;
+}
+
+void Interface::mainMenu()
 {
     m_status = "Idle.";
     clear();
@@ -140,26 +171,55 @@ void Interface::mainMenu()
     std::cout << green << "\t[4]: " << white << "Set folder.\n";
     std::cout << green << "\t[5]: " << white << "Set file.\n";
     std::cout << green << "\t[6]: " << white << "Toggle auto filing.\n";
+    std::cout << green << "\t[7]: " << white << "Save settings.\n";
     std::cout << green << "\t[0]: " << white << "Quit.\n";
+    m_currentTerminalLine += 9;
+    menuListBar(0);
     unsigned int answer;
     readInput(&answer);
-    while (answer < 0 || answer > 6)
+    // Error handling.
+    while (answer < 0 || answer > 7 || (answer == 2 && m_sdrInfo == "SDR has not been connected.") )
     {
-        clear();
-        systemInfo();
-        std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
-        std::cout << green << "\t[1]: " << white << "Connect/Update SDR.\n";
-        std::cout << green << "\t[2]: " << white << "Start transmission.\n";
-        std::cout << green << "\t[3]: " << white << "Settings.\n";
-        std::cout << green << "\t[4]: " << white << "Set folder.\n";
-        std::cout << green << "\t[5]: " << white << "Set file.\n";
-        std::cout << green << "\t[6]: " << white << "Toggle auto filing.\n";
-        std::cout << green << "\t[0]: " << white << "Quit.\n";
-        printError(answer);
-        readInput(&answer);
+        // Make sure the SDR has been connected.
+        if (answer == 2 && m_sdrInfo == "SDR has not been connected.")
+        {
+            clear();
+            systemInfo();
+            std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
+            std::cout << green << "\t[1]: " << white << "Connect/Update SDR.\n";
+            std::cout << green << "\t[2]: " << white << "Start transmission.\n";
+            std::cout << green << "\t[3]: " << white << "Settings.\n";
+            std::cout << green << "\t[4]: " << white << "Set folder.\n";
+            std::cout << green << "\t[5]: " << white << "Set file.\n";
+            std::cout << green << "\t[6]: " << white << "Toggle auto filing.\n";
+            std::cout << green << "\t[7]: " << white << "Save settings.\n";
+            std::cout << green << "\t[0]: " << white << "Quit.\n";
+            m_currentTerminalLine += 10;
+            menuListBar(0);
+            std::cout << red << "\t[ERROR]: " << white << "SDR has not been connected.\n";
+            readInput(&answer);
+        }
+        else
+        {
+            clear();
+            systemInfo();
+            std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
+            std::cout << green << "\t[1]: " << white << "Connect/Update SDR.\n";
+            std::cout << green << "\t[2]: " << white << "Start transmission.\n";
+            std::cout << green << "\t[3]: " << white << "Settings.\n";
+            std::cout << green << "\t[4]: " << white << "Set folder.\n";
+            std::cout << green << "\t[5]: " << white << "Set file.\n";
+            std::cout << green << "\t[6]: " << white << "Toggle auto filing.\n";
+            std::cout << green << "\t[7]: " << white << "Save settings.\n";
+            std::cout << green << "\t[0]: " << white << "Quit.\n";
+            m_currentTerminalLine += 10;
+            menuListBar(0);
+            printError(answer);
+            readInput(&answer);
+        }
     }
     // Handle the cases for the options.
-    switch (answer) 
+    switch (answer)
     {
     case 1:
         setupSDR();
@@ -178,6 +238,9 @@ void Interface::mainMenu()
         break;
     case 6:
         toggleAutoFiling();
+        break;
+    case 7:
+        saveSettings();
         break;
     case 0:
         quit();
@@ -199,9 +262,8 @@ void Interface::quit()
     std::cout << green << "\t  [i]: " << white << "Are you sure you want to quit?\n";
     std::cout << green << "\t  [1]: " << white << "Yes.\n";
     std::cout << green << "\t  [0]: " << white << "No.\n";
-    std::cout << green << "\t   |\n";
-    std::cout << green << "\t   |\n";
-    std::cout << green << "\t   |\n";
+    m_currentTerminalLine += 5;
+    menuListBar(1);
     unsigned int answer;
     readInput(&answer);
     while (answer < 0 || answer > 1)
@@ -213,8 +275,8 @@ void Interface::quit()
         std::cout << green << "\t  [i]: " << white << "Are you sure you want to quit?\n";
         std::cout << green << "\t  [1]: " << white << "Yes.\n";
         std::cout << green << "\t  [0]: " << white << "No.\n";
-        std::cout << green << "\t   |\n";
-        std::cout << green << "\t   |\n";
+        m_currentTerminalLine += 6;
+        menuListBar(1);
         printError(answer);
         readInput(&answer);
     }

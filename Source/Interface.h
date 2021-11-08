@@ -76,6 +76,9 @@ private:
 	std::string m_sdrInfo = "SDR has not been connected.";
 	std::string m_settingsStatus = "Settings not loaded.";
 
+	unsigned int m_currentTerminalLine = 0;			// Stores the lines the terminal is currently at.  Starts indexing at 0.
+	unsigned int m_maxTerminalLine = 49;			// The max line the terminal can be at.
+
 	// ------------------------------------- //
 	//  W A V E F O R M   V A R I A B L E S  //
 	// ------------------------------------- //
@@ -139,6 +142,7 @@ public:
 	void readInput(unsigned int* answer);
 	void readInput(double* answer);
 	void printError(unsigned int answer);
+	void menuListBar(unsigned level);
 
 	// Main menu functions.
 	void setupSDR();
@@ -147,6 +151,7 @@ public:
 	void setFolder();
 	void setFile();
 	void toggleAutoFiling();
+	void saveSettings();
 	void quit();
 
 	// Settings options.
