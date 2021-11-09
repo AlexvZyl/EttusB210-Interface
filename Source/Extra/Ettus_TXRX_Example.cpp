@@ -5,7 +5,7 @@
 //// SPDX-License-Identifier: GPL-3.0-or-later
 ////
 //
-//#include "wavetable.hpp"
+//#include "../wavetable.hpp"
 //#include <uhd/exception.hpp>
 //#include <uhd/types/tune_request.hpp>
 //#include <uhd/usrp/multi_usrp.hpp>

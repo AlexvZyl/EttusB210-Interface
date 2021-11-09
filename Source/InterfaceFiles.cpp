@@ -185,7 +185,7 @@ void Interface::setFile()
             // Set the current folder path.
             for (const auto& entry : fs::directory_iterator(m_folderName))
             {
-                if (it == answer) { m_currentFileName = entry.path().string(); }
+                if (it == answer) { m_targetFileName = entry.path().string(); }
                 it++;
             }
         }

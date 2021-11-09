@@ -52,7 +52,7 @@ private:
 
 	std::string m_folderName;				// The current folder data will be saved to.
 	std::string m_latestFileName;			// The latest file.
-	std::string m_currentFileName;			// The current file data will be written to.
+	std::string m_targetFileName;			// The current file data will be written to.
 	bool m_autoFiling;						// Sets if the application should determine the file name and
 											// automatically increment as required.
 	float m_txSamplingFrequencyTarget;		// Requested sampling freq for the SDR.
@@ -74,7 +74,8 @@ private:
 	std::vector<void*> m_mainMenuOptions;	// Vector containing all of the menu otption as functions.
 	std::string m_status;					// The status of the app.
 	std::string m_sdrInfo = "SDR has not been connected.";
-	std::string m_settingsStatus = "Settings not loaded.";
+	std::string m_settingsStatusSDR = "Settings not loaded to SDR.";
+	std::string m_settingsStatusYAML = "Settings not loaded from YAML file.";
 
 	unsigned int m_currentTerminalLine = 0;			// Stores the lines the terminal is currently at.  Starts indexing at 0.
 	unsigned int m_maxTerminalLine = 49;			// The max line the terminal can be at.
@@ -132,17 +133,19 @@ public:
 	//  A P P L I C A T I O N   M E N U  //
 	// --------------------------------- //
 
-	// Prints the current information of the system.
-	void systemInfo();
-	// Prints the main menu of the app, as well as handle inputs.
-	void mainMenu();
-	// Clears the console.
-	void clear();
+	
+	void mainMenu();	// Prints the main menu of the app, as well as handle inputs.
+
 	// Reads input from the user.
 	void readInput(unsigned int* answer);
 	void readInput(double* answer);
+
+	// Printing functions.
+	void clear();							// Clears the console.
+	void systemInfo();						// Prints the current information of the system.
 	void printError(unsigned int answer);
 	void menuListBar(unsigned level);
+	void title(std::string title);
 
 	// Main menu functions.
 	void setupSDR();
@@ -152,6 +155,7 @@ public:
 	void setFile();
 	void toggleAutoFiling();
 	void saveSettings();
+	void displayDeviceInformation();
 	void quit();
 
 	// Settings options.
@@ -160,6 +164,8 @@ public:
 	void setTXGain();
 	void setRXGain();
 	void setFilterBandwidth();
+	void saveToYAML();
+	void loadFromYAML();
 
 	// --------------------------- //
 	//  S D R   I N T E R F A C E  //
@@ -171,6 +177,15 @@ public:
 	// but only if multiple names are to be generated.
 	std::string generate_out_filename(const std::string& base_fn, 
 									  size_t n_names, size_t this_name);
+
+	void transmit_worker(std::vector<std::complex<float>> buff,
+		wave_table_class wave_table,
+		uhd::tx_streamer::sptr tx_streamer,
+		uhd::tx_metadata_t metadata,
+		size_t step,
+		size_t index,
+		int num_channels);
+
 	// Recv_to_file function.
 	template <typename samp_type>
 	void recv_to_file(uhd::usrp::multi_usrp::sptr usrp,
@@ -188,13 +203,7 @@ public:
 //  Function definitions.                                                                                                                                                           //
 // ================================================================================================================================================================================ //
 
-void transmit_worker(std::vector<std::complex<float>> buff,
-	wave_table_class wave_table,
-	uhd::tx_streamer::sptr tx_streamer,
-	uhd::tx_metadata_t metadata,
-	size_t step,
-	size_t index,
-	int num_channels);
+
 
 // ================================================================================================================================================================================ //
 //  EOF.																																											//

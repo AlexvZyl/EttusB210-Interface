@@ -15,6 +15,8 @@ void Interface::setupSDR()
 	systemInfo();
     std::cout << green << "\n\n[APP] [INFO]: " << white << "Setting up the SDR...\n";
 
+    //tx_args[""] = "";
+
     // ------------------------------------- //
     //  C R E A T E   U S R P   D E V I C E  //
     // ------------------------------------- //
@@ -78,11 +80,6 @@ void Interface::setupSDR()
     
     tx_usrp->set_clock_source(ref);
     rx_usrp->set_clock_source(ref);
-
-    /*std::cout << boost::format("Using TX Device: %s") % tx_usrp->get_pp_string()
-        << std::endl;
-    std::cout << boost::format("Using RX Device: %s") % rx_usrp->get_pp_string()
-        << std::endl;*/
 
     // ---------------- //
     // S A M P L I N G  //
@@ -360,7 +357,7 @@ void Interface::setupSDR()
 
     m_status = "Setup complete.";
     m_sdrInfo = "SDR is connected.";
-    m_settingsStatus = "Settings loaded.";
+    m_settingsStatusSDR = "Settings loaded to SDR.";
     clear();
     systemInfo();
     std::cout << green << "\n\n[APP] [INFO]: " << white << "Setting up the SDR...\n";
@@ -394,7 +391,7 @@ void Interface::startTransmission()
     // start transmit worker thread
     boost::thread_group transmit_thread;
     transmit_thread.create_thread(std::bind(
-        &transmit_worker, *buff, *wave_table, tx_stream, md, step, index, num_channels));
+        &Interface::transmit_worker, this, *buff, *wave_table, tx_stream, md, step, index, num_channels));
 
     // recv to file
     if (type == "double")
@@ -454,21 +451,21 @@ void Interface::recv_to_file(uhd::usrp::multi_usrp::sptr usrp,
     uhd::stream_args_t stream_args(cpu_format, wire_format);
     stream_args.channels = rx_channel_nums;
     uhd::rx_streamer::sptr rx_stream = usrp->get_rx_stream(stream_args);
-
     // Prepare buffers for received samples and metadata
     uhd::rx_metadata_t md;
     std::vector<std::vector<samp_type>> buffs(
         rx_channel_nums.size(), std::vector<samp_type>(samps_per_buff));
     // create a vector of pointers to point to each of the channel buffers
     std::vector<samp_type*> buff_ptrs;
-    for (size_t i = 0; i < buffs.size(); i++) {
+    for (size_t i = 0; i < buffs.size(); i++) 
+    {
         buff_ptrs.push_back(&buffs[i].front());
     }
-
     // Create one ofstream object per channel
     // (use shared_ptr because ofstream is non-copyable)
     std::vector<std::shared_ptr<std::ofstream>> outfiles;
-    for (size_t i = 0; i < buffs.size(); i++) {
+    for (size_t i = 0; i < buffs.size(); i++) 
+    {
         const std::string this_filename = generate_out_filename(file, buffs.size(), i);
         outfiles.push_back(std::shared_ptr<std::ofstream>(
             new std::ofstream(this_filename.c_str(), std::ofstream::binary)));
@@ -478,7 +475,6 @@ void Interface::recv_to_file(uhd::usrp::multi_usrp::sptr usrp,
     bool overflow_message = true;
     double timeout =
         settling_time + 0.1f; // expected settling time + padding for first recv
-
     // setup streaming
     uhd::stream_cmd_t stream_cmd((num_requested_samples == 0)
         ? uhd::stream_cmd_t::STREAM_MODE_START_CONTINUOUS
@@ -487,35 +483,28 @@ void Interface::recv_to_file(uhd::usrp::multi_usrp::sptr usrp,
     stream_cmd.stream_now = false;
     stream_cmd.time_spec = uhd::time_spec_t(settling_time);
     rx_stream->issue_stream_cmd(stream_cmd);
-
-    while (not stop_signal_called
-        and (num_requested_samples > num_total_samps or num_requested_samples == 0)) {
+    while (not stop_signal_called and (num_requested_samples > num_total_samps or num_requested_samples == 0)) 
+    {
         size_t num_rx_samps = rx_stream->recv(buff_ptrs, samps_per_buff, md, timeout);
-        timeout = 0.1f; // small timeout for subsequent recv
-        
-        if (md.error_code == uhd::rx_metadata_t::ERROR_CODE_TIMEOUT) {
+        timeout = 0.1f; // small timeout for subsequent recv   
+        if (md.error_code == uhd::rx_metadata_t::ERROR_CODE_TIMEOUT) 
+        {
             std::cout << boost::format("Timeout while streaming") << std::endl;
             break;
         }
-        if (md.error_code != uhd::rx_metadata_t::ERROR_CODE_NONE) {
-            throw std::runtime_error(
-                str(boost::format("Receiver error %s") % md.strerror()));
+        if (md.error_code != uhd::rx_metadata_t::ERROR_CODE_NONE) 
+        {
+            throw std::runtime_error(str(boost::format("Receiver error %s") % md.strerror()));
         }
-        
         num_total_samps += num_rx_samps;
-        
-        for (size_t i = 0; i < outfiles.size(); i++) {
-            outfiles[i]->write(
-                (const char*)buff_ptrs[i], num_rx_samps * sizeof(samp_type));
-        }
+        for (size_t i = 0; i < outfiles.size(); i++) { outfiles[i]->write((const char*)buff_ptrs[i], num_rx_samps * sizeof(samp_type)); }
     }
-        
     // Shut down receiver
     stream_cmd.stream_mode = uhd::stream_cmd_t::STREAM_MODE_STOP_CONTINUOUS;
     rx_stream->issue_stream_cmd(stream_cmd);
-
     // Close files
-    for (size_t i = 0; i < outfiles.size(); i++) {
+    for (size_t i = 0; i < outfiles.size(); i++) 
+    {
         outfiles[i]->close();
     }
 }
@@ -524,12 +513,9 @@ void Interface::recv_to_file(uhd::usrp::multi_usrp::sptr usrp,
 //  Workers.	                                                                                                                                                                        //
 // ================================================================================================================================================================================ //
 
-void Interface::sig_int_handler(int)
-{
-    stop_signal_called = true;
-}
+void Interface::sig_int_handler(int) { stop_signal_called = true; }
 
-void transmit_worker(std::vector<std::complex<float>> buff,
+void Interface::transmit_worker(std::vector<std::complex<float>> buff,
     wave_table_class wave_table,
     uhd::tx_streamer::sptr tx_streamer,
     uhd::tx_metadata_t metadata,
@@ -538,21 +524,19 @@ void transmit_worker(std::vector<std::complex<float>> buff,
     int num_channels)
 {
     std::vector<std::complex<float>*> buffs(num_channels, &buff.front());
-
     // send data until the signal handler gets called
-    while (not stop_signal_called) {
+    while (not stop_signal_called) 
+    {
         // fill the buffer with the waveform
-        for (size_t n = 0; n < buff.size(); n++) {
+        for (size_t n = 0; n < buff.size(); n++) 
+        {
             buff[n] = wave_table(index += step);
         }
-
         // send the entire contents of the buffer
         tx_streamer->send(buffs, buff.size(), metadata);
-
         metadata.start_of_burst = false;
         metadata.has_time_spec = false;
     }
-
     // send a mini EOB packet
     metadata.end_of_burst = true;
     tx_streamer->send("", 0, metadata);

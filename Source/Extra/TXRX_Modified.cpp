@@ -1,11 +1,11 @@
 ////
-//// Copyright 2010-2012,2014-2015 Ettus Research LLC
-//// Copyright 2018 Ettus Research, a National Instruments Company
+//// copyright 2010-2012,2014-2015 ettus research llc
+//// copyright 2018 ettus research, a national instruments company
 ////
-//// SPDX-License-Identifier: GPL-3.0-or-later
+//// spdx-license-identifier: gpl-3.0-or-later
 ////
 //
-//#include "wavetable.hpp"
+//#include "../wavetable.hpp"
 //#include <uhd/exception.hpp>
 //#include <uhd/types/tune_request.hpp>
 //#include <uhd/usrp/multi_usrp.hpp>
@@ -22,14 +22,14 @@
 //#include <fstream>
 //#include <functional>
 //#include <iostream>
-//#include "../External/Misc/ConsoleColor.h"
+//#include "../../External/Misc/ConsoleColor.h"
 //#include <numbers>
 //#include <stdio.h>
 //
 //namespace po = boost::program_options;
 //
 ///***********************************************************************
-// * Signal handlers
+// * signal handlers
 // **********************************************************************/
 //
 //static bool stop_signal_called = false;
@@ -41,7 +41,7 @@
 //
 ///***********************************************************************
 // * transmit_worker function
-// * A function to be used as a boost::thread_group thread for transmitting
+// * a function to be used as a boost::thread_group thread for transmitting
 // **********************************************************************/
 //
 //void transmit_worker(std::vector<std::complex<float>> buff,
@@ -68,7 +68,7 @@
 //        metadata.has_time_spec = false;
 //    }
 //
-//    // send a mini EOB packet
+//    // send a mini eob packet
 //    metadata.end_of_burst = true;
 //    tx_streamer->send("", 0, metadata);
 //}
@@ -94,7 +94,7 @@
 //    stream_args.channels = rx_channel_nums;
 //    uhd::rx_streamer::sptr rx_stream = usrp->get_rx_stream(stream_args);
 //
-//    // Prepare buffers for received samples and metadata
+//    // prepare buffers for received samples and metadata
 //    uhd::rx_metadata_t md;
 //    std::vector<std::vector<samp_type>> buffs(
 //        rx_channel_nums.size(), std::vector<samp_type>(samps_per_buff));
@@ -104,7 +104,7 @@
 //        buff_ptrs.push_back(&buffs[i].front());
 //    }
 //
-//    // Create one ofstream object per channel
+//    // create one ofstream object per channel
 //    // (use shared_ptr because ofstream is non-copyable)
 //    std::vector<std::shared_ptr<std::ofstream>> outfiles;
 //    for (size_t i = 0; i < buffs.size(); i++) {
@@ -112,16 +112,16 @@
 //        outfiles.push_back(std::shared_ptr<std::ofstream>(
 //            new std::ofstream(this_filename.c_str(), std::ofstream::binary)));
 //    }
-//    UHD_ASSERT_THROW(outfiles.size() == buffs.size());
-//    UHD_ASSERT_THROW(buffs.size() == rx_channel_nums.size());
+//    uhd_assert_throw(outfiles.size() == buffs.size());
+//    uhd_assert_throw(buffs.size() == rx_channel_nums.size());
 //    bool overflow_message = true;
 //    double timeout =
 //        settling_time + 0.1f; // expected settling time + padding for first recv
 //
 //    // setup streaming
 //    uhd::stream_cmd_t stream_cmd((num_requested_samples == 0)
-//        ? uhd::stream_cmd_t::STREAM_MODE_START_CONTINUOUS
-//        : uhd::stream_cmd_t::STREAM_MODE_NUM_SAMPS_AND_DONE);
+//        ? uhd::stream_cmd_t::stream_mode_start_continuous
+//        : uhd::stream_cmd_t::stream_mode_num_samps_and_done);
 //    stream_cmd.num_samps = num_requested_samples;
 //    stream_cmd.stream_now = false;
 //    stream_cmd.time_spec = uhd::time_spec_t(settling_time);
@@ -132,27 +132,27 @@
 //        size_t num_rx_samps = rx_stream->recv(buff_ptrs, samps_per_buff, md, timeout);
 //        timeout = 0.1f; // small timeout for subsequent recv
 //
-//        if (md.error_code == uhd::rx_metadata_t::ERROR_CODE_TIMEOUT) {
-//            std::cout << boost::format("Timeout while streaming") << std::endl;
+//        if (md.error_code == uhd::rx_metadata_t::error_code_timeout) {
+//            std::cout << boost::format("timeout while streaming") << std::endl;
 //            break;
 //        }
-//        if (md.error_code == uhd::rx_metadata_t::ERROR_CODE_OVERFLOW) {
+//        if (md.error_code == uhd::rx_metadata_t::error_code_overflow) {
 //            if (overflow_message) {
 //                overflow_message = false;
 //                std::cerr
 //                    << boost::format(
-//                        "Got an overflow indication. Please consider the following:\n"
-//                        "  Your write medium must sustain a rate of %fMB/s.\n"
-//                        "  Dropped samples will not be written to the file.\n"
-//                        "  Please modify this example for your purposes.\n"
-//                        "  This message will not appear again.\n")
+//                        "got an overflow indication. please consider the following:\n"
+//                        "  your write medium must sustain a rate of %fmb/s.\n"
+//                        "  dropped samples will not be written to the file.\n"
+//                        "  please modify this example for your purposes.\n"
+//                        "  this message will not appear again.\n")
 //                    % (usrp->get_rx_rate() * sizeof(samp_type) / 1e6);
 //            }
 //            continue;
 //        }
-//        if (md.error_code != uhd::rx_metadata_t::ERROR_CODE_NONE) {
+//        if (md.error_code != uhd::rx_metadata_t::error_code_none) {
 //            throw std::runtime_error(
-//                str(boost::format("Receiver error %s") % md.strerror()));
+//                str(boost::format("receiver error %s") % md.strerror()));
 //        }
 //
 //        num_total_samps += num_rx_samps;
@@ -163,11 +163,11 @@
 //        }
 //    }
 //
-//    // Shut down receiver
-//    stream_cmd.stream_mode = uhd::stream_cmd_t::STREAM_MODE_STOP_CONTINUOUS;
+//    // shut down receiver
+//    stream_cmd.stream_mode = uhd::stream_cmd_t::stream_mode_stop_continuous;
 //    rx_stream->issue_stream_cmd(stream_cmd);
 //
-//    // Close files
+//    // close files
 //    for (size_t i = 0; i < outfiles.size(); i++) {
 //        outfiles[i]->close();
 //    }

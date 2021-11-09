@@ -1,2 +1,9 @@
-﻿  Source.cpp
+﻿  InterfaceSettings.cpp
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSettings.cpp(104,15): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSettings.cpp(126,32): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSettings.cpp(127,32): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSettings.cpp(160,15): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSettings.cpp(216,15): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSettings.cpp(269,15): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSettings.cpp(325,15): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
   EttusB210-Interface.vcxproj -> C:\GitHub_Repos\EttusB210-Interface\Binaries\Executables\x64\Debug\EttusB210-Interface.exe
