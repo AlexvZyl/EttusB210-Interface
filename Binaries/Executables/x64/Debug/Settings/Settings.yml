@@ -7,14 +7,15 @@
 folder: None
 file-latest: None
 file-target: None
+auto-filing: Disabled
 
 #  SDR settings.
-sample-rate-tx: 29000000
-sample-rate-rx: 29000000
-wave-frequency-tx: 520000000
-wave-frequency-rx: 520000000
-gain-tx: 20
-gain-rx: 10
+sample-rate-tx: 4000000
+sample-rate-rx: 4000000
+wave-frequency-tx: 900000000
+wave-frequency-rx: 900000000
+gain-tx: 80
+gain-rx: 0
 filter-bandwidth-tx: 8000000
 filter-bandwidth-rx: 8000000
 

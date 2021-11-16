@@ -15,7 +15,7 @@ Interface::Interface()
     m_folderName = "None";
     m_targetFileName = "None";
     m_latestFileName = "None";
-    m_autoFiling = false;
+    m_autoFileState = "Disabled";
     m_txSamplingFrequencyTarget = 4e6;
     m_rxSamplingFrequencyTarget = 4e6;
     m_txFreqTarget = 900e6;
@@ -51,6 +51,7 @@ Interface::Interface()
     spb = 0;
     ampl = 0.3;
     otw = "sc16";
+    total_num_samps = 2 * tx_rate;
 
     loadFromYAML();
 }
@@ -76,7 +77,7 @@ void Interface::systemInfo()
         red << "|" << yellow << "           ¶¶¶       ¶¶         " << red << "|" << blue << "\t[FOLDER]: " << white << "'" << m_folderName << "'\n" <<
         red << "|" << yellow << "          ¶¶¶¶        ¶¶        " << red << "|" << blue << "\t[LATEST FILE]: " << white << "'" << m_latestFileName << "'\n" <<
         red << "|" << yellow << "          ¶ ¶¶         ¶¶       " << red << "|" << blue << "\t[TARGET FILE]: " << white << "'" << m_targetFileName << "'\n" <<
-        red << "|" << yellow << "          ¶  ¶¶         ¶¶    ¶¶" << red << "|" << blue << "\t[AUTO FILING]: " << white << m_autoFiling << "\n" <<
+        red << "|" << yellow << "          ¶  ¶¶         ¶¶    ¶¶" << red << "|" << blue << "\t[AUTO FILING]: " << white << m_autoFileState << "\n" <<
         red << "|" << yellow << "          ¶  ¶¶          ¶¶¶¶¶¶¶" << red << "|" << blue << "\n" <<
         red << "|" << yellow << "         ¶¶  ¶¶¶      ¶¶¶¶¶¶   ¶" << red << "|" << blue << "\t[TX SMAMPLING]--[TARGET]: " << white << m_txSamplingFrequencyTarget / (1e6) << " MHz\n" <<
         red << "|" << yellow << "         ¶¶   ¶¶  ¶¶¶¶¶¶  ¶¶    " << red << "|" << blue << "\t\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_txSamplingFrequencyActual / (1e6) << " MHz\n" <<
@@ -127,6 +128,13 @@ void Interface::readInput(double* answer)
     catch (const std::exception& e) { *answer = -1; }
 }
 
+void Interface::readInput(std::string* input)
+{
+    std::cout << green << "\t[INPUT]: " << white;
+    std::string answerString = "";
+    std::cin >> answerString;
+}
+
 void Interface::menuListBar(unsigned level) 
 {
     if (level == 0) 
@@ -160,7 +168,7 @@ void Interface::menuListBar(unsigned level)
 
 void Interface::printError(unsigned int answer) 
 {
-    if (answer == -1) { std::cout << red << "\t[ERROR]: " << white << "Input contained only characters.\n"; }
+    if (answer == -1) { std::cout << red << "\t[ERROR]: " << white << "Invalid input.\n"; }
     else { std::cout << red << "\t[ERROR]: " << white << "'" << answer << "' is not in the list of options.\n"; }
 }
 
@@ -176,13 +184,14 @@ void Interface::mainMenu()
     std::cout << green << "\t[4]: " << white << "Set folder.\n";
     std::cout << green << "\t[5]: " << white << "Set file.\n";
     std::cout << green << "\t[6]: " << white << "Toggle auto filing.\n";
+    std::cout << green << "\t[7]: " << white << "Save settings.\n";
     std::cout << green << "\t[0]: " << white << "Quit.\n";
-    m_currentTerminalLine += 8;
+    m_currentTerminalLine += 9;
     menuListBar(0);
     unsigned int answer;
     readInput(&answer);
     // Error handling.
-    while (answer < 0 || answer > 6 || (answer == 2 && m_sdrInfo == "SDR has not been connected.") )
+    while (answer < 0 || answer > 7 || (answer == 2 && m_sdrInfo == "SDR has not been connected.") )
     {
         // Make sure the SDR has been connected.
         if (answer == 2 && m_sdrInfo == "SDR has not been connected.")
@@ -196,8 +205,9 @@ void Interface::mainMenu()
             std::cout << green << "\t[4]: " << white << "Set folder.\n";
             std::cout << green << "\t[5]: " << white << "Set file.\n";
             std::cout << green << "\t[6]: " << white << "Toggle auto filing.\n";
+            std::cout << green << "\t[7]: " << white << "Save settings.\n";
             std::cout << green << "\t[0]: " << white << "Quit.\n";
-            m_currentTerminalLine += 9;
+            m_currentTerminalLine += 10;
             menuListBar(0);
             std::cout << red << "\t[ERROR]: " << white << "SDR has not been connected.\n";
             readInput(&answer);
@@ -213,8 +223,9 @@ void Interface::mainMenu()
             std::cout << green << "\t[4]: " << white << "Set folder.\n";
             std::cout << green << "\t[5]: " << white << "Set file.\n";
             std::cout << green << "\t[6]: " << white << "Toggle auto filing.\n";
+            std::cout << green << "\t[7]: " << white << "Save settings.\n";
             std::cout << green << "\t[0]: " << white << "Quit.\n";
-            m_currentTerminalLine += 9;
+            m_currentTerminalLine += 10;
             menuListBar(0);
             printError(answer);
             readInput(&answer);
@@ -240,6 +251,9 @@ void Interface::mainMenu()
         break;
     case 6:
         toggleAutoFiling();
+        break;
+    case 7:
+        saveSettings();
         break;
     case 0:
         quit();

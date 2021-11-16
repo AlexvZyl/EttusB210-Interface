@@ -208,6 +208,7 @@
     <ClCompile Include="Source\Extra\pulseCompression.cpp" />
     <ClCompile Include="Source\Extra\samplingBenchmark.cpp" />
     <ClCompile Include="Source\Extra\TXRX_Modified.cpp" />
+    <ClCompile Include="Source\InterfaceYAML.cpp" />
     <ClCompile Include="Source\waveGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>

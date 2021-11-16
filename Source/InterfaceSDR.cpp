@@ -382,6 +382,7 @@ void Interface::setupSDR()
 void Interface::startTransmission()
 {
     // reset usrp time to prepare for transmit/receive
+    m_status = "Streaming...";
     clear();
     systemInfo();
     std::cout << blue << "\n\n[SDR] [INFO]: " << white << "Transmitting...\n";
@@ -393,7 +394,10 @@ void Interface::startTransmission()
     transmit_thread.create_thread(std::bind(
         &Interface::transmit_worker, this, *buff, *wave_table, tx_stream, md, step, index, num_channels));
 
-    // recv to file
+    // ------------------------- //
+    //  R E C E I V E   F I L E  //
+    // ------------------------- //
+
     if (type == "double")
         recv_to_file<std::complex<double>>(
             rx_usrp, "fc64", otw, file, spb, total_num_samps, settling, rx_channel_nums);
@@ -410,13 +414,20 @@ void Interface::startTransmission()
         throw std::runtime_error("Unknown type " + type);
     }
 
-    std::cout << blue << "\n[SDR] [INFO]: " << white << "Transmission complete.\n";
-    std::cout << green << "[APP] [INFO]: " << white << "Add a transmission note:\n";
-    std::cout << green << "[APP] [INPUT]: ";
-
     // clean up transmit worker
     stop_signal_called = true;
     transmit_thread.join_all();
+
+    std::cout << blue << "\n[SDR] [INFO]: " << white << "Transmission complete.\n";
+    std::cout << green << "[APP] [INFO]: " << white << "Add a transmission note:\n";
+    std::string note;
+    readInput(&note);
+    // Remove .bin extension and add .txt.
+    std::string tempFileName = m_targetFileName.erase(m_targetFileName.length() - 4, 4) + ".txt";
+    // Create note file.
+    std::ofstream noteFile(tempFileName);
+    noteFile << note << std::endl;
+    noteFile.close();
 }
 
 // ================================================================================================================================================================================ //
@@ -475,7 +486,11 @@ void Interface::recv_to_file(uhd::usrp::multi_usrp::sptr usrp,
     bool overflow_message = true;
     double timeout =
         settling_time + 0.1f; // expected settling time + padding for first recv
-    // setup streaming
+    
+    // ------------------------------ //
+    // S T R E A M I N G   S E T U P  //
+    // ------------------------------ //
+
     uhd::stream_cmd_t stream_cmd((num_requested_samples == 0)
         ? uhd::stream_cmd_t::STREAM_MODE_START_CONTINUOUS
         : uhd::stream_cmd_t::STREAM_MODE_NUM_SAMPS_AND_DONE);
@@ -503,7 +518,7 @@ void Interface::recv_to_file(uhd::usrp::multi_usrp::sptr usrp,
     stream_cmd.stream_mode = uhd::stream_cmd_t::STREAM_MODE_STOP_CONTINUOUS;
     rx_stream->issue_stream_cmd(stream_cmd);
     // Close files
-    for (size_t i = 0; i < outfiles.size(); i++) 
+    for (size_t i = 0; i < outfiles.size(); i++)
     {
         outfiles[i]->close();
     }

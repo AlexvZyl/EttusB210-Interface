@@ -50,11 +50,6 @@ private:
 	//  S Y S T E M   V A R I A B L E S  //
 	// --------------------------------- //
 
-	std::string m_folderName;				// The current folder data will be saved to.
-	std::string m_latestFileName;			// The latest file.
-	std::string m_targetFileName;			// The current file data will be written to.
-	bool m_autoFiling;						// Sets if the application should determine the file name and
-											// automatically increment as required.
 	float m_txSamplingFrequencyTarget;		// Requested sampling freq for the SDR.
 	float m_txSamplingFrequencyActual=0;	// Actual sampling freq set by the SDR.
 	float m_rxSamplingFrequencyTarget;		// Requested sampling freq for the SDR.
@@ -115,6 +110,19 @@ private:
 	double settling;
 	std::string rx_int_n;
 
+	// ----------------------- //
+	//  F I L E   S Y S T E M  //
+	// ----------------------- //
+
+
+	std::string m_folderName;					// The current folder data will be saved to.
+	std::string m_latestFileName;				// The latest file.
+	std::string m_targetFileName;				// The current file data will be written to.
+	std::string m_autoFileState;				// String that contains the state of the autofiling.
+												// automatically increment as required.
+	std::string m_extension = ".txt";			// Extension of files used.
+	std::string m_dataPrefix = "B210_SAMPLES_";	// Prefix used to describe the file type.
+
 
 public:
 
@@ -129,16 +137,14 @@ public:
 	// Destroy objects and clear memory.
 	~Interface();
 
-	// --------------------------------- //
-	//  A P P L I C A T I O N   M E N U  //
-	// --------------------------------- //
-
-	
-	void mainMenu();	// Prints the main menu of the app, as well as handle inputs.
+	// --------------- //
+	//  G E N E R A L  //
+	// --------------- //
 
 	// Reads input from the user.
 	void readInput(unsigned int* answer);
 	void readInput(double* answer);
+	void readInput(std::string* input);
 
 	// Printing functions.
 	void clear();							// Clears the console.
@@ -147,10 +153,13 @@ public:
 	void menuListBar(unsigned level);
 	void title(std::string title);
 
-	// Main menu functions.
+	// ------------------- //
+	//  M A I N   M E N U  //
+	// ------------------- //
+
+	void mainMenu();	// Prints the main menu of the app, as well as handle inputs.
 	void setupSDR();
 	void startTransmission();
-	void settingsMenu();
 	void setFolder();
 	void setFile();
 	void toggleAutoFiling();
@@ -158,7 +167,11 @@ public:
 	void displayDeviceInformation();
 	void quit();
 
-	// Settings options.
+	// ----------------- //
+	//  S E T T I N G S  //
+	// ----------------- //
+
+	void settingsMenu();
 	void setSamplingFrequency();
 	void setWaveFrequency();
 	void setTXGain();
@@ -186,6 +199,15 @@ public:
 		size_t index,
 		int num_channels);
 
+	// --------------------------- //
+	//  F I L E   H A N D L I N G  //
+	// --------------------------- //
+
+	// Generate a file name based on the files currently in the folder.
+	void generateFileName();
+	void getLatestFile();
+	void cleanFileName(std::string& fileName);
+
 	// Recv_to_file function.
 	template <typename samp_type>
 	void recv_to_file(uhd::usrp::multi_usrp::sptr usrp,
@@ -198,12 +220,6 @@ public:
 		std::vector<size_t> rx_channel_nums);
 
 };
-
-// ================================================================================================================================================================================ //
-//  Function definitions.                                                                                                                                                           //
-// ================================================================================================================================================================================ //
-
-
 
 // ================================================================================================================================================================================ //
 //  EOF.																																											//

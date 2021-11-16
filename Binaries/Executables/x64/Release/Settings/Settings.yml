@@ -4,9 +4,10 @@
 # ================================================= # 
 
 #  Filing settings.
-folder: None
-file-latest: None
-file-target: None
+folder: Data\Testing
+file-latest: Empty folder
+file-target: B210_SAMPLES_Testing_0.txt
+auto-filing: Enabled
 
 #  SDR settings.
 sample-rate-tx: 4000000
@@ -15,8 +16,8 @@ wave-frequency-tx: 900000000
 wave-frequency-rx: 900000000
 gain-tx: 80
 gain-rx: 0
-filter-bandwidth-tx: 8000000
-filter-bandwidth-rx: 8000000
+filter-bandwidth-tx: 10000000
+filter-bandwidth-rx: 10000000
 
 #  Device settings.
 clock-ref: internal
