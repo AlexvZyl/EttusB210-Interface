@@ -51,7 +51,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>false</CLRSupport>
@@ -209,7 +209,7 @@
     <ClCompile Include="Source\Extra\samplingBenchmark.cpp" />
     <ClCompile Include="Source\Extra\TXRX_Modified.cpp" />
     <ClCompile Include="Source\InterfaceYAML.cpp" />
-    <ClCompile Include="Source\waveGenerator.cpp" />
+    <ClCompile Include="Source\Waveforms\Waveforms.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="External\UHD\bin\uhd.dll" />
@@ -618,7 +618,8 @@
     <ClInclude Include="External\UHD\include\uhd\version.h" />
     <ClInclude Include="External\UHD\include\uhd\version.hpp" />
     <ClInclude Include="Source\Interface.h" />
-    <ClInclude Include="Source\wavetable.hpp" />
+    <ClInclude Include="Source\Waveforms\Waveforms.h" />
+    <ClInclude Include="Source\Waveforms\wavetable.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\EttusB210-Interface.rc" />

@@ -8,7 +8,7 @@
 //  Includes.                                                                                                                                                                       //
 // ================================================================================================================================================================================ //
 
-#include "wavetable.hpp"
+#include "Waveforms/wavetable.hpp"
 #include <string>									// String handling.
 #include <vector>									// C++ vectors.
 #include <uhd/exception.hpp>						// -- Ettus UHD.
@@ -104,7 +104,7 @@ private:
 	std::string tx_int_n;
 	
 	// Receive variables.
-	std::string rx_args, file, type, rx_ant, rx_subdev, rx_channels;
+	std::string rx_args, type, rx_ant, rx_subdev, rx_channels;
 	size_t total_num_samps, spb=0;
 	double rx_rate, rx_freq, rx_gain, rx_bw;
 	double settling;
@@ -120,7 +120,7 @@ private:
 	std::string m_targetFileName;				// The current file data will be written to.
 	std::string m_autoFileState;				// String that contains the state of the autofiling.
 												// automatically increment as required.
-	std::string m_extension = ".txt";			// Extension of files used.
+	std::string m_extension = ".bin";			// Extension of files used.
 	std::string m_dataPrefix = "B210_SAMPLES_";	// Prefix used to describe the file type.
 
 
@@ -206,7 +206,7 @@ public:
 	// Generate a file name based on the files currently in the folder.
 	void generateFileName();
 	void getLatestFile();
-	void cleanFileName(std::string& fileName);
+	void removePathFromName(std::string& fileName);
 
 	// Recv_to_file function.
 	template <typename samp_type>

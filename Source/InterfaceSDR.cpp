@@ -398,6 +398,8 @@ void Interface::startTransmission()
     //  R E C E I V E   F I L E  //
     // ------------------------- //
 
+    std::string file = m_folderName + "\\" + m_targetFileName;
+
     if (type == "double")
         recv_to_file<std::complex<double>>(
             rx_usrp, "fc64", otw, file, spb, total_num_samps, settling, rx_channel_nums);
@@ -407,7 +409,7 @@ void Interface::startTransmission()
     else if (type == "short")
         recv_to_file<std::complex<short>>(
             rx_usrp, "sc16", otw, file, spb, total_num_samps, settling, rx_channel_nums);
-    else {
+    else {          
         // clean up transmit worker
         stop_signal_called = true;
         transmit_thread.join_all();
@@ -423,11 +425,18 @@ void Interface::startTransmission()
     std::string note;
     readInput(&note);
     // Remove .bin extension and add .txt.
-    std::string tempFileName = m_targetFileName.erase(m_targetFileName.length() - 4, 4) + ".txt";
+    std::string tempFileName = m_targetFileName;
+    tempFileName.erase(m_targetFileName.length() - 4, 4);
+    tempFileName = m_folderName + "\\" + tempFileName + ".txt";
     // Create note file.
     std::ofstream noteFile(tempFileName);
     noteFile << note << std::endl;
     noteFile.close();
+    // Update files.
+    if (m_autoFileState == "Enabled") { generateFileName(); }
+    else { getLatestFile(); }
+    // Reset.
+    stop_signal_called = false;
 }
 
 // ================================================================================================================================================================================ //

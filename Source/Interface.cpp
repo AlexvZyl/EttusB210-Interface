@@ -46,7 +46,7 @@ Interface::Interface()
     rx_int_n = "";
     wave_freq = 0;
     wave_type = "CONST";
-    type = "short";
+    type = "float";
     settling = 0.2;
     spb = 0;
     ampl = 0.3;
@@ -131,8 +131,8 @@ void Interface::readInput(double* answer)
 void Interface::readInput(std::string* input)
 {
     std::cout << green << "\t[INPUT]: " << white;
-    std::string answerString = "";
-    std::cin >> answerString;
+    std::cin.ignore();
+    std::getline(std::cin, *input);
 }
 
 void Interface::menuListBar(unsigned level) 

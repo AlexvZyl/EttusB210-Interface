@@ -166,11 +166,17 @@ void Interface::setFile()
         int it = 1;
         for (const auto& entry : fs::directory_iterator(m_folderName))
         {
-            std::cout << green << "\t  [" << it << "] " << white << entry.path() << std::endl;
-            it++;
+            std::string fileName = entry.path().string();
+            removePathFromName(fileName);
+            // Check if the file is a binary file.
+            if (fileName.substr(fileName.length() - 4, 4) == ".bin")
+            {
+                std::cout << green << "\t  [" << it << "] " << white << fileName << std::endl;
+                it++;
+            }
         }
         it--;
-        m_currentTerminalLine += it + 4;
+        m_currentTerminalLine += it + 3;
         menuListBar(1);
         std::cout << yellow << "\t[WARN]: " << white << "Autofiling is enabled and a file cannot be chosen.\n";
         std::cout << green << "\t[INPUT]: " << white << "Enter any key to continue.";
@@ -189,8 +195,14 @@ void Interface::setFile()
         int it = 1;
         for (const auto& entry : fs::directory_iterator(m_folderName))
         {
-            std::cout << green << "\t  [" << it << "] " << white << entry.path() << std::endl;
-            it++;
+            std::string fileName = entry.path().string();
+            removePathFromName(fileName);
+            // Check if the file is a binary file.
+            if (fileName.substr(fileName.length() - 4, 4) == ".bin")
+            {
+                std::cout << green << "\t  [" << it << "] " << white << fileName << std::endl;
+                it++;
+            }
         }
         it--;
         std::cout << green << "\t  [0] " << white << "Return." << std::endl;
@@ -209,8 +221,14 @@ void Interface::setFile()
             int it = 1;
             for (const auto& entry : fs::directory_iterator(m_folderName))
             {
-                std::cout << green << "\t  [" << it << "] " << white << entry.path() << std::endl;
-                it++;
+                std::string fileName = entry.path().string();
+                removePathFromName(fileName);
+                // Check if the file is a binary file.
+                if (fileName.substr(fileName.length() - 4, 4) == ".bin")
+                {
+                    std::cout << green << "\t  [" << it << "] " << white << fileName << std::endl;
+                    it++;
+                }
             }
             it--;
             std::cout << green << "\t  [0] " << white << "Return." << std::endl;
@@ -229,7 +247,7 @@ void Interface::setFile()
             for (const auto& entry : fs::directory_iterator(m_folderName))
             {
                 std::cout << answer << std::endl;
-                if (it == answer) { m_targetFileName = entry.path().string(); cleanFileName(m_targetFileName); }
+                if (it == answer) { m_targetFileName = entry.path().string(); removePathFromName(m_targetFileName); }
                 it++;
             }
         }
@@ -246,20 +264,24 @@ void Interface::generateFileName()
         // Iterate through the files.
         for (const auto& file : fs::directory_iterator(m_folderName)) 
         {   
-            // Add the file to the vector.
-            currentFile = file.path().string(); 
-            // Remove file extension.
-            size_t pos = currentFile.find(m_extension);
-            currentFile.erase(pos, m_extension.length());
-            // Clean the file.
-            cleanFileName(currentFile);
-            // Remove file prefix.
-            pos = currentFile.find(m_dataPrefix);
-            currentFile.erase(pos, m_dataPrefix.length());
-            // Remove folder prefix.
-            currentFile.erase(0, m_folderName.length() - 4);
-            // Store file number.
-            fileNumbers.push_back(std::stoi(currentFile));
+            // Read file as string.
+            currentFile = file.path().string();
+            // Check if the file is a binary file.
+            if (currentFile.substr(currentFile.length()-4, 4) == ".bin")
+            {
+                // Remove file extension.
+                size_t pos = currentFile.find(m_extension);
+                currentFile.erase(pos, m_extension.length());
+                // Clean the file.
+                removePathFromName(currentFile);
+                // Remove file prefix.
+                pos = currentFile.find(m_dataPrefix);
+                currentFile.erase(pos, m_dataPrefix.length());
+                // Remove folder prefix.
+                currentFile.erase(0, m_folderName.length() - 4);
+                // Store file number.
+                fileNumbers.push_back(std::stoi(currentFile));
+            }
         }
         // Check if folder is not empty.
         if (fileNumbers.size()) 
@@ -296,19 +318,23 @@ void Interface::getLatestFile()
     // Iterate through the files.
     for (const auto& file : fs::directory_iterator(m_folderName))
     {
-        // Add the file to the vector.
-        currentFile = file.path().string();
-        cleanFileName(currentFile);
-        // Remove file prefix.
-        size_t pos = currentFile.find(m_dataPrefix);
-        currentFile.erase(pos, m_dataPrefix.length());
-        // Remove folder prefix.
-        currentFile.erase(0, m_folderName.length() - 4);
-        // Remove file extension.
-        pos = currentFile.find(m_extension);
-        currentFile.erase(pos, m_extension.length());
-        // Extract the file number.
-        fileNumbers.push_back(std::stoi(currentFile));
+        // Check if the file is a binary file.
+        if (currentFile.substr(currentFile.length() - 4, 4) == ".bin")
+        {
+            // Add the file to the vector.
+            currentFile = file.path().string();
+            removePathFromName(currentFile);
+            // Remove file prefix.
+            size_t pos = currentFile.find(m_dataPrefix);
+            currentFile.erase(pos, m_dataPrefix.length());
+            // Remove folder prefix.
+            currentFile.erase(0, m_folderName.length() - 4);
+            // Remove file extension.
+            pos = currentFile.find(m_extension);
+            currentFile.erase(pos, m_extension.length());
+            // Extract the file number.
+            fileNumbers.push_back(std::stoi(currentFile));
+        }
     }
     // Check if folder is not empty.
     if (fileNumbers.size())
@@ -324,14 +350,11 @@ void Interface::getLatestFile()
     { m_latestFileName = "Empty folder"; }
 }
 
-
-void Interface::cleanFileName(std::string& fileName) 
+void Interface::removePathFromName(std::string& fileName)
 {
-    std::cout << fileName << std::endl;
     // Remove the path and only keep the actual name.
     size_t pos = fileName.find(m_folderName);
     fileName.erase(pos, m_folderName.length() + 1);
-    std::cout << fileName << std::endl;
 }
 
 // ================================================================================================================================================================================ //
