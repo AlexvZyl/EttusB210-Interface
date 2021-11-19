@@ -29,7 +29,7 @@ std::vector<std::complex<float>> generateFreqRamp(unsigned nSamples, float bandw
 	// Ensure nSamples is uneven.
 	if (nSamples % 2 == 0) 
 	{
-		std::cout << red << "[WAVEFORM] [ERROR]: ";
+		std::cout << red << "\n[WAVEFORM] [ERROR]: " << white << "nSamples is not an odd number.\n";
 	}
 	else
 	{
