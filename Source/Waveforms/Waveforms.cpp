@@ -2,13 +2,13 @@
 //  Includes.                                                                                                                                                                       //
 // ================================================================================================================================================================================ //
 
+#include <iostream>
 #include "Waveforms.h"
 #include <string>
 #include <vector>
 #include <complex>
 #include <math.h>
 #include "../../External/Misc/ConsoleColor.h"
-#include <iostream>
 
 // ================================================================================================================================================================================ //
 //  Constants.                                                                                                                                                                      //
@@ -21,24 +21,23 @@ const std::complex<float> i(0, 1);
 //  Frequency ramp.                                                                                                                                                                 //
 // ================================================================================================================================================================================ //
 
-std::vector<std::complex<float>> generateFreqRamp(unsigned nSamples, float bandwidth, float amplitude, unsigned samplingFreq)
+std::vector<std::complex<float>> generateFreqRamp(int nSamples, float bandwidth, float amplitude, unsigned samplingFreq)
 {
 	// The wave.
 	std::vector<std::complex<float>> wave(nSamples);
 
-	// Ensure nSamples is uneven.
+	// Ensure nSamples is odd.
 	if (nSamples % 2 == 0) 
 	{
 		std::cout << red << "\n[WAVEFORM] [ERROR]: " << white << "nSamples is not an odd number.\n";
 	}
 	else
 	{
-		
-
-		//  Create TX Signal Modulated signal
+		// Calculate wave parameters.
 		float freqGradient = bandwidth / ((float)nSamples - 1.f);
 		int index = 0;
 		float FREQ;
+		// Populate wave vector.
 		for (int n = floor(-(nSamples - 1) / 2); n <= ceil((nSamples - 1) / 2); n++)
 		{
 			FREQ = ((freqGradient * index) - (bandwidth / 2)) / samplingFreq;

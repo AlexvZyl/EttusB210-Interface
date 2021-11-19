@@ -1,72 +1,10 @@
 ﻿  binary.cpp
-  graphbuilder.cpp
-  graphbuilderadapter.cpp
-  convert.cpp
-  depthguard.cpp
-  directives.cpp
-  emit.cpp
-  emitfromevents.cpp
-  emitter.cpp
-  emitterstate.cpp
-  emitterutils.cpp
-  exceptions.cpp
-  exp.cpp
-  memory.cpp
-  node.cpp
-  nodebuilder.cpp
-  nodeevents.cpp
-  node_data.cpp
-  null.cpp
-  ostream_wrapper.cpp
-  Compiling...
   parse.cpp
-  parser.cpp
-  regex_yaml.cpp
-  scanner.cpp
-  scanscalar.cpp
-  scantag.cpp
-  scantoken.cpp
-  simplekey.cpp
-  singledocparser.cpp
-  stream.cpp
-  tag.cpp
-  Ettus_TXRX_Example.cpp
-  fromSkripsie.cpp
-  Interface.cpp
-C:\GitHub_Repos\EttusB210-Interface\Source\Interface.cpp(52,15): warning C4305: '=': truncation from 'double' to 'float'
-C:\GitHub_Repos\EttusB210-Interface\Source\Interface.cpp(54,25): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\Interface.cpp(118,34): warning C4101: 'e': unreferenced local variable
-C:\GitHub_Repos\EttusB210-Interface\Source\Interface.cpp(128,34): warning C4101: 'e': unreferenced local variable
-C:\GitHub_Repos\EttusB210-Interface\Source\Interface.cpp(147,51): warning C4018: '<': signed/unsigned mismatch
-C:\GitHub_Repos\EttusB210-Interface\Source\Interface.cpp(160,51): warning C4018: '<': signed/unsigned mismatch
-  InterfaceFiles.cpp
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceFiles.cpp(108,30): warning C4018: '>': signed/unsigned mismatch
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceFiles.cpp(215,37): warning C4018: '>': signed/unsigned mismatch
-  InterfaceSDR.cpp
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSDR.cpp(96,55): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSDR.cpp(105,55): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSDR.cpp(277,42): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSDR.cpp(405,88): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSDR.cpp(408,88): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSDR.cpp(411,88): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSDR.cpp(523,28): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSDR.cpp(405): message : see reference to function template instantiation 'void Interface::recv_to_file<std::complex<double>>(uhd::usrp::multi_usrp::sptr,const std::string &,const std::string &,const std::string &,size_t,int,double,std::vector<size_t,std::allocator<size_t>>)' being compiled
-  InterfaceSettings.cpp
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSettings.cpp(102,15): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSettings.cpp(124,32): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSettings.cpp(125,32): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSettings.cpp(158,15): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSettings.cpp(214,15): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSettings.cpp(267,15): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSettings.cpp(321,15): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
-  main.cpp
-  pulseCompression.cpp
-  samplingBenchmark.cpp
-  Compiling...
-  TXRX_Modified.cpp
-  InterfaceYAML.cpp
   Waveforms.cpp
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.30.30705\include\iostream(19,1): error C2143: syntax error: missing ';' before 'namespace'
 C:\GitHub_Repos\EttusB210-Interface\Source\Waveforms\Waveforms.cpp(17,31): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\GitHub_Repos\EttusB210-Interface\Source\Waveforms\Waveforms.cpp(42,22): error C4146: unary minus operator applied to unsigned type, result still unsigned
-C:\GitHub_Repos\EttusB210-Interface\Source\Waveforms\Waveforms.cpp(42,14): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\Waveforms\Waveforms.cpp(41,14): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 5019 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  EttusB210-Interface.vcxproj -> C:\GitHub_Repos\EttusB210-Interface\Binaries\Executables\x64\Release\EttusB210-Interface.exe
