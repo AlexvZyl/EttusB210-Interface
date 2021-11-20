@@ -619,7 +619,6 @@
     <ClInclude Include="External\UHD\include\uhd\version.hpp" />
     <ClInclude Include="Source\Interface.h" />
     <ClInclude Include="Source\Waveforms\Waveforms.h" />
-    <ClInclude Include="Source\Waveforms\wavetable.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\EttusB210-Interface.rc" />

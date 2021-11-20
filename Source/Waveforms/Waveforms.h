@@ -12,7 +12,7 @@
 // ================================================================================================================================================================================ //
 
 // Generate a frequency ramp complex wave.
-std::vector<std::complex<float>> generateFreqRamp(int nSamples, float startFreq, float bandwidth, float amplitude, unsigned samplingFreq);
+std::vector<std::complex<float>> generateFreqRamp(int nSamples, float bandwidth, float amplitude, unsigned samplingFreq);
 
 // ================================================================================================================================================================================ //
 //  EOF.	                                                                                                                                                                        //

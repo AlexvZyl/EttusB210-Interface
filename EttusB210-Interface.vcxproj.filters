@@ -654,9 +654,6 @@
     <ClInclude Include="External\UHD\include\uhd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Waveforms\wavetable.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="External\UHD\include\uhd\cal\cal_metadata_generated.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -3,6 +3,7 @@
 // ================================================================================================================================================================================ //
 
 #include "Interface.h"								//  Class running the app.
+#include "Waveforms/Waveforms.h"
 
 // ================================================================================================================================================================================ //
 //  SDR Setup.                                                                                                                                                                      //
@@ -248,33 +249,21 @@ void Interface::setupSDR()
     //  W A V E F O R M  //
     // ----------------- // 
 
-    // for the const wave, set the wave freq for small samples per period
-    if (wave_freq == 0 and wave_type == "CONST") {
-        wave_freq = tx_usrp->get_tx_rate() / 2;
-    }
+    // Create the wave.
+    m_waveSamplingFreq = m_txSamplingFrequencyActual;
+    m_waveNSamples = 1001;
+    m_waveAmplitude = 1;
+    m_waveBandwidth = m_txSamplingFrequencyActual / 2.1;    // Nyquist.
+    m_transmissionWave = generateFreqRamp(m_waveNSamples, m_waveBandwidth, m_waveAmplitude, m_waveSamplingFreq);
 
-    // error when the waveform is not possible to generate
-    if (std::abs(wave_freq) > tx_usrp->get_tx_rate() / 2) {
-        throw std::runtime_error("wave freq out of Nyquist zone");
-    }
-    if (tx_usrp->get_tx_rate() / std::abs(wave_freq) > wave_table_len / 2) {
-        throw std::runtime_error("wave freq too small for table");
-    }
+    // Ensure the waveform does not break Nyquist rule.
+    if (std::abs(m_waveBandwidth) > (m_txSamplingFrequencyActual / 2)) 
+        throw std::runtime_error("[WAVEFORM] [ERROR]: Wave frequency is out of Nyquist zone.");
 
-    // pre-compute the waveform values
-    wave_table = new const wave_table_class(wave_type, ampl);
-    step = boost::math::iround(wave_freq / tx_usrp->get_tx_rate() * wave_table_len);
-
-    // create a transmit streamer
-    // linearly map channels (index0 = channel0, index1 = channel1, ...)
+    // Create the transmission streamer.
     uhd::stream_args_t stream_args("fc32", otw);
     stream_args.channels = tx_channel_nums;
     tx_stream = tx_usrp->get_tx_stream(stream_args);
-
-    // allocate a buffer which we re-use for each channel
-    if (spb == 0){ spb = tx_stream->get_max_num_samps() * 10; }
-    buff = new std::vector<std::complex<float>>(spb);
-    num_channels = tx_channel_nums.size();
 
     //===================//
     //  Print new frame  //
@@ -287,7 +276,7 @@ void Interface::setupSDR()
     std::cout << blue << "[SDR] [INFO]: " << white << "Sampling frequencies set up.\n";
     std::cout << blue << "[SDR] [INFO]: " << white << "TX set up.\n";
     std::cout << blue << "[SDR] [INFO]: " << white << "RX set up.\n";
-    std::cout << blue << "[SDR] [INFO]: " << white << "Waveform computed.\n";
+    std::cout << blue << "[SDR] [INFO]: " << white << "Waveform precomputed.\n";
     std::cout << blue << "[SDR] [INFO]: " << white << "TX streamer created.\n";
 
     // setup the metadata flags
@@ -365,7 +354,7 @@ void Interface::setupSDR()
     std::cout << blue << "[SDR] [INFO]: " << white << "Sampling frequencies set up.\n";
     std::cout << blue << "[SDR] [INFO]: " << white << "TX set up.\n";
     std::cout << blue << "[SDR] [INFO]: " << white << "RX set up.\n";
-    std::cout << blue << "[SDR] [INFO]: " << white << "Waveform computed.\n";
+    std::cout << blue << "[SDR] [INFO]: " << white << "Waveform precomputed.\n";
     std::cout << blue << "[SDR] [INFO]: " << white << "TX streamer created.\n";
     std::cout << blue << "[SDR] [INFO]: " << white << "Sensors locked.\n";
     std::cout << green << "[APP] [INFO]: " << white << "Set up complete.\n";
@@ -389,10 +378,13 @@ void Interface::startTransmission()
     std::cout << blue << "[SDR] [BUFFERS]: " << red;
     tx_usrp->set_time_now(uhd::time_spec_t(0.0));
 
-    // start transmit worker thread
+    // ----------------------- //
+    //  T R A N S M I T T E R  //
+    // ----------------------- //
+
+    // Start transmit worker thread
     boost::thread_group transmit_thread;
-    transmit_thread.create_thread(std::bind(
-        &Interface::transmit_worker, this, *buff, *wave_table, tx_stream, md, step, index, num_channels));
+    transmit_thread.create_thread(std::bind(&Interface::transmitBuffer, this, m_transmissionWave, tx_stream, md));
 
     // ------------------------- //
     //  R E C E I V E   F I L E  //
@@ -415,6 +407,10 @@ void Interface::startTransmission()
         transmit_thread.join_all();
         throw std::runtime_error("Unknown type " + type);
     }
+
+    // --------------- //
+    //  C L E A N U P  //
+    // --------------- //
 
     // clean up transmit worker
     stop_signal_called = true;
@@ -540,12 +536,12 @@ void Interface::recv_to_file(uhd::usrp::multi_usrp::sptr usrp,
 void Interface::sig_int_handler(int) { stop_signal_called = true; }
 
 void Interface::transmit_worker(std::vector<std::complex<float>> buff,
-    wave_table_class wave_table,
-    uhd::tx_streamer::sptr tx_streamer,
-    uhd::tx_metadata_t metadata,
-    size_t step,
-    size_t index,
-    int num_channels)
+                                wave_table_class wave_table,
+                                uhd::tx_streamer::sptr tx_streamer,
+                                uhd::tx_metadata_t metadata,
+                                size_t step,
+                                size_t index,
+                                int num_channels)
 {
     std::vector<std::complex<float>*> buffs(num_channels, &buff.front());
     // send data until the signal handler gets called
@@ -561,7 +557,24 @@ void Interface::transmit_worker(std::vector<std::complex<float>> buff,
         metadata.start_of_burst = false;
         metadata.has_time_spec = false;
     }
-    // send a mini EOB packet
+    // Send an End-Of-Burst packet.
+    metadata.end_of_burst = true;
+    tx_streamer->send("", 0, metadata);
+}
+
+void Interface::transmitBuffer(std::vector<std::complex<float>> buffer,
+                               uhd::tx_streamer::sptr tx_streamer,
+                               uhd::tx_metadata_t metadata)
+{
+    // Transmit the data until the stop signal is called.
+    while (not stop_signal_called)
+    {
+        // Transmit the contents of the buffer.
+        tx_streamer->send(buffer, buffer.size(), metadata);
+        metadata.start_of_burst = false;
+        metadata.has_time_spec = false;
+    }
+    // Send an End-Of-Burst packet.
     metadata.end_of_burst = true;
     tx_streamer->send("", 0, metadata);
 }

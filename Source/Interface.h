@@ -79,7 +79,12 @@ private:
 	//  W A V E F O R M   V A R I A B L E S  //
 	// ------------------------------------- //
 
-	std::vector<std::complex<float>>* buff;
+	float m_waveBandwidth=0;
+	float m_waveAmplitude=0;
+	int m_waveNSamples=0;
+	float m_waveSamplingFreq;
+
+	std::vector<std::complex<float>> m_transmissionWave;
 	const wave_table_class* wave_table;
 	uhd::tx_streamer::sptr tx_stream;
 	uhd::tx_metadata_t md;
@@ -192,12 +197,16 @@ public:
 									  size_t n_names, size_t this_name);
 
 	void transmit_worker(std::vector<std::complex<float>> buff,
-		wave_table_class wave_table,
-		uhd::tx_streamer::sptr tx_streamer,
-		uhd::tx_metadata_t metadata,
-		size_t step,
-		size_t index,
-		int num_channels);
+						 wave_table_class wave_table,
+						 uhd::tx_streamer::sptr tx_streamer,
+						 uhd::tx_metadata_t metadata,
+						 size_t step,
+						 size_t index,
+						 int num_channels);
+
+	void transmitBuffer(std::vector<std::complex<float>> buffer,
+						uhd::tx_streamer::sptr tx_streamer,
+						uhd::tx_metadata_t metadata);
 
 	// --------------------------- //
 	//  F I L E   H A N D L I N G  //
@@ -211,13 +220,13 @@ public:
 	// Recv_to_file function.
 	template <typename samp_type>
 	void recv_to_file(uhd::usrp::multi_usrp::sptr usrp,
-		const std::string& cpu_format,
-		const std::string& wire_format,
-		const std::string& file,
-		size_t samps_per_buff,
-		int num_requested_samples,
-		double settling_time,
-		std::vector<size_t> rx_channel_nums);
+					  const std::string& cpu_format,
+					  const std::string& wire_format,
+					  const std::string& file,
+					  size_t samps_per_buff,
+					  int num_requested_samples,
+					  double settling_time,
+					  std::vector<size_t> rx_channel_nums);
 
 };
 
