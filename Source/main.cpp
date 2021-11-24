@@ -2,8 +2,8 @@
 //  Includes.                                                                                                                                                                       //
 // ================================================================================================================================================================================ //
 
-#include <uhd/utils/thread.hpp>						// --
-#include "Interface.h"								//  Class running the app.
+#include <uhd/utils/thread.hpp>		// UHD Main thread.
+#include "Interface.h"				//  Class running the app.
 
 // ================================================================================================================================================================================ //
 //  Main.                                                                                                                                                                           //
@@ -13,7 +13,7 @@ int UHD_SAFE_MAIN(int argc, char* argv[])
 {	
 	//  Create a new interface.
 	Interface SDRInterface = Interface();
-
+	
 	//  [MAIN LOOP]
 	while (!SDRInterface.shouldClose) 
 	{

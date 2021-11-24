@@ -21,14 +21,16 @@ void Interface::settingsMenu()
 	std::cout << green << "\t  [3]: " << white << "TX gain.\n";
 	std::cout << green << "\t  [4]: " << white << "RX gain.\n";
 	std::cout << green << "\t  [5]: " << white << "Filter bandwidth.\n";
+	std::cout << green << "\t  [6]: " << white << "Radar max range.\n";
+	std::cout << green << "\t  [7]: " << white << "Radar transmission time.\n";
 	std::cout << green << "\t  [0]: " << white << "Return.\n";
-	m_currentTerminalLine += 8;
+	m_currentTerminalLine += 10;
 	menuListBar(1);
 	unsigned int answer;
 	readInput(&answer);
 
 	// Handle errors.
-	while (answer < 0 || answer > 5) 
+	while (answer < 0 || answer > 7) 
 	{
 		clear();
 		systemInfo();
@@ -39,8 +41,10 @@ void Interface::settingsMenu()
 		std::cout << green << "\t  [3]: " << white << "TX gain.\n";
 		std::cout << green << "\t  [4]: " << white << "RX gain.\n";
 		std::cout << green << "\t  [5]: " << white << "Filter bandwidth.\n";
+		std::cout << green << "\t  [6]: " << white << "Radar max range.\n";
+		std::cout << green << "\t  [7]: " << white << "Radar transmission time.\n";
 		std::cout << green << "\t  [0]: " << white << "Return.\n";
-		m_currentTerminalLine += 9;
+		m_currentTerminalLine += 11;
 		menuListBar(1);
 		printError(answer);
 		readInput(&answer);
@@ -62,6 +66,12 @@ void Interface::settingsMenu()
 		break;
 	case 5:
 		setFilterBandwidth();
+		break;
+	case 6:
+		setMaxRange();
+		break;
+	case 7:
+		setTxTime();
 		break;
 	case 0:
 		break;
@@ -288,7 +298,6 @@ void Interface::setRXGain()
 	m_rxGainTarget = answer;
 	rx_gain = m_rxGainTarget;
 	settingsMenu();
-
 }
 
 void Interface::setFilterBandwidth() 
@@ -377,6 +386,74 @@ void Interface::saveSettings()
 	}
 	if (answer == 1) { saveToYAML(); }
 	mainMenu();
+}
+
+void Interface::setMaxRange() 
+{
+	clear();
+	systemInfo();
+	std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
+	std::cout << green << "\t   |-> " << yellow << "Settings.\n";
+	std::cout << green << "\t   |-> " << yellow << "Radar max range.\n";
+	std::cout << green << "\t  [i]: " << white << "The maximum range at which the radar can detect targets.\n";
+	std::cout << green << "\t  [i]: " << white << "Enter the new value [m]:\n";
+	m_currentTerminalLine += 5;
+	menuListBar(1);
+	double answer;
+	readInput(&answer);
+	while (answer == -1)
+	{
+			clear();
+			systemInfo();
+			std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
+			std::cout << green << "\t   |-> " << yellow << "Settings.\n";
+			std::cout << green << "\t   |-> " << yellow << "Radar max range.\n";
+			std::cout << green << "\t  [i]: " << white << "The maximum range at which the radar can detect targets.\n";
+			std::cout << green << "\t  [i]: " << white << "Enter the new value [m]:\n";
+			m_currentTerminalLine += 6;
+			menuListBar(1);
+			printError(answer);
+			readInput(&answer);
+	}
+	m_settingsStatusSDR = "Changed settings not uploaded to SDR.";
+	m_settingsStatusYAML = "Changed settings not saved to YAML file.";
+	m_maxRange = answer;
+	calculatePulsesPerTX();
+	settingsMenu();
+}
+
+void Interface::setTxTime() 
+{
+	clear();
+	systemInfo();
+	std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
+	std::cout << green << "\t   |-> " << yellow << "Settings.\n";
+	std::cout << green << "\t   |-> " << yellow << "Radar transmission time.\n";
+	std::cout << green << "\t  [i]: " << white << "How long the radar transmits.  Longer times lead to higher SNR values.\n";
+	std::cout << green << "\t  [i]: " << white << "Enter the new value [s]:\n";
+	m_currentTerminalLine += 5;
+	menuListBar(1);
+	double answer;
+	readInput(&answer);
+	while (answer == -1)
+	{
+		clear();
+		systemInfo();
+		std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
+		std::cout << green << "\t   |-> " << yellow << "Settings.\n";
+		std::cout << green << "\t   |-> " << yellow << "Radar transmission time.\n";
+		std::cout << green << "\t  [i]: " << white << "How long the radar transmits.  Longer times lead to higher SNR values.\n";
+		std::cout << green << "\t  [i]: " << white << "Enter the new value [s]:\n";
+		m_currentTerminalLine += 6;
+		menuListBar(1);
+		printError(answer);
+		readInput(&answer);
+	}
+	m_settingsStatusSDR = "Changed settings not uploaded to SDR.";
+	m_settingsStatusYAML = "Changed settings not saved to YAML file.";
+	m_txDuration = answer;
+	calculatePulsesPerTX();
+	settingsMenu();
 }
 
 // ================================================================================================================================================================================ //

@@ -1,16 +1,9 @@
-﻿  InterfaceSDR.cpp
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSDR.cpp(97,55): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSDR.cpp(106,55): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSDR.cpp(256,51): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSDR.cpp(257,93): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSDR.cpp(397,88): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSDR.cpp(400,88): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSDR.cpp(403,88): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSDR.cpp(519,28): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceSDR.cpp(397): message : see reference to function template instantiation 'void Interface::recv_to_file<std::complex<double>>(uhd::usrp::multi_usrp::sptr,const std::string &,const std::string &,const std::string &,size_t,int,double,std::vector<size_t,std::allocator<size_t>>)' being compiled
+﻿  Ettus_TXRX_File_Example_Testing.cpp
+C:\GitHub_Repos\EttusB210-Interface\Source\Extra\Ettus_TXRX_File_Example_Testing.cpp(560,46): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\Extra\Ettus_TXRX_File_Example_Testing.cpp(668,25): warning C4244: '=': conversion from 'double' to 'size_t', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\Extra\Ettus_TXRX_File_Example_Testing.cpp(669,100): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
   Generating code
-  2 of 4915 functions (<0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    14 functions had inline decision re-evaluated but remain unchanged
+  Previous IPDB and IOBJ mismatch, fall back to full compilation.
+  All 2393 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   EttusB210-Interface.vcxproj -> C:\GitHub_Repos\EttusB210-Interface\Binaries\Executables\x64\Release\EttusB210-Interface.exe

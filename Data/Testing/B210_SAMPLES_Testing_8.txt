@@ -1,1 +1,26 @@
-Wrote to 8.
+-------------------
+| Radar Settings  |
+-------------------
+
+TX sampling rate: 6e+06 Hz
+RX sampling rate: 6e+06 Hz
+TX wave frequency: 9e+08 Hz
+RX wave frequency: 9e+08 Hz
+TX gain: 80 dB
+RX gain: 0 dB
+TX filter BW: 1e+07 Hz
+RX filter BW: 1e+07 Hz
+Radar max range: 100 m
+Radar transmission duration: 1 s
+Wave cycles per transmisssion: 1500000
+
+-------------------
+|      Note       |
+-------------------
+
+Done.
+
+-------------------
+|      EOF        |
+-------------------
+

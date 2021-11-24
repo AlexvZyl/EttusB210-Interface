@@ -48,11 +48,10 @@ Interface::Interface()
     wave_type = "CONST";
     type = "float";
     settling = 0.2;
-    spb = 0;
     ampl = 0.3;
     otw = "sc16";
-    total_num_samps = 2 * tx_rate;
 
+    // Load stores settings.
     loadFromYAML();
 }
 
@@ -95,12 +94,12 @@ void Interface::systemInfo()
         red << "|" << yellow << "     ¶¶     ¶¶   ¶              " << red << "|" << blue << "\t\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_rxBWActual / (1e6) << " MHz\n" <<
         red << "|" << yellow << "     ¶      ¶¶   ¶              " << red << "|" << blue << "\n" <<
         red << "|" << yellow << "    ¶¶      ¶¶   ¶¶             " << red << "|" << blue << "\t[CLOCK REF]: " << white << ref << "\n" <<
-        red << "|" << yellow << "    ¶¶      ¶¶   ¶¶             " << red << "|" << blue << "\t[TX CHANNELS]: " << white << tx_channels << "\n" <<
-        red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶             " << red << "|" << blue << "\t[RX CHANNELS]: " << white << rx_channels << "\n" <<
-        red << "|" << yellow << "  ¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶            " << red << "|" << blue << "\t[TX ANTENNA]: " << white << tx_ant << "\n" <<
-        red << "|" << yellow << "  ¶¶        ¶¶¶    ¶¶           " << red << "|" << blue << "\t[RX ANTENNA]: " << white << rx_ant << "\n" <<
-        red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶            " << red << "|" << "\n" <<
-        red <<                "----------------------------------\n" << white;
+        red << "|" << yellow << "    ¶¶      ¶¶   ¶¶             " << red << "|" << blue << "\t[OTW FORMAT]: " << white << m_overTheWire << "\n" <<
+        red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶             " << red << "|" << blue << "\t[CPU FORMAT]: " << white << m_cpuFormat << "\n" <<
+        red << "|" << yellow << "  ¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶            " << red << "|" << blue << "\n" <<
+        red << "|" << yellow << "  ¶¶        ¶¶¶    ¶¶           " << red << "|" << blue << "\t[MAX RANGE]: " << white << m_maxRange <<  " m\n" <<
+        red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶            " << red << "|" << blue << "\t[TX DURATION]: " << white << m_txDuration << " s\n" <<
+        red <<                "----------------------------------"             << blue << "\t[WAVE CYCLES PER TX]: " << white << m_pulsesPerTransmission / 1000 << "k \n" << white;
 
     // Update the terminal line.
     m_currentTerminalLine = 38;
@@ -176,6 +175,7 @@ void Interface::mainMenu()
     clear();
     systemInfo();
     std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
+    std::cout << green << "\t |\n";
     std::cout << green << "\t[1]: " << white << "Connect/Update SDR.\n";
     std::cout << green << "\t[2]: " << white << "Start transmission.\n";
     std::cout << green << "\t[3]: " << white << "Settings.\n";
@@ -184,7 +184,7 @@ void Interface::mainMenu()
     std::cout << green << "\t[6]: " << white << "Toggle auto filing.\n";
     std::cout << green << "\t[7]: " << white << "Save settings.\n";
     std::cout << green << "\t[0]: " << white << "Quit.\n";
-    m_currentTerminalLine += 9;
+    m_currentTerminalLine += 10;
     menuListBar(0);
     unsigned int answer;
     readInput(&answer);
@@ -197,6 +197,7 @@ void Interface::mainMenu()
             clear();
             systemInfo();
             std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
+            std::cout << green << "\t |\n";
             std::cout << green << "\t[1]: " << white << "Connect/Update SDR.\n";
             std::cout << green << "\t[2]: " << white << "Start transmission.\n";
             std::cout << green << "\t[3]: " << white << "Settings.\n";
@@ -205,7 +206,7 @@ void Interface::mainMenu()
             std::cout << green << "\t[6]: " << white << "Toggle auto filing.\n";
             std::cout << green << "\t[7]: " << white << "Save settings.\n";
             std::cout << green << "\t[0]: " << white << "Quit.\n";
-            m_currentTerminalLine += 10;
+            m_currentTerminalLine += 11;
             menuListBar(0);
             std::cout << red << "\t[ERROR]: " << white << "SDR has not been connected.\n";
             readInput(&answer);
@@ -215,6 +216,7 @@ void Interface::mainMenu()
             clear();
             systemInfo();
             std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
+            std::cout << green << "\t |\n";
             std::cout << green << "\t[1]: " << white << "Connect/Update SDR.\n";
             std::cout << green << "\t[2]: " << white << "Start transmission.\n";
             std::cout << green << "\t[3]: " << white << "Settings.\n";
@@ -223,7 +225,7 @@ void Interface::mainMenu()
             std::cout << green << "\t[6]: " << white << "Toggle auto filing.\n";
             std::cout << green << "\t[7]: " << white << "Save settings.\n";
             std::cout << green << "\t[0]: " << white << "Quit.\n";
-            m_currentTerminalLine += 10;
+            m_currentTerminalLine += 11;
             menuListBar(0);
             printError(answer);
             readInput(&answer);
@@ -301,6 +303,15 @@ void Interface::displayDeviceInformation()
 {
     std::cout << boost::format("Using TX Device: %s") % tx_usrp->get_pp_string() << std::endl;
     std::cout << boost::format("Using RX Device: %s") % rx_usrp->get_pp_string() << std::endl;
+}
+
+void Interface::calculatePulsesPerTX() 
+{
+    // Calculate samples per pulse.
+    int waveSamps = std::ceill((m_maxRange / c) * m_txSamplingFrequencyTarget);
+    if (waveSamps % 2 == 0) { waveSamps++; }
+    // Now calculate the amount of pulses that are transmitted with each transmission cycle.
+    m_pulsesPerTransmission = std::floor((m_txDuration * m_txSamplingFrequencyTarget) / waveSamps);
 }
 
 // ================================================================================================================================================================================ //

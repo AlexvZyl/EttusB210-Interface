@@ -33,6 +33,7 @@ void Interface::saveToYAML()
         "#  Allows the saving of sessions for later use.     # \n"
         "# ================================================= # \n";
     std::string filingTitle = "\n#  Filing settings.\n";
+    std::string radarTitle = "\n\n#  Radar settings.\n";
     std::string sdrTitle = "\n\n#  SDR settings.\n";
     std::string deviceTitle = "\n\n#  Device settings.\n";
     std::string end = "\n\n# ================================================= #";
@@ -54,6 +55,17 @@ void Interface::saveToYAML()
     filingOut << YAML::Value << m_autoFileState;
     filingOut << YAML::EndMap;
     yamlFile << filingOut.c_str();
+
+    // Write Radar data.
+    yamlFile << radarTitle;
+    YAML::Emitter radarOut;
+    radarOut << YAML::BeginMap;
+    radarOut << YAML::Key << "max-range";
+    radarOut << YAML::Value << m_maxRange;
+    radarOut << YAML::Key << "tx-duration";
+    radarOut << YAML::Value << m_txDuration;
+    radarOut << YAML::EndMap;
+    yamlFile << radarOut.c_str();
 
     // Write SDR data.
     yamlFile << sdrTitle;
@@ -121,6 +133,9 @@ void Interface::loadFromYAML()
     m_latestFileName = yamlFile["file-latest"].as<std::string>();
     m_targetFileName = yamlFile["file-target"].as<std::string>();
     m_autoFileState = yamlFile["auto-filing"].as<std::string>();
+    // Load radar settings.
+    m_maxRange = std::stof(yamlFile["max-range"].as<std::string>());
+    m_txDuration = std::stof(yamlFile["tx-duration"].as<std::string>());
     // Load SDR settings.
     m_txSamplingFrequencyTarget = yamlFile["sample-rate-tx"].as<float>();
     m_rxSamplingFrequencyTarget = yamlFile["sample-rate-rx"].as<float>();
@@ -156,6 +171,7 @@ void Interface::loadFromYAML()
     rx_freq = m_rxFreqTarget;
     tx_bw = m_txBWTarget;
     rx_bw = m_rxBWTarget;
+    calculatePulsesPerTX();
 }
 
 

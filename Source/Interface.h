@@ -33,18 +33,15 @@
 #include <complex>
 
 // ================================================================================================================================================================================ //
-//  Global variables.                                                                                                                                                               //
-// ================================================================================================================================================================================ //
-
-static bool stop_signal_called=false;			// Should the workers stop?
-
-// ================================================================================================================================================================================ //
 //  Class definition.																																								//
 // ================================================================================================================================================================================ //
 
 class Interface 
 {
 private:
+
+	// Speed of light.
+	const float c = 299792458;
 
 	// --------------------------------- //
 	//  S Y S T E M   V A R I A B L E S  //
@@ -66,6 +63,9 @@ private:
 	double m_txFreqActual=0;
 	double m_rxFreqTarget;
 	double m_rxFreqActual = 0;
+	float m_maxRange = 0;
+	float m_txDuration = 0;
+	unsigned m_pulsesPerTransmission=0;
 	std::vector<void*> m_mainMenuOptions;	// Vector containing all of the menu otption as functions.
 	std::string m_status;					// The status of the app.
 	std::string m_sdrInfo = "SDR has not been connected.";
@@ -73,7 +73,7 @@ private:
 	std::string m_settingsStatusYAML = "Settings not loaded from YAML file.";
 
 	unsigned int m_currentTerminalLine = 0;			// Stores the lines the terminal is currently at.  Starts indexing at 0.
-	unsigned int m_maxTerminalLine = 49;			// The max line the terminal can be at.
+	unsigned int m_maxTerminalLine = 50;			// The max line the terminal can be at.
 
 	// ------------------------------------- //
 	//  W A V E F O R M   V A R I A B L E S  //
@@ -83,6 +83,8 @@ private:
 	float m_waveAmplitude=0;
 	int m_waveNSamples=0;
 	float m_waveSamplingFreq;
+	std::string m_txError = "None";
+	std::string m_rxError = "None";
 
 	std::vector<std::complex<float>> m_transmissionWave;
 	const wave_table_class* wave_table;
@@ -101,6 +103,8 @@ private:
 	std::vector<size_t> rx_channel_nums;
 	uhd::usrp::multi_usrp::sptr tx_usrp;
 	uhd::usrp::multi_usrp::sptr rx_usrp;
+	std::string m_overTheWire = "sc16";
+	std::string m_cpuFormat = "fc32";
 
 	// Transmit variables.
 	std::string tx_args, wave_type, tx_ant, tx_subdev, ref, otw, tx_channels;
@@ -110,7 +114,7 @@ private:
 	
 	// Receive variables.
 	std::string rx_args, type, rx_ant, rx_subdev, rx_channels;
-	size_t total_num_samps, spb=0;
+	size_t total_num_samps;
 	double rx_rate, rx_freq, rx_gain, rx_bw;
 	double settling;
 	std::string rx_int_n;
@@ -157,6 +161,7 @@ public:
 	void printError(unsigned int answer);
 	void menuListBar(unsigned level);
 	void title(std::string title);
+	void calculatePulsesPerTX();
 
 	// ------------------- //
 	//  M A I N   M E N U  //
@@ -184,33 +189,20 @@ public:
 	void setFilterBandwidth();
 	void saveToYAML();
 	void loadFromYAML();
+	void setMaxRange();
+	void setTxTime();
 
-	// --------------------------- //
-	//  S D R   I N T E R F A C E  //
-	// --------------------------- //
+	// ------------------- //
+	//  S T R E A M I N G  //
+	// ------------------- //
 
+	// Should the workers stop?
+	bool m_stopSignalCalled = false;			
 	// Signal handler.
-	void sig_int_handler(int);
-	// Change to filename, e.g. from usrp_samples.dat to usrp_samples.00.dat,
-	// but only if multiple names are to be generated.
-	std::string generate_out_filename(const std::string& base_fn, 
-									  size_t n_names, size_t this_name);
-
-	void transmit_worker(std::vector<std::complex<float>> buff,
-						 wave_table_class wave_table,
-						 uhd::tx_streamer::sptr tx_streamer,
-						 uhd::tx_metadata_t metadata,
-						 size_t step,
-						 size_t index,
-						 int num_channels);
-
-	void transmitBuffer(std::vector<std::complex<float>> buffer,
+	void transmitBuffer(std::vector<std::complex<float>> transmitWave,
 						uhd::tx_streamer::sptr tx_streamer,
-						uhd::tx_metadata_t metadata);
-
-	// --------------------------- //
-	//  F I L E   H A N D L I N G  //
-	// --------------------------- //
+						uhd::tx_metadata_t metadata,
+						size_t wavesPerBuffer);
 
 	// Generate a file name based on the files currently in the folder.
 	void generateFileName();
@@ -218,16 +210,11 @@ public:
 	void removePathFromName(std::string& fileName);
 
 	// Recv_to_file function.
-	template <typename samp_type>
-	void recv_to_file(uhd::usrp::multi_usrp::sptr usrp,
-					  const std::string& cpu_format,
-					  const std::string& wire_format,
-					  const std::string& file,
-					  size_t samps_per_buff,
-					  int num_requested_samples,
-					  double settling_time,
-					  std::vector<size_t> rx_channel_nums);
-
+	void receiveBufferToFile(uhd::usrp::multi_usrp::sptr usrp,
+							 const std::string& file,
+							 size_t samps_per_buff,
+							 int num_requested_samples,
+							 double settling_time);
 };
 
 // ================================================================================================================================================================================ //

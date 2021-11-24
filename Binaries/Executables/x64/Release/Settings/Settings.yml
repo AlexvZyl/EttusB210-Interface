@@ -5,16 +5,20 @@
 
 #  Filing settings.
 folder: Data\Testing
-file-latest: Empty folder
-file-target: B210_SAMPLES_Testing_0.txt
+file-latest: B210_SAMPLES_Testing_1.bin
+file-target: B210_SAMPLES_Testing_2.bin
 auto-filing: Enabled
 
+#  Radar settings.
+max-range: 100
+tx-duration: 1
+
 #  SDR settings.
-sample-rate-tx: 4000000
-sample-rate-rx: 4000000
+sample-rate-tx: 12000000
+sample-rate-rx: 12000000
 wave-frequency-tx: 900000000
 wave-frequency-rx: 900000000
-gain-tx: 80
+gain-tx: 40
 gain-rx: 0
 filter-bandwidth-tx: 10000000
 filter-bandwidth-rx: 10000000

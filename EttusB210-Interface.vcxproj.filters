@@ -15,36 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Extra\Ettus_TXRX_Example.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Extra\fromSkripsie.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Extra\pulseCompression.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Extra\samplingBenchmark.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Extra\TXRX_Modified.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Interface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\InterfaceSDR.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\InterfaceSettings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\InterfaceFiles.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="External\YAML-CPP\Source\contrib\graphbuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -138,10 +108,10 @@
     <ClCompile Include="External\YAML-CPP\Source\tag.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\InterfaceYAML.cpp">
+    <ClCompile Include="Source\Waveforms\Waveforms.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Waveforms\Waveforms.cpp">
+    <ClCompile Include="Source\Extra\Ettus_TXRX_File_Example_Testing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -198,7 +168,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="External\UHD\bin\uhd.dll" />
-    <None Include="Source\Settings\Settings.yml" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="External\UHD\lib\uhd.lib" />
@@ -1170,9 +1139,6 @@
     <ClInclude Include="External\Misc\ConsoleColor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Interface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="External\YAML-CPP\Includes\yaml-cpp\contrib\anchordict.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1351,6 +1317,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Waveforms\Waveforms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Waveforms\wavetable.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
