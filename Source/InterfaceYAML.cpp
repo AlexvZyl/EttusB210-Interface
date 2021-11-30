@@ -64,6 +64,8 @@ void Interface::saveToYAML()
     radarOut << YAML::Value << m_maxRange;
     radarOut << YAML::Key << "tx-duration";
     radarOut << YAML::Value << m_txDuration;
+    radarOut << YAML::Key << "dead-zone";
+    radarOut << YAML::Value << m_deadzone;
     radarOut << YAML::EndMap;
     yamlFile << radarOut.c_str();
 
@@ -129,28 +131,29 @@ void Interface::loadFromYAML()
     YAML::Node yamlFile = YAML::LoadFile(path);
 
     // Load file settings.
-    m_folderName = yamlFile["folder"].as<std::string>();
-    m_latestFileName = yamlFile["file-latest"].as<std::string>();
-    m_targetFileName = yamlFile["file-target"].as<std::string>();
-    m_autoFileState = yamlFile["auto-filing"].as<std::string>();
+    m_folderName                = yamlFile["folder"].as<std::string>();
+    m_latestFileName            = yamlFile["file-latest"].as<std::string>();
+    m_targetFileName            = yamlFile["file-target"].as<std::string>();
+    m_autoFileState             = yamlFile["auto-filing"].as<std::string>();
     // Load radar settings.
-    m_maxRange = std::stof(yamlFile["max-range"].as<std::string>());
-    m_txDuration = std::stof(yamlFile["tx-duration"].as<std::string>());
+    m_maxRange                  = std::stof(yamlFile["max-range"].as<std::string>());
+    m_txDuration                = std::stof(yamlFile["tx-duration"].as<std::string>());
+    m_deadzone                  = std::stof(yamlFile["dead-zone"].as<std::string>());
     // Load SDR settings.
     m_txSamplingFrequencyTarget = yamlFile["sample-rate-tx"].as<float>();
     m_rxSamplingFrequencyTarget = yamlFile["sample-rate-rx"].as<float>();
-    m_txFreqTarget = yamlFile["wave-frequency-tx"].as<double>();
-    m_rxFreqTarget = yamlFile["wave-frequency-rx"].as<double>();
-    m_txGainTarget = yamlFile["gain-tx"].as<double>();
-    m_rxGainTarget = yamlFile["gain-rx"].as<double>();
-    m_txBWTarget = yamlFile["filter-bandwidth-tx"].as<double>();
-    m_rxBWTarget = yamlFile["filter-bandwidth-rx"].as<double>();
+    m_txFreqTarget              = yamlFile["wave-frequency-tx"].as<double>();
+    m_rxFreqTarget              = yamlFile["wave-frequency-rx"].as<double>();
+    m_txGainTarget              = yamlFile["gain-tx"].as<double>();
+    m_rxGainTarget              = yamlFile["gain-rx"].as<double>();
+    m_txBWTarget                = yamlFile["filter-bandwidth-tx"].as<double>();
+    m_rxBWTarget                = yamlFile["filter-bandwidth-rx"].as<double>();
     // Load device settings.
-    ref = yamlFile["clock-ref"].as<std::string>();
-    tx_channels = yamlFile["channels-tx"].as<std::string>();
-    rx_channels = yamlFile["channels-rx"].as<std::string>();
-    tx_ant = yamlFile["antenna-tx"].as<std::string>();
-    rx_ant = yamlFile["antenna-rx"].as<std::string>();
+    ref                         = yamlFile["clock-ref"].as<std::string>();
+    tx_channels                 = yamlFile["channels-tx"].as<std::string>();
+    rx_channels                 = yamlFile["channels-rx"].as<std::string>();
+    tx_ant                      = yamlFile["antenna-tx"].as<std::string>();
+    rx_ant                      = yamlFile["antenna-rx"].as<std::string>();
 
     m_settingsStatusYAML = "Settings loaded from YAML file.";
 

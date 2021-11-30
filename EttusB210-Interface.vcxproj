@@ -198,7 +198,13 @@
     <ClCompile Include="External\YAML-CPP\Source\singledocparser.cpp" />
     <ClCompile Include="External\YAML-CPP\Source\stream.cpp" />
     <ClCompile Include="External\YAML-CPP\Source\tag.cpp" />
-    <ClCompile Include="Source\Extra\Ettus_TXRX_File_Example_Testing.cpp" />
+    <ClCompile Include="Source\Interface.cpp" />
+    <ClCompile Include="Source\InterfaceFiles.cpp" />
+    <ClCompile Include="Source\InterfaceSettings.cpp" />
+    <ClCompile Include="Source\InterfaceStreaming.cpp" />
+    <ClCompile Include="Source\InterfaceWaveform.cpp" />
+    <ClCompile Include="Source\InterfaceYAML.cpp" />
+    <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Waveforms\Waveforms.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -606,6 +612,7 @@
     <ClInclude Include="External\UHD\include\uhd\utils\thread_priority.hpp" />
     <ClInclude Include="External\UHD\include\uhd\version.h" />
     <ClInclude Include="External\UHD\include\uhd\version.hpp" />
+    <ClInclude Include="Source\Interface.h" />
     <ClInclude Include="Source\Waveforms\Waveforms.h" />
     <ClInclude Include="Source\Waveforms\wavetable.hpp" />
   </ItemGroup>

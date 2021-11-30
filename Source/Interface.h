@@ -63,26 +63,31 @@ private:
 	double m_txFreqActual=0;
 	double m_rxFreqTarget;
 	double m_rxFreqActual = 0;
-	float m_maxRange = 0;
-	float m_txDuration = 0;
-	unsigned m_pulsesPerTransmission=0;
 	std::vector<void*> m_mainMenuOptions;	// Vector containing all of the menu otption as functions.
 	std::string m_status;					// The status of the app.
 	std::string m_sdrInfo = "SDR has not been connected.";
 	std::string m_settingsStatusSDR = "Settings not loaded to SDR.";
 	std::string m_settingsStatusYAML = "Settings not loaded from YAML file.";
 
-	unsigned int m_currentTerminalLine = 0;			// Stores the lines the terminal is currently at.  Starts indexing at 0.
-	unsigned int m_maxTerminalLine = 50;			// The max line the terminal can be at.
+	unsigned int m_currentTerminalLine = 0;	// Stores the lines the terminal is currently at.  Starts indexing at 0.
+	unsigned int m_maxTerminalLine = 51;	// The max line the terminal can be at.
 
 	// ------------------------------------- //
 	//  W A V E F O R M   V A R I A B L E S  //
 	// ------------------------------------- //
 
+	float m_maxRange = 0;
+	float m_txDuration = 0;
+	float m_deadzone = 0;
+	float m_maxRangeActual = 0;
+	float m_txDurationActual = 0;
+	float m_deadzoneActual = 0;
 	float m_waveBandwidth=0;
 	float m_waveAmplitude=0;
-	int m_waveNSamples=0;
 	float m_waveSamplingFreq;
+	unsigned m_waveLengthSamples = 0;
+	unsigned m_pulseLengthSamples = 0;
+	unsigned m_pulsesPerTransmission = 0;
 	std::string m_txError = "None";
 	std::string m_rxError = "None";
 
@@ -189,7 +194,14 @@ public:
 	void setFilterBandwidth();
 	void saveToYAML();
 	void loadFromYAML();
+
+	// ----------------- //
+	//  W A V E F O R M  //
+	// ----------------- //
+
+	void waveFormMenu();
 	void setMaxRange();
+	void setDeadzoneRange();
 	void setTxTime();
 
 	// ------------------- //

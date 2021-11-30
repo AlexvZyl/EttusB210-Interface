@@ -38,14 +38,13 @@ void Interface::setupSDR()
     if (tx_subdev.size()) { tx_usrp->set_tx_subdev_spec(tx_subdev); }
     if (rx_subdev.size()) { rx_usrp->set_rx_subdev_spec(rx_subdev); }
 
-    //===================//
+    // ----------------- //
     //  Print new frame  //
-    //===================//
-
     clear();
     systemInfo();
     std::cout << green << "\n\n[APP] [INFO]: " << white << "Setting up the SDR...\n";
     std::cout << blue << "[SDR] [INFO]: " << white << "TX & RX USRP devices created.\n\n";
+    // ----------------- //
 
     // ----------------- //
     //  C H A N N E L S  //
@@ -94,15 +93,15 @@ void Interface::setupSDR()
     std::cout << boost::format("Actual RX Rate: %f Msps...") % (rx_usrp->get_rx_rate() / 1e6)<< std::endl << std::endl;
     m_rxSamplingFrequencyActual = rx_usrp->get_rx_rate();
 
-    //===================//
+    
+    // ----------------- //
     //  Print new frame  //
-    //===================//
-
     clear();
     systemInfo();
     std::cout << green << "\n\n[APP] [INFO]: " << white << "Setting up the SDR...\n";
     std::cout << blue << "[SDR] [INFO]: " << white << "TX & RX USRP devices created.\n";
     std::cout << blue << "[SDR] [INFO]: " << white << "Sampling frequencies set up.\n\n";
+    // ----------------- //
 
     // ------------------------------------- //
     //  S E T U P   T R A N S M I S S I O N  //
@@ -137,16 +136,15 @@ void Interface::setupSDR()
         if (tx_ant.size()) { tx_usrp->set_tx_antenna(tx_ant, channel); }
     }
 
-    //===================//
+    // ----------------- //
     //  Print new frame  //
-    //===================//
-
     clear();
     systemInfo();
     std::cout << green << "\n\n[APP] [INFO]: " << white << "Setting up the SDR...\n";
     std::cout << blue << "[SDR] [INFO]: " << white << "TX & RX USRP devices created.\n";
     std::cout << blue << "[SDR] [INFO]: " << white << "Sampling frequencies set up.\n";
     std::cout << blue << "[SDR] [INFO]: " << white << "TX set up.\n\n";
+    // ----------------- //
 
     // --------------------------------- //
     //  S E T U P   R E C E P T I O N S  //
@@ -181,10 +179,8 @@ void Interface::setupSDR()
         if (rx_ant.size()) { rx_usrp->set_rx_antenna(rx_ant, channel); }
     }
 
-    //===================//
+    // ----------------- //
     //  Print new frame  //
-    //===================//
-
     clear();
     systemInfo();
     std::cout << green << "\n\n[APP] [INFO]: " << white << "Setting up the SDR...\n";
@@ -192,21 +188,29 @@ void Interface::setupSDR()
     std::cout << blue << "[SDR] [INFO]: " << white << "Sampling frequencies set up.\n";
     std::cout << blue << "[SDR] [INFO]: " << white << "TX set up.\n";
     std::cout << blue << "[SDR] [INFO]: " << white << "RX set up.\n";
+    // ----------------- //
     
     // ----------------- //
     //  W A V E F O R M  //
     // ----------------- // 
 
-    // Update total samples.
-    total_num_samps = m_txDuration * m_txSamplingFrequencyActual;
     // Calculate wave samples.
-    m_waveNSamples = std::ceill( (m_maxRange/c) * m_txSamplingFrequencyActual );
+    m_waveLengthSamples = std::round((m_maxRange*2/c)*m_txSamplingFrequencyActual);
+    m_maxRangeActual = ((m_waveLengthSamples/2)/m_txSamplingFrequencyActual) * c;
+    m_pulseLengthSamples = std::round((m_deadzone*2/c)*m_txSamplingFrequencyActual);
     // Ensure wave samples is uneven.
-    if (m_waveNSamples % 2 == 0) { m_waveNSamples++; }
+    if (m_pulseLengthSamples % 2 == 0) { m_pulseLengthSamples++; }
+    m_deadzoneActual = (m_pulseLengthSamples/2/m_txSamplingFrequencyActual) * c;
     m_waveAmplitude = 1;
     m_waveBandwidth = m_txSamplingFrequencyActual / 2.1;    // Nyquist.
+    // Update total samples.
+    total_num_samps = m_txDuration * m_txSamplingFrequencyActual;
+    m_txDurationActual = std::floor((total_num_samps / m_waveLengthSamples))*m_waveLengthSamples / m_txSamplingFrequencyActual;
+    total_num_samps = m_txDurationActual * m_txSamplingFrequencyActual;
     // Generate the transmission wave.
-    m_transmissionWave = generateFreqRamp(m_waveNSamples, m_waveBandwidth, m_waveAmplitude, m_txSamplingFrequencyActual);
+    m_transmissionWave = generateFreqRamp(m_pulseLengthSamples, m_waveBandwidth, m_waveAmplitude, m_txSamplingFrequencyActual);
+    std::vector<std::complex<float>> zeros(m_waveLengthSamples-m_pulseLengthSamples, 0);
+    m_transmissionWave.insert(m_transmissionWave.end(), zeros.begin(), zeros.end());
 
     // Ensure the waveform does not break Nyquist rule.
     if (std::abs(m_waveBandwidth) > (m_txSamplingFrequencyActual / 2)) 
@@ -217,10 +221,8 @@ void Interface::setupSDR()
     stream_args.channels = tx_channel_nums;
     tx_stream = tx_usrp->get_tx_stream(stream_args);
 
-    //===================//
+    // ----------------- //
     //  Print new frame  //
-    //===================//
-
     clear();
     systemInfo();
     std::cout << green << "\n\n[APP] [INFO]: " << white << "Setting up the SDR...\n";
@@ -230,6 +232,7 @@ void Interface::setupSDR()
     std::cout << blue << "[SDR] [INFO]: " << white << "RX set up.\n";
     std::cout << blue << "[SDR] [INFO]: " << white << "Waveform precomputed.\n";
     std::cout << blue << "[SDR] [INFO]: " << white << "TX streamer created.\n";
+    // ----------------- //
 
     // Setup the metadata.
     md.start_of_burst = true;
@@ -300,10 +303,8 @@ void Interface::setupSDR()
         UHD_ASSERT_THROW(ref_locked.to_bool());
     }
 
-    //===================//
+    // ----------------- //
     //  Print new frame  //
-    //===================//
-
     m_status = "Setup complete.";
     m_sdrInfo = "SDR is connected.";
     m_settingsStatusSDR = "Settings loaded to SDR.";
@@ -322,6 +323,7 @@ void Interface::setupSDR()
     std::string answer;
     std::cin.ignore();
     std::cin >> answer;
+    // ----------------- //
 }
 
 // ================================================================================================================================================================================ //
@@ -344,8 +346,8 @@ void Interface::startTransmission()
     // used in this code.
     // Adjust the max number so that the waves fit in perfectly.
     size_t maxBufferSize = 20400;
-    size_t wavesPerBuffer = std::floor(maxBufferSize / m_waveNSamples);
-    size_t bufferSize = wavesPerBuffer * m_waveNSamples;
+    size_t wavesPerBuffer = std::floor(maxBufferSize / m_waveLengthSamples);
+    size_t bufferSize = wavesPerBuffer * m_waveLengthSamples;
 
     // ----------------------- //
     //  T R A N S M I T T E R  //
@@ -388,7 +390,12 @@ void Interface::startTransmission()
     noteFile << "RX error: " << m_rxError << "\n";
     noteFile << "OTW format: " << m_overTheWire << "\n";
     noteFile << "CPU format: " << m_cpuFormat << "\n\n";
-    noteFile << "-------------------\n";
+    noteFile <<   "The data is packed as I Q I Q samples." <<
+                "\nEach sample size is given by the CPU format." <<
+                "\nOTW format is not required for parsing the .bin file, " <<
+                "\nsince this describes how data is transferred on the SDR." <<
+                "\nThe .bin file does not contain any type of headers, it is just IQ samples.\n";
+    noteFile << "\n-------------------\n";
     noteFile << "| Radar Settings  |\n";
     noteFile << "-------------------\n\n";
     noteFile << "TX sampling rate: " << m_txSamplingFrequencyActual/ 1e6 << " MHz\n";
@@ -399,9 +406,10 @@ void Interface::startTransmission()
     noteFile << "RX gain: " << m_rxGainActual << " dB\n";
     noteFile << "TX filter BW: " << m_txBWActual/ 1e6 << " MHz\n";
     noteFile << "RX filter BW: " << m_rxBWActual/ 1e6 << " MHz\n";
-    noteFile << "Radar max range: " << m_maxRange << " m\n";
-    noteFile << "Radar transmission duration: " << m_txDuration << " s\n";
-    noteFile << "Wave cycles per transmission: " << m_pulsesPerTransmission << "\n\n";
+    noteFile << "Radar max range: " << m_maxRangeActual << " m\n";
+    noteFile << "Radar dead zone: " << m_deadzoneActual << " m\n";
+    noteFile << "Radar transmission duration: " << m_txDurationActual << " s\n";
+    noteFile << "Total pulses: " << m_pulsesPerTransmission << "\n\n";
     noteFile << "-------------------\n";
     noteFile << "|      Note       |\n";
     noteFile << "-------------------\n\n";
@@ -484,7 +492,7 @@ void Interface::receiveBufferToFile(uhd::usrp::multi_usrp::sptr usrp,
         if (rxMD.error_code != uhd::rx_metadata_t::ERROR_CODE_NONE) { throw std::runtime_error(str(boost::format("Receiver error %s") % rxMD.strerror())); m_rxError = rxMD.strerror(); }
 
         totalReceivedSamples += currentReceivedSamples;
-        //outfile->write((const char*)receiveBufferPtr, currentReceivedSamples * sizeof(std::complex<float>));
+        outfile->write((const char*)receiveBufferPtr, currentReceivedSamples * sizeof(std::complex<float>));
     }
 
     // Close file.
