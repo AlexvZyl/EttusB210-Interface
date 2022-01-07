@@ -3,7 +3,7 @@
 // ================================================================================================================================================================================ //
 
 #include "Interface.h"
-#include "../External/Misc/ConsoleColor.h"
+#include "External/Misc/ConsoleColor.h"
 
 // ================================================================================================================================================================================ //
 //	Constructor and Destructor.																																						//
@@ -51,8 +51,11 @@ Interface::Interface()
     ampl = 0.3;
     otw = "sc16";
 
-    // Load stores settings.
+    // Load stored settings.
     loadFromYAML();
+    getLatestFile();
+    if (m_autoFileState == "Enabled") generateFileName();
+    calculatePulsesPerTX();
 }
 
 Interface::~Interface()
@@ -65,41 +68,41 @@ Interface::~Interface()
 
 void Interface::systemInfo() 
 {
-    std::cout << blue << "[COPYRIGHT]:" << white << " C.A van Zyl, calexandervanzyl@gmail.com, +27 76 888 7559.\n\n" << 
-        red <<                 "----------------------------------" << blue << "\t[APP STATUS]: " << white << m_status << "\n" <<
-        red << "|" << yellow << "              ¶¶¶               " << red << "|" << blue << "\t[SDR STATUS]: " << white << m_sdrInfo << "\n" <<
-        red << "|" << yellow << "             ¶¶ ¶¶¶¶            " << red << "|" << blue << "\t[SETTINGS SDR]: " << white << m_settingsStatusSDR << '\n' <<
-        red << "|" << yellow << "            ¶¶    ¶¶¶           " << red << "|" << blue << "\t[SETTINGS YAML]: " << white << m_settingsStatusYAML << '\n' << 
+    std::cout << blue << "[COPYRIGHT]:" << white << " C.A van Zyl, calexandervanzyl@gmail.com, +27 76 888 7559.\n\n" <<
+        red <<                 "----------------------------------"              << blue << "\t[APP STATUS]   : " << white << m_status << "\n" <<
+        red << "|" << yellow << "              ¶¶¶               " << red << "|" << blue << "\t[SDR STATUS]   : " << white << m_sdrInfo << "\n" <<
+        red << "|" << yellow << "             ¶¶ ¶¶¶¶            " << red << "|" << blue << "\t[SETTINGS SDR] : " << white << m_settingsStatusSDR << '\n' <<
+        red << "|" << yellow << "            ¶¶    ¶¶¶           " << red << "|" << blue << "\t[SETTINGS YAML]: " << white << m_settingsStatusYAML << '\n' <<
         red << "|" << yellow << "           ¶¶¶      ¶¶          " << red << "|" << blue << "\n" <<
-        red << "|" << yellow << "           ¶¶¶       ¶¶         " << red << "|" << blue << "\t[FOLDER]: " << white << "'" << m_folderName << "'\n" <<
+        red << "|" << yellow << "           ¶¶¶       ¶¶         " << red << "|" << blue << "\t[FOLDER]     : " << white << "'" << m_folderName << "'\n" <<
         red << "|" << yellow << "          ¶¶¶¶        ¶¶        " << red << "|" << blue << "\t[LATEST FILE]: " << white << "'" << m_latestFileName << "'\n" <<
         red << "|" << yellow << "          ¶ ¶¶         ¶¶       " << red << "|" << blue << "\t[TARGET FILE]: " << white << "'" << m_targetFileName << "'\n" <<
         red << "|" << yellow << "          ¶  ¶¶         ¶¶    ¶¶" << red << "|" << blue << "\t[AUTO FILING]: " << white << m_autoFileState << "\n" <<
-        red << "|" << yellow << "          ¶  ¶¶          ¶¶¶¶¶¶¶" << red << "|" << blue << "\n" <<
-        red << "|" << yellow << "         ¶¶  ¶¶¶      ¶¶¶¶¶¶   ¶" << red << "|" << blue << "\t[TX SMAMPLING]--[TARGET]: " << white << m_txSamplingFrequencyTarget / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "         ¶¶   ¶¶  ¶¶¶¶¶¶  ¶¶    " << red << "|" << blue << "\t\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_txSamplingFrequencyActual / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "      ¶¶  ¶¶   ¶¶          ¶¶   " << red << "|" << blue << "\t[RX SMAMPLING]--[TARGET]: " << white << m_rxSamplingFrequencyTarget / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "       ¶¶ ¶    ¶¶¶¶        ¶¶   " << red << "|" << blue << "\t\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_rxSamplingFrequencyActual / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "     ¶¶    ¶¶   ¶¶          ¶¶  " << red << "|" << blue << "\t[TX FREQUENCY]--[TARGET]: " << white << m_txFreqTarget / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "   ¶¶       ¶¶   ¶¶         ¶¶  " << red << "|" << blue << "\t\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_txFreqActual / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶  ¶¶         ¶  " << red << "|" << blue << "\t[RX FREQUENCY]--[TARGET]: " << white << m_rxFreqTarget / (1e6) << " MHz\n" <<
-        red << "|" << yellow << " ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶        ¶¶ " << red << "|" << blue << "\t\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_rxFreqActual / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "¶¶  ¶¶¶¶¶¶    ¶¶¶¶¶¶¶¶¶      ¶¶ " << red << "|" << blue << "\t[TX GAIN]-------[TARGET]: " << white << m_txGainTarget << " dB\n" <<
-        red << "|" << yellow << "¶¶¶¶¶   ¶      ¶   ¶¶¶¶¶     ¶¶ " << red << "|" << blue << "\t\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_txGainActual << " dB\n" <<
-        red << "|" << yellow << "        ¶¶¶¶¶¶¶¶      ¶¶¶¶¶ ¶¶  " << red << "|" << blue << "\t[RX GAIN]-------[TARGET]: " << white << m_rxGainTarget << " dB\n" <<
-        red << "|" << yellow << "      ¶¶¶¶¶¶¶¶¶¶¶        ¶¶¶¶   " << red << "|" << blue << "\t\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_rxGainActual << " dB\n" <<
-        red << "|" << yellow << "      ¶¶¶¶¶¶¶¶¶¶¶¶              " << red << "|" << blue << "\t[TX BW]---------[TARGET]: " << white << m_txBWTarget / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "      ¶  ¶¶ ¶¶¶¶¶¶              " << red << "|" << blue << "\t\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_txBWActual / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "     ¶¶      ¶   ¶              " << red << "|" << blue << "\t[RX BW]---------[TARGET]: " << white << m_rxBWTarget / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "     ¶¶     ¶¶   ¶              " << red << "|" << blue << "\t\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_rxBWActual / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "     ¶      ¶¶   ¶              " << red << "|" << blue << "\n" <<
+        red << "|" << yellow << "          ¶  ¶¶          ¶¶¶¶¶¶¶" << red << "|" << blue << "\t[OTW FORMAT] : " << white << m_overTheWire << "\n" <<
+        red << "|" << yellow << "         ¶¶  ¶¶¶      ¶¶¶¶¶¶   ¶" << red << "|" << blue << "\t[CPU FORMAT] : " << white << m_cpuFormat << "\n" <<
+        red << "|" << yellow << "         ¶¶   ¶¶  ¶¶¶¶¶¶  ¶¶    " << red << "|" << blue << "\n" <<
+        red << "|" << yellow << "      ¶¶  ¶¶   ¶¶          ¶¶   " << red << "|" << blue << "\t[TX SMAMPLING]--[TARGET]: " << white << m_txSamplingFrequencyTarget / (1e6) << " MHz" << blue << "\t[" << green << "ACTUAL" << blue << "]: " << white << m_txSamplingFrequencyActual / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "       ¶¶ ¶    ¶¶¶¶        ¶¶   " << red << "|" << blue << "\t[RX SMAMPLING]--[TARGET]: " << white << m_rxSamplingFrequencyTarget / (1e6) << " MHz" << blue << "\t[" << green << "ACTUAL" << blue << "]: " << white << m_rxSamplingFrequencyActual / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "     ¶¶    ¶¶   ¶¶          ¶¶  " << red << "|" << blue << "\t[TX FREQUENCY]--[TARGET]: " << white << m_txFreqTarget / (1e6) << " MHz" << blue << "\t[" << green << "ACTUAL" << blue << "]: " << white << m_txFreqActual / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "   ¶¶       ¶¶   ¶¶         ¶¶  " << red << "|" << blue << "\t[RX FREQUENCY]--[TARGET]: " << white << m_rxFreqTarget / (1e6) << " MHz" << blue << "\t[" << green << "ACTUAL" << blue << "]: " << white << m_rxFreqActual / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶  ¶¶         ¶  " << red << "|" << blue << "\t[TX GAIN]-------[TARGET]: " << white << m_txGainTarget << " dB" << blue << "\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_txGainActual << " dB\n" <<
+        red << "|" << yellow << " ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶ ¶¶        ¶¶ " << red << "|" << blue << "\t[RX GAIN]-------[TARGET]: " << white << m_rxGainTarget << " dB" << blue << "\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_rxGainActual << " dB\n" <<
+        red << "|" << yellow << "¶¶  ¶¶¶¶¶¶    ¶¶¶¶¶¶¶¶¶      ¶¶ " << red << "|" << blue << "\t[TX BW]---------[TARGET]: " << white << m_txBWTarget / (1e6) << " MHz" << blue << "\t[" << green << "ACTUAL" << blue << "]: " << white << m_txBWActual / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "¶¶¶¶¶   ¶      ¶   ¶¶¶¶¶     ¶¶ " << red << "|" << blue << "\t[RX BW]---------[TARGET]: " << white << m_rxBWTarget / (1e6) << " MHz" << blue << "\t[" << green << "ACTUAL" << blue << "]: " << white << m_rxBWActual / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "        ¶¶¶¶¶¶¶¶      ¶¶¶¶¶ ¶¶  " << red << "|" << blue << "\n" <<
+        red << "|" << yellow << "      ¶¶¶¶¶¶¶¶¶¶¶        ¶¶¶¶   " << red << "|" << blue << "\t[WAVE TYPE]      : " << white << m_waveType << "\n" <<
+        red << "|" << yellow << "      ¶¶¶¶¶¶¶¶¶¶¶¶              " << red << "|" << blue << "\t[WINDOW FUNCTION]: " << white << m_windowFunction << "\n" <<
+        red << "|" << yellow << "      ¶  ¶¶ ¶¶¶¶¶¶              " << red << "|" << blue << "\t[DEADZONE RANGE] : " << white << m_deadzone << " m" << blue << " \t[" << green << "ACTUAL" << blue << "] : " << white << m_deadzoneActual << " m\n" <<
+        red << "|" << yellow << "     ¶¶      ¶   ¶              " << red << "|" << blue << "\t[MAX RANGE]      : " << white << m_maxRange << " m" << blue << " \t[" << green << "ACTUAL" << blue << "] : " << white << m_maxRangeActual << " m\n" <<
+        red << "|" << yellow << "     ¶¶     ¶¶   ¶              " << red << "|" << blue << "\t[TX DURATION]    : " << white << m_txDuration << " s" << blue << "  \t[" << green << "ACTUAL" << blue << "] : " << white << m_txDurationActual << " s\n" <<
+        red << "|" << yellow << "     ¶      ¶¶   ¶              " << red << "|" << blue << "\t[TOTAL PULSES]   : " << white << m_pulsesPerTransmission / 1000 << " k \n" << white <<
         red << "|" << yellow << "    ¶¶      ¶¶   ¶¶             " << red << "|" << blue << "\n" <<
-        red << "|" << yellow << "    ¶¶      ¶¶   ¶¶             " << red << "|" << blue << "\t[OTW FORMAT]: " << white << m_overTheWire << "\n" <<
-        red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶             " << red << "|" << blue << "\t[CPU FORMAT]: " << white << m_cpuFormat << "\n" <<
-        red << "|" << yellow << "  ¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶            " << red << "|" << blue << "\t[DEADZONE RANGE] : " << white << m_deadzone << " m" <<  blue << " \t[" << green << "ACTUAL" << blue << "] : " << white << m_deadzoneActual << " m\n" << 
-        red << "|" << yellow << "  ¶¶        ¶¶¶    ¶¶           " << red << "|" << blue << "\t[MAX RANGE]      : " << white << m_maxRange <<  " m" << blue << " \t[" << green << "ACTUAL" << blue << "] : " << white << m_maxRangeActual << " m\n" <<
-        red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶            " << red << "|" << blue << "\t[TX DURATION]    : " << white << m_txDuration << " s" << blue << "  \t[" << green << "ACTUAL" << blue << "] : " << white << m_txDurationActual << " s\n" <<
-        red <<                "----------------------------------"               << blue << "\t[TOTAL PULSES]   : " << white << m_pulsesPerTransmission / 1000 << " k \n" << white;
+        red << "|" << yellow << "    ¶¶      ¶¶   ¶¶             " << red << "|" << blue << "\n" <<
+        red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶             " << red << "|" << blue << "\n" <<
+        red << "|" << yellow << "  ¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶            " << red << "|" << blue << "\n" <<
+        red << "|" << yellow << "  ¶¶        ¶¶¶    ¶¶           " << red << "|" << blue << "\n" <<
+        red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶            " << red << "|" << blue << "\n" << 
+        red <<                 "----------------------------------"              << "\n";
 
     // Update the terminal line.
     m_currentTerminalLine = 38;
@@ -132,9 +135,9 @@ void Interface::readInput(std::string* input)
     std::getline(std::cin, *input);
 }
 
-void Interface::menuListBar(unsigned level) 
+void Interface::menuListBar(unsigned level)
 {
-    if (level == 0) 
+    if (level == 0)
     {
         if (m_currentTerminalLine >= m_maxTerminalLine)
         {
@@ -147,7 +150,7 @@ void Interface::menuListBar(unsigned level)
             }
         }
     }
-    else if (level == 1) 
+    else if (level == 1)
     {
         if (m_currentTerminalLine >= m_maxTerminalLine)
         {
@@ -310,6 +313,13 @@ void Interface::displayDeviceInformation()
     std::cout << boost::format("Using TX Device: %s") % tx_usrp->get_pp_string() << std::endl;
     std::cout << boost::format("Using RX Device: %s") % rx_usrp->get_pp_string() << std::endl;
 }
+
+void Interface::hold() 
+{
+    std::string holdVariable;
+    std::cin >> holdVariable;
+}
+
 
 // ================================================================================================================================================================================ //
 //  EOF.																																											//

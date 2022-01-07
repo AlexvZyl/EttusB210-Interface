@@ -8,7 +8,7 @@
 //  Includes.                                                                                                                                                                       //
 // ================================================================================================================================================================================ //
 
-#include "Waveforms/wavetable.hpp"
+#include "Utils/wavetable.hpp"
 #include <string>									// String handling.
 #include <vector>									// C++ vectors.
 #include <uhd/exception.hpp>						// -- Ettus UHD.
@@ -27,7 +27,7 @@
 #include <fstream>
 #include <functional>
 #include <iostream>
-#include "../External/Misc/ConsoleColor.h"
+#include "External/Misc/ConsoleColor.h"
 #include <numbers>
 #include <stdio.h>
 #include <complex>
@@ -90,6 +90,8 @@ private:
 	unsigned m_pulsesPerTransmission = 0;
 	std::string m_txError = "None";
 	std::string m_rxError = "None";
+	std::string m_windowFunction = "None";
+	std::string m_waveType = "Linear Frequency Chirp";
 
 	std::vector<std::complex<float>> m_transmissionWave;
 	const wave_table_class* wave_table;
@@ -167,6 +169,7 @@ public:
 	void menuListBar(unsigned level);
 	void title(std::string title);
 	void calculatePulsesPerTX();
+	void hold();
 
 	// ------------------- //
 	//  M A I N   M E N U  //
@@ -200,9 +203,12 @@ public:
 	// ----------------- //
 
 	void waveFormMenu();
+	void setWaveType();
 	void setMaxRange();
 	void setDeadzoneRange();
 	void setTxTime();
+	void setPulseWaveform();
+	void generateTransmissionPusle();
 
 	// ------------------- //
 	//  S T R E A M I N G  //

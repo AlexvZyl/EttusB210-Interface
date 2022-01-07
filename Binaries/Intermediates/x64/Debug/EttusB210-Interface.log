@@ -1,1 +1,15 @@
-﻿  InterfaceYAML.cpp
+﻿  InterfaceStreaming.cpp
+C:\GitHub_Repos\EttusB210-Interface\Source\Interface.h(44,16): warning C4305: 'initializing': truncation from 'int' to 'const float'
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceStreaming.cpp(88,55): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceStreaming.cpp(94,55): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceStreaming.cpp(198,37): warning C4244: '=': conversion from 'float' to 'unsigned int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceStreaming.cpp(200,38): warning C4244: '=': conversion from 'float' to 'unsigned int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceStreaming.cpp(205,51): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceStreaming.cpp(207,36): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceStreaming.cpp(208,98): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceStreaming.cpp(209,42): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceStreaming.cpp(212,118): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceStreaming.cpp(212,94): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceStreaming.cpp(351,27): warning C4244: 'initializing': conversion from 'double' to 'size_t', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceStreaming.cpp(366,77): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  EttusB210-Interface.vcxproj -> C:\GitHub_Repos\EttusB210-Interface\Binaries\Executables\x64\Debug\EttusB210-Interface.exe

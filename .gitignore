@@ -7,3 +7,5 @@ Data/
 .vs/EttusB210-Interface/v17/.suo
 .vs/EttusB210-Interface/project-colors.json
 *.bin
+*.bin
+Binaries/Executables/x64/Release/Data/Testing/B210_SAMPLES_Testing_3.bin

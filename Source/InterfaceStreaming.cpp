@@ -3,9 +3,9 @@
 // ================================================================================================================================================================================ //
 
 #include "Interface.h"				//  Class running the app.
-#include "Waveforms/Waveforms.h"    // Waveform generation.
+#include "Utils/Waveforms.h"        // Waveform generation.
 #include <chrono>                   // For time.             
-#include <time.h>                    // "
+#include <time.h>                   // "
 
 // ================================================================================================================================================================================ //
 //  SDR Setup.                                                                                                                                                                      //
@@ -194,23 +194,7 @@ void Interface::setupSDR()
     //  W A V E F O R M  //
     // ----------------- // 
 
-    // Calculate wave samples.
-    m_waveLengthSamples = std::round((m_maxRange*2/c)*m_txSamplingFrequencyActual);
-    m_maxRangeActual = ((m_waveLengthSamples/2)/m_txSamplingFrequencyActual) * c;
-    m_pulseLengthSamples = std::round((m_deadzone*2/c)*m_txSamplingFrequencyActual);
-    // Ensure wave samples is uneven.
-    if (m_pulseLengthSamples % 2 == 0) { m_pulseLengthSamples++; }
-    m_deadzoneActual = (m_pulseLengthSamples/2/m_txSamplingFrequencyActual) * c;
-    m_waveAmplitude = 1;
-    m_waveBandwidth = m_txSamplingFrequencyActual / 2.1;    // Nyquist.
-    // Update total samples.
-    total_num_samps = m_txDuration * m_txSamplingFrequencyActual;
-    m_txDurationActual = std::floor((total_num_samps / m_waveLengthSamples))*m_waveLengthSamples / m_txSamplingFrequencyActual;
-    total_num_samps = m_txDurationActual * m_txSamplingFrequencyActual;
-    // Generate the transmission wave.
-    m_transmissionWave = generateFreqRamp(m_pulseLengthSamples, m_waveBandwidth, m_waveAmplitude, m_txSamplingFrequencyActual);
-    std::vector<std::complex<float>> zeros(m_waveLengthSamples-m_pulseLengthSamples, 0);
-    m_transmissionWave.insert(m_transmissionWave.end(), zeros.begin(), zeros.end());
+    generateTransmissionPusle();
 
     // Ensure the waveform does not break Nyquist rule.
     if (std::abs(m_waveBandwidth) > (m_txSamplingFrequencyActual / 2)) 
@@ -379,9 +363,9 @@ void Interface::startTransmission()
     tempFileName = m_folderName + "\\" + tempFileName + ".txt";
     // Create note file.
     std::ofstream noteFile(tempFileName);
-    noteFile << "-------------------\n";
-    noteFile << "|    Details      |\n";
-    noteFile << "-------------------\n\n";
+    noteFile << "---------------------------------------------------------------------------------------\n";
+    noteFile << "|                                  Details                                            |\n";
+    noteFile << "---------------------------------------------------------------------------------------\n\n";
     std::time_t currentTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     char timeBuffer[50];
     ctime_s(timeBuffer, sizeof(timeBuffer), &currentTime);
@@ -395,9 +379,9 @@ void Interface::startTransmission()
                 "\nOTW format is not required for parsing the .bin file, " <<
                 "\nsince this describes how data is transferred on the SDR." <<
                 "\nThe .bin file does not contain any type of headers, it is just IQ samples.\n";
-    noteFile << "\n-------------------\n";
-    noteFile << "| Radar Settings  |\n";
-    noteFile << "-------------------\n\n";
+    noteFile << "\n---------------------------------------------------------------------------------------\n";
+    noteFile << "|                               Radar Settings                                        |\n";
+    noteFile << "---------------------------------------------------------------------------------------\n\n";
     noteFile << "TX sampling rate: " << m_txSamplingFrequencyActual/ 1e6 << " MHz\n";
     noteFile << "RX sampling rate: " << m_rxSamplingFrequencyActual/ 1e6 << " MHz\n";
     noteFile << "TX wave frequency: " << m_txFreqActual/ 1e6 << " MHz\n";
@@ -406,23 +390,25 @@ void Interface::startTransmission()
     noteFile << "RX gain: " << m_rxGainActual << " dB\n";
     noteFile << "TX filter BW: " << m_txBWActual/ 1e6 << " MHz\n";
     noteFile << "RX filter BW: " << m_rxBWActual/ 1e6 << " MHz\n";
-    noteFile << "Radar max range: " << m_maxRangeActual << " m\n";
-    noteFile << "Radar dead zone: " << m_deadzoneActual << " m\n";
     noteFile << "Radar transmission duration: " << m_txDurationActual << " s\n";
-    noteFile << "Total pulses: " << m_pulsesPerTransmission << "\n\n";
-    noteFile << "-------------------\n";
-    noteFile << "|      Note       |\n";
-    noteFile << "-------------------\n\n";
+    noteFile << "Radar max range: " << m_maxRangeActual << " m\n";
+    noteFile << "Radar deadzone: " << m_deadzoneActual << " m\n";
+    noteFile << "PRF: " << m_pulsesPerTransmission / m_txDuration << " pulses/s\n";
+    noteFile << "Total pulses: " << m_pulsesPerTransmission << "\n";
+    noteFile << "Window function: " << m_windowFunction << "\n\n";
+    noteFile << "---------------------------------------------------------------------------------------\n";
+    noteFile << "|                                     Note                                            |\n";
+    noteFile << "---------------------------------------------------------------------------------------\n\n";
     std::string note;
     readInput(&note);
     noteFile << note << std::endl << std::endl;
-    noteFile << "-------------------\n";
-    noteFile << "|      EOF        |\n";
-    noteFile << "-------------------\n\n";
+    noteFile << "---------------------------------------------------------------------------------------\n";
+    noteFile << "|                                      EOF                                            |\n";
+    noteFile << "---------------------------------------------------------------------------------------\n\n";
     noteFile.close();
     // Update files.
     if (m_autoFileState == "Enabled") { generateFileName(); }
-    else { getLatestFile(); }
+    getLatestFile();
     // Reset.
     m_stopSignalCalled = false;
     m_txError = "None";
@@ -462,7 +448,7 @@ void Interface::receiveBufferToFile(uhd::usrp::multi_usrp::sptr usrp,
     // We increase the first timeout to cover for the delay between now + the
     // command time, plus 500ms of buffer. In the loop, we will then reduce the
     // timeout for subsequent receives.
-    double timeout = settling_time + 0.5f;
+    double timeout = settling_time + 1.f;
 
     // Issue stream command.
     uhd::stream_cmd_t stream_cmd(uhd::stream_cmd_t::STREAM_MODE_NUM_SAMPS_AND_DONE);

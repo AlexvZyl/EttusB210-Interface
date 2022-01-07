@@ -3,9 +3,11 @@
 // ================================================================================================================================================================================ //
 
 #include "Interface.h"
-#include "../External/YAML-CPP/Includes/yaml-cpp/yaml.h"
+#include "External/YAML-CPP/Includes/yaml-cpp/yaml.h"
 #include <filesystem>
 #include <Windows.h>
+
+// .exe module.
 HMODULE getCurrentModule();
 
 // ================================================================================================================================================================================ // 
@@ -29,9 +31,9 @@ void Interface::saveToYAML()
 
     // Define titles.
     std::string header = "# ================================================= # \n"
-        "#  Settings of the SDR interface.                   # \n"
-        "#  Allows the saving of sessions for later use.     # \n"
-        "# ================================================= # \n";
+                         "#  Settings of the SDR interface.                   # \n"
+                         "#  Allows the saving of sessions for later use.     # \n"
+                         "# ================================================= # \n";
     std::string filingTitle = "\n#  Filing settings.\n";
     std::string radarTitle = "\n\n#  Radar settings.\n";
     std::string sdrTitle = "\n\n#  SDR settings.\n";
@@ -66,6 +68,10 @@ void Interface::saveToYAML()
     radarOut << YAML::Value << m_txDuration;
     radarOut << YAML::Key << "dead-zone";
     radarOut << YAML::Value << m_deadzone;
+    radarOut << YAML::Key << "window-function";
+    radarOut << YAML::Value << m_windowFunction;
+    radarOut << YAML::Key << "wave-type";
+    radarOut << YAML::Value << m_waveType;
     radarOut << YAML::EndMap;
     yamlFile << radarOut.c_str();
 
@@ -139,6 +145,8 @@ void Interface::loadFromYAML()
     m_maxRange                  = std::stof(yamlFile["max-range"].as<std::string>());
     m_txDuration                = std::stof(yamlFile["tx-duration"].as<std::string>());
     m_deadzone                  = std::stof(yamlFile["dead-zone"].as<std::string>());
+    m_windowFunction            = yamlFile["window-function"].as<std::string>();
+    m_waveType                  = yamlFile["wave-type"].as<std::string>();
     // Load SDR settings.
     m_txSamplingFrequencyTarget = yamlFile["sample-rate-tx"].as<float>();
     m_rxSamplingFrequencyTarget = yamlFile["sample-rate-rx"].as<float>();

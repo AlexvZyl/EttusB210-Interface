@@ -290,10 +290,15 @@ void Interface::generateFileName()
             int latest = *std::max_element(fileNumbers.begin(), fileNumbers.end());
             std::string folderTemp = m_folderName + "_";
             folderTemp.erase(0, 5);
-            m_latestFileName = m_dataPrefix + folderTemp + std::to_string(latest) + m_extension;
             // Set the target file.
             int target = latest + 1;
-            m_targetFileName = m_dataPrefix + folderTemp + std::to_string(target) + m_extension;
+            // Add zeros to file number.
+            std::string targetStr;
+            if ((float)target / 100 > 1)       targetStr = std::to_string(target);
+            else if ((float)target / 10 > 1)   targetStr = "0" + std::to_string(target);
+            else                               targetStr = "00" + std::to_string(target);
+            // Assign file name.
+            m_targetFileName = m_dataPrefix + folderTemp + targetStr + m_extension;
         }
         // If folder is empty.
         else 
@@ -301,7 +306,7 @@ void Interface::generateFileName()
             m_latestFileName = "Empty folder";
             std::string folderTemp = m_folderName + "_";
             folderTemp.erase(0, 5);
-            m_targetFileName = m_dataPrefix + folderTemp + "0" + m_extension;
+            m_targetFileName = m_dataPrefix + folderTemp + "000" + m_extension;
         }
         
     }
@@ -318,6 +323,8 @@ void Interface::getLatestFile()
     // Iterate through the files.
     for (const auto& file : fs::directory_iterator(m_folderName))
     {
+        // Read file as string.
+        currentFile = file.path().string();
         // Check if the file is a binary file.
         if (currentFile.substr(currentFile.length() - 4, 4) == ".bin")
         {
@@ -332,7 +339,7 @@ void Interface::getLatestFile()
             // Remove file extension.
             pos = currentFile.find(m_extension);
             currentFile.erase(pos, m_extension.length());
-            // Extract the file number.
+            // Extract the file number.S
             fileNumbers.push_back(std::stoi(currentFile));
         }
     }
@@ -343,7 +350,13 @@ void Interface::getLatestFile()
         int latest = *std::max_element(fileNumbers.begin(), fileNumbers.end());
         std::string folderTemp = m_folderName + "_";
         folderTemp.erase(0, 5);
-        m_latestFileName = m_dataPrefix + folderTemp + std::to_string(latest) + m_extension;
+        // Add zeros to file number.
+        std::string latestStr;
+        if      ((float)latest / 100 > 1)  latestStr = std::to_string(latest);
+        else if ((float)latest / 10 > 1)   latestStr = "0" + std::to_string(latest);
+        else                               latestStr = "00" + std::to_string(latest);
+        // Assign file name.
+        m_latestFileName = m_dataPrefix + folderTemp + latestStr + m_extension;
     }
     // If folder is empty.
     else
