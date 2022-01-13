@@ -85,8 +85,8 @@ private:
 	float m_waveBandwidth=0;
 	float m_waveAmplitude=0;
 	float m_waveSamplingFreq;
-	unsigned m_waveLengthSamples = 0;
-	unsigned m_pulseLengthSamples = 0;
+	unsigned m_pulseLengthSamples = 0;		//  This is the entire wave + the deadzone.
+	unsigned m_waveLengthSamples = 0;		//  This is just the wave to be transmitted.
 	unsigned m_pulsesPerTransmission = 0;
 	std::string m_txError = "None";
 	std::string m_rxError = "None";
@@ -94,7 +94,6 @@ private:
 	std::string m_waveType = "Linear Frequency Chirp";
 
 	std::vector<std::complex<float>> m_transmissionWave;
-	const wave_table_class* wave_table;
 	uhd::tx_streamer::sptr tx_stream;
 	uhd::tx_metadata_t md;
 	size_t step;
@@ -129,7 +128,6 @@ private:
 	// ----------------------- //
 	//  F I L E   S Y S T E M  //
 	// ----------------------- //
-
 
 	std::string m_folderName;					// The current folder data will be saved to.
 	std::string m_latestFileName;				// The latest file.
@@ -177,6 +175,7 @@ public:
 
 	void mainMenu();	// Prints the main menu of the app, as well as handle inputs.
 	void setupSDR();
+	void updateSDR();
 	void startTransmission();
 	void setFolder();
 	void setFile();

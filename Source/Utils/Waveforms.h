@@ -15,7 +15,7 @@
 std::vector<std::complex<float>> generateLinearChirp(int nSamples, float bandwidth, float amplitude, unsigned samplingFreq, std::string window = "None");
 
 // Generate a constant sine complex wave.
-std::vector<std::complex<float>> generateConstSine(int nSamples, float frequuency, float amplitude, unsigned samplingFreq, std::string window = "None");
+std::vector<std::complex<float>> generateConstSine(int nSamples, float frequency, float amplitude, unsigned samplingFreq, std::string window = "None");
 
 // Generate a non linear frequency chirp.
 std::vector<std::complex<float>> generateNonLinearChirp(int nSamples, float bandwidth, float amplitude, unsigned samplingFreq, std::string window = "None");

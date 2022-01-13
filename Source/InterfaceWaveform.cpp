@@ -78,20 +78,20 @@ void Interface::setMaxRange()
 	std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
 	std::cout << green << "\t   |-> " << yellow << "Waveform.\n";
 	std::cout << green << "\t   |-> " << yellow << "Radar max range.\n";
-	std::cout << green << "\t  [i]: " << white << "The maximum range at which the radar can detect targets.\n";
+	std::cout << green << "\t  [i]: " << white << "The maximum range at which the radar can detect targets.  Should be more than " << m_deadzone << " m.\n";
 	std::cout << green << "\t  [i]: " << white << "Enter the new value [m]:\n";
 	m_currentTerminalLine += 5;
 	menuListBar(1);
 	double answer;
 	readInput(&answer);
-	while (answer == -1)
+	while (answer == -1 || answer < m_deadzone)
 	{
 		clear();
 		systemInfo();
 		std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
 		std::cout << green << "\t   |-> " << yellow << "Waveform.\n";
 		std::cout << green << "\t   |-> " << yellow << "Radar max range.\n";
-		std::cout << green << "\t  [i]: " << white << "The maximum range at which the radar can detect targets.\n";
+		std::cout << green << "\t  [i]: " << white << "The maximum range at which the radar can detect targets.  Should be more than " << m_deadzone << " m.\n"; 
 		std::cout << green << "\t  [i]: " << white << "Enter the new value [m]:\n";
 		m_currentTerminalLine += 6;
 		menuListBar(1);
@@ -112,20 +112,20 @@ void Interface::setDeadzoneRange()
 	std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
 	std::cout << green << "\t   |-> " << yellow << "Waveform.\n";
 	std::cout << green << "\t   |-> " << yellow << "Radar dead zone range.\n";
-	std::cout << green << "\t  [i]: " << white << "The range where the radar is blind.  A longer dead zone leads to higher SNR.\n";
+	std::cout << green << "\t  [i]: " << white << "The range where the radar is blind.  Should be less than " << m_maxRange << " m.\n";
 	std::cout << green << "\t  [i]: " << white << "Enter the new value [m]:\n";
 	m_currentTerminalLine += 5;
 	menuListBar(1);
 	double answer;
 	readInput(&answer);
-	while (answer == -1)
+	while (answer == -1 || answer > m_maxRange)
 	{
 		clear();
 		systemInfo();
 		std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
 		std::cout << green << "\t   |-> " << yellow << "Waveform.\n";
-		std::cout << green << "\t   |-> " << yellow << "Radar max range.\n";
-		std::cout << green << "\t  [i]: " << white << "The range where the radar is blind.  A longer dead zone leads to higher SNR.\n";
+		std::cout << green << "\t   |-> " << yellow << "Radar dead zone range.\n";
+		std::cout << green << "\t  [i]: " << white << "The range where the radar is blind.  Should be less than " << m_maxRange << " m.\n";
 		std::cout << green << "\t  [i]: " << white << "Enter the new value [m]:\n";
 		m_currentTerminalLine += 6;
 		menuListBar(1);
@@ -219,7 +219,15 @@ void Interface::setPulseWaveform()
 void Interface::calculatePulsesPerTX()
 {
 	// Now calculate the amount of pulses that are transmitted with each transmission cycle.
-	m_pulsesPerTransmission = std::floor((m_txDurationActual * m_txSamplingFrequencyTarget) / m_waveLengthSamples);
+	if (m_txDurationActual && m_txSamplingFrequencyActual)
+	{
+		m_pulsesPerTransmission = std::round((m_txDurationActual * m_txSamplingFrequencyActual) / m_pulseLengthSamples);
+	}
+	else
+	{
+		m_pulseLengthSamples = std::round((m_maxRange * 2 / c) * m_txSamplingFrequencyTarget);
+		m_pulsesPerTransmission = std::round((m_txDuration * m_txSamplingFrequencyTarget) / (float)m_pulseLengthSamples);
+	}
 }
 
 void Interface::setWaveType() 
@@ -268,25 +276,64 @@ void Interface::setWaveType()
 
 void Interface::generateTransmissionPusle() 
 {
+	// --------------------- //
+	//  P A R A M E T E R S  //
+	// --------------------- //
+
 	// Calculate wave samples.
-	m_waveLengthSamples = std::round((m_maxRange * 2 / c) * m_txSamplingFrequencyActual);
-	m_maxRangeActual = ((m_waveLengthSamples / 2) / m_txSamplingFrequencyActual) * c;
-	m_pulseLengthSamples = std::round((m_deadzone * 2 / c) * m_txSamplingFrequencyActual);
+	m_waveLengthSamples = std::round((m_deadzone * 2 / c) * m_txSamplingFrequencyActual);
+	m_pulseLengthSamples = std::round((m_maxRange * 2 / c) * m_txSamplingFrequencyActual);
+	m_maxRangeActual = ((m_pulseLengthSamples / 2) / m_txSamplingFrequencyActual) * c;
 	// Ensure wave samples is uneven.
-	if (m_pulseLengthSamples % 2 == 0) { m_pulseLengthSamples++; }
-	m_deadzoneActual = (m_pulseLengthSamples / 2 / m_txSamplingFrequencyActual) * c;
+	if (m_waveLengthSamples % 2 == 0) 
+	{ 
+		// Check if rounded down.
+		if ( (m_waveLengthSamples / m_txSamplingFrequencyActual) * c / 2 < m_deadzone)
+		{
+			m_waveLengthSamples++;
+		}
+		// Rounded up.
+		else
+		{
+			m_waveLengthSamples--;
+		}
+		
+	}
+	m_deadzoneActual = (m_waveLengthSamples / 2 / m_txSamplingFrequencyActual) * c;
 	m_waveAmplitude = 1;
 	m_waveBandwidth = m_txSamplingFrequencyActual / 2.1;    // Nyquist.
-	// Update total samples.
-	total_num_samps = m_txDuration * m_txSamplingFrequencyActual;
-	m_txDurationActual = std::floor((total_num_samps / m_waveLengthSamples)) * m_waveLengthSamples / m_txSamplingFrequencyActual;
-	total_num_samps = m_txDurationActual * m_txSamplingFrequencyActual;
-	// Generate the transmission wave.
-	if (m_waveType == "Linear Frequency Chirp") m_transmissionWave = generateLinearChirp(m_pulseLengthSamples, m_waveBandwidth, m_waveAmplitude, m_txSamplingFrequencyActual, m_windowFunction);
-	else if (m_waveType == "Non Linear Frequency Chirp") m_transmissionWave = generateNonLinearChirp(m_pulseLengthSamples, m_txSamplingFrequencyActual / 2.5, m_waveAmplitude, m_txSamplingFrequencyActual, m_windowFunction);
-	else if (m_waveType == "Constant Sine") m_transmissionWave = generateConstSine(m_pulseLengthSamples, m_txSamplingFrequencyActual / 2.5, m_waveAmplitude, m_txSamplingFrequencyActual, m_windowFunction);
-	else { std::cout << red << "[ERROR]: " << white << "Wave type '" << m_waveType << "' not supported.\n"; hold(); }
-	std::vector<std::complex<float>> zeros(m_waveLengthSamples - m_pulseLengthSamples, 0);
+	total_num_samps = (size_t) (std::round( (m_txDuration * m_txSamplingFrequencyActual) / (m_pulseLengthSamples) ) * m_pulseLengthSamples);
+	m_txDurationActual = total_num_samps / m_txSamplingFrequencyActual;
+	calculatePulsesPerTX();
+
+	// ----------------- //
+	//  W A V E F O R M  //
+	// ----------------- //
+	
+	if (m_waveType == "Linear Frequency Chirp")
+	{
+		m_transmissionWave = generateLinearChirp(m_waveLengthSamples, m_waveBandwidth, m_waveAmplitude, m_txSamplingFrequencyActual, m_windowFunction);
+	}
+	else if (m_waveType == "Non-Linear Frequency Chirp")
+	{
+		m_transmissionWave = generateNonLinearChirp(m_waveLengthSamples, m_waveBandwidth, m_waveAmplitude, m_txSamplingFrequencyActual, m_windowFunction);
+	}
+	else if (m_waveType == "Constant Sine")
+	{
+		m_transmissionWave = generateConstSine(m_waveLengthSamples, m_waveBandwidth, m_waveAmplitude, m_txSamplingFrequencyActual, m_windowFunction);
+	}
+	else 
+	{ 
+		std::cout << red << "[ERROR]: " << white << "Wave type '" << m_waveType << "' not supported.\n"; 
+		hold(); 
+	}
+
+	// ----------- //
+	//  Z E R O S  //
+	// ----------- //
+
+	//  Add zeros for where the radar does not transmit.
+	std::vector<std::complex<float>> zeros(m_pulseLengthSamples - m_waveLengthSamples, 0);
 	m_transmissionWave.insert(m_transmissionWave.end(), zeros.begin(), zeros.end());
 }
 

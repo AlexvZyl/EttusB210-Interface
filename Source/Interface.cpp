@@ -81,8 +81,8 @@ void Interface::systemInfo()
         red << "|" << yellow << "          ¶  ¶¶          ¶¶¶¶¶¶¶" << red << "|" << blue << "\t[OTW FORMAT] : " << white << m_overTheWire << "\n" <<
         red << "|" << yellow << "         ¶¶  ¶¶¶      ¶¶¶¶¶¶   ¶" << red << "|" << blue << "\t[CPU FORMAT] : " << white << m_cpuFormat << "\n" <<
         red << "|" << yellow << "         ¶¶   ¶¶  ¶¶¶¶¶¶  ¶¶    " << red << "|" << blue << "\n" <<
-        red << "|" << yellow << "      ¶¶  ¶¶   ¶¶          ¶¶   " << red << "|" << blue << "\t[TX SMAMPLING]--[TARGET]: " << white << m_txSamplingFrequencyTarget / (1e6) << " MHz" << blue << "\t[" << green << "ACTUAL" << blue << "]: " << white << m_txSamplingFrequencyActual / (1e6) << " MHz\n" <<
-        red << "|" << yellow << "       ¶¶ ¶    ¶¶¶¶        ¶¶   " << red << "|" << blue << "\t[RX SMAMPLING]--[TARGET]: " << white << m_rxSamplingFrequencyTarget / (1e6) << " MHz" << blue << "\t[" << green << "ACTUAL" << blue << "]: " << white << m_rxSamplingFrequencyActual / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "      ¶¶  ¶¶   ¶¶          ¶¶   " << red << "|" << blue << "\t[TX SMAMPLING]--[TARGET]: " << white << m_txSamplingFrequencyTarget / (1e6) << " MHz" << blue << " \t[" << green << "ACTUAL" << blue << "]: " << white << m_txSamplingFrequencyActual / (1e6) << " MHz\n" <<
+        red << "|" << yellow << "       ¶¶ ¶    ¶¶¶¶        ¶¶   " << red << "|" << blue << "\t[RX SMAMPLING]--[TARGET]: " << white << m_rxSamplingFrequencyTarget / (1e6) << " MHz" << blue << " \t[" << green << "ACTUAL" << blue << "]: " << white << m_rxSamplingFrequencyActual / (1e6) << " MHz\n" <<
         red << "|" << yellow << "     ¶¶    ¶¶   ¶¶          ¶¶  " << red << "|" << blue << "\t[TX FREQUENCY]--[TARGET]: " << white << m_txFreqTarget / (1e6) << " MHz" << blue << "\t[" << green << "ACTUAL" << blue << "]: " << white << m_txFreqActual / (1e6) << " MHz\n" <<
         red << "|" << yellow << "   ¶¶       ¶¶   ¶¶         ¶¶  " << red << "|" << blue << "\t[RX FREQUENCY]--[TARGET]: " << white << m_rxFreqTarget / (1e6) << " MHz" << blue << "\t[" << green << "ACTUAL" << blue << "]: " << white << m_rxFreqActual / (1e6) << " MHz\n" <<
         red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶  ¶¶         ¶  " << red << "|" << blue << "\t[TX GAIN]-------[TARGET]: " << white << m_txGainTarget << " dB" << blue << "\t\t[" << green << "ACTUAL" << blue << "]: " << white << m_txGainActual << " dB\n" <<
@@ -96,7 +96,7 @@ void Interface::systemInfo()
         red << "|" << yellow << "     ¶¶      ¶   ¶              " << red << "|" << blue << "\t[MAX RANGE]      : " << white << m_maxRange << " m" << blue << " \t[" << green << "ACTUAL" << blue << "] : " << white << m_maxRangeActual << " m\n" <<
         red << "|" << yellow << "     ¶¶     ¶¶   ¶              " << red << "|" << blue << "\t[TX DURATION]    : " << white << m_txDuration << " s" << blue << "  \t[" << green << "ACTUAL" << blue << "] : " << white << m_txDurationActual << " s\n" <<
         red << "|" << yellow << "     ¶      ¶¶   ¶              " << red << "|" << blue << "\t[TOTAL PULSES]   : " << white << m_pulsesPerTransmission / 1000 << " k \n" << white <<
-        red << "|" << yellow << "    ¶¶      ¶¶   ¶¶             " << red << "|" << blue << "\n" <<
+        red << "|" << yellow << "    ¶¶      ¶¶   ¶¶             " << red << "|" << blue << "\t[WAVE BANDWIDTH] : " << white << m_waveBandwidth / 1e6 << " MHz \n" << white <<
         red << "|" << yellow << "    ¶¶      ¶¶   ¶¶             " << red << "|" << blue << "\n" <<
         red << "|" << yellow << "   ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶             " << red << "|" << blue << "\n" <<
         red << "|" << yellow << "  ¶¶¶¶¶¶¶¶¶ ¶¶¶¶¶¶¶¶            " << red << "|" << blue << "\n" <<

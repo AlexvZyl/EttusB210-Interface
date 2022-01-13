@@ -182,6 +182,8 @@ void Interface::loadFromYAML()
     rx_freq = m_rxFreqTarget;
     tx_bw = m_txBWTarget;
     rx_bw = m_rxBWTarget;
+    m_waveBandwidth = m_txSamplingFrequencyTarget / 2.1;
+
     calculatePulsesPerTX();
 }
 

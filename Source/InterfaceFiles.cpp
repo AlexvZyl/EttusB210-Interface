@@ -294,9 +294,9 @@ void Interface::generateFileName()
             int target = latest + 1;
             // Add zeros to file number.
             std::string targetStr;
-            if ((float)target / 100 > 1)       targetStr = std::to_string(target);
-            else if ((float)target / 10 > 1)   targetStr = "0" + std::to_string(target);
-            else                               targetStr = "00" + std::to_string(target);
+            if      ((float)target / 100 >= 1)  targetStr = std::to_string(target);
+            else if ((float)target / 10 >= 1)   targetStr = "0" + std::to_string(target);
+            else                                targetStr = "00" + std::to_string(target);
             // Assign file name.
             m_targetFileName = m_dataPrefix + folderTemp + targetStr + m_extension;
         }
@@ -352,9 +352,9 @@ void Interface::getLatestFile()
         folderTemp.erase(0, 5);
         // Add zeros to file number.
         std::string latestStr;
-        if      ((float)latest / 100 > 1)  latestStr = std::to_string(latest);
-        else if ((float)latest / 10 > 1)   latestStr = "0" + std::to_string(latest);
-        else                               latestStr = "00" + std::to_string(latest);
+        if      ((float)latest / 100 >= 1)  latestStr = std::to_string(latest);
+        else if ((float)latest / 10 >= 1)   latestStr = "0" + std::to_string(latest);
+        else                                latestStr = "00" + std::to_string(latest);
         // Assign file name.
         m_latestFileName = m_dataPrefix + folderTemp + latestStr + m_extension;
     }

@@ -352,7 +352,7 @@ void Interface::saveSettings()
 	systemInfo();
 	std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
 	std::cout << green << "\t   |-> " << yellow << "Save settings.\n";
-	std::cout << green << "\t  [i]: " << white << "Save the current settings to file?.\n";
+	std::cout << green << "\t  [i]: " << white << "Save the current settings to file?\n";
 	std::cout << green << "\t  [1]: " << white << "Yes.\n";
 	std::cout << green << "\t  [0]: " << white << "No.\n";
 	m_currentTerminalLine += 5;
@@ -366,7 +366,7 @@ void Interface::saveSettings()
 		systemInfo();
 		std::cout << green << "\n\n[APP] [INFO]: " << yellow << "Main Menu:\n";
 		std::cout << green << "\t   |-> " << yellow << "Save settings.\n";
-		std::cout << green << "\t  [i]: " << white << "Save the current settings to file?.\n";
+		std::cout << green << "\t  [i]: " << white << "Save the current settings to file?\n";
 		std::cout << green << "\t  [1]: " << white << "Yes.\n";
 		std::cout << green << "\t  [0]: " << white << "No.\n";
 		m_currentTerminalLine +=6;

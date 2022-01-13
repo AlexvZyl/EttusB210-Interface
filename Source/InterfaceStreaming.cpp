@@ -13,6 +13,13 @@
 
 void Interface::setupSDR() 
 {
+    // If the SDR has already been setup, we just want to update the settings.
+    if (m_sdrInfo != "SDR has not been connected.")
+    {
+        updateSDR();
+        return;
+    }
+
     m_status = "Setting up SDR...";
 	clear();
 	systemInfo();
@@ -303,11 +310,105 @@ void Interface::setupSDR()
     std::cout << blue << "[SDR] [INFO]: " << white << "TX streamer created.\n";
     std::cout << blue << "[SDR] [INFO]: " << white << "Sensors locked.\n";
     std::cout << green << "[APP] [INFO]: " << white << "Set up complete.\n";
-    std::cout << green << "[APP] [INPUT]: " << white << "Enter any key to continue.";
-    std::string answer;
-    std::cin.ignore();
-    std::cin >> answer;
+    std::cout << green << "[APP] [INPUT]: " << white << "Enter any key to continue.\n";
+    hold();
     // ----------------- //
+}
+
+void Interface::updateSDR() 
+{
+    clear();
+    systemInfo();
+    std::cout << green << "\n\n[APP] [INFO]: " << white << "Updating up the SDR...\n";
+
+    // ------------------------- //
+    //  T R A N S M I S S I O N  //
+    // ------------------------- //
+
+    for (size_t ch = 0; ch < tx_channel_nums.size(); ch++)
+    {
+        size_t channel = tx_channel_nums[ch];
+
+        // Update TX frequency.
+        uhd::tune_request_t tx_tune_request(tx_freq);
+        if (tx_int_n.size()) { tx_tune_request.args = uhd::device_addr_t("mode_n=integer"); }
+        tx_usrp->set_tx_freq(tx_tune_request, channel);
+        m_txFreqActual = tx_usrp->get_tx_freq();
+
+        // Update the TX gain.
+        tx_usrp->set_tx_gain(tx_gain, channel);
+        m_txGainActual = tx_usrp->get_tx_gain();
+
+        // Update the analog frontend filter bandwidth.        
+        tx_usrp->set_tx_bandwidth(tx_bw, channel);
+        m_txBWActual = tx_usrp->get_tx_bandwidth();
+    }
+
+    std::cout << blue << "[SDR] [INFO]: " << white << "Transmission parameters updated.\n";
+
+    // ------------------- //
+    //  R E C E P T I O N  //
+    // ------------------- //
+
+    for (size_t ch = 0; ch < rx_channel_nums.size(); ch++)
+    {
+        size_t channel = rx_channel_nums[ch];
+
+        // Set RX freq.
+        uhd::tune_request_t rx_tune_request(rx_freq);
+        if (rx_int_n.size()) { rx_tune_request.args = uhd::device_addr_t("mode_n=integer"); }
+        rx_usrp->set_rx_freq(rx_tune_request, channel);
+        m_rxFreqActual = rx_usrp->get_rx_freq();
+
+        // Set RX gain.
+        rx_usrp->set_rx_gain(rx_gain, channel);
+        m_rxGainActual = rx_usrp->get_rx_gain();
+
+        // Set the receive analog frontend filter bandwidth.
+        rx_usrp->set_rx_bandwidth(rx_bw, channel);
+        m_rxBWActual = rx_usrp->get_rx_bandwidth();
+    }
+
+    std::cout << blue << "[SDR] [INFO]: " << white << "Reception parameters updated.\n";
+
+    // ----------------- //
+    //  S A M P L I N G  //
+    // ----------------- //
+
+    // TX.
+    if (tx_rate * 4 > 61.44) tx_usrp->set_master_clock_rate(tx_rate * 2);
+    else                     tx_usrp->set_master_clock_rate(tx_rate * 4);
+    tx_usrp->set_tx_rate(tx_rate);
+    m_txSamplingFrequencyActual = tx_usrp->get_tx_rate();
+
+    // RX.
+    if (rx_rate * 4 > 61.44) rx_usrp->set_master_clock_rate(rx_rate * 2);
+    else                     rx_usrp->set_master_clock_rate(rx_rate * 4);
+    rx_usrp->set_rx_rate(rx_rate);
+    m_rxSamplingFrequencyActual = rx_usrp->get_rx_rate();
+
+    std::cout << blue << "\n[SDR] [INFO]: " << white << "Sampling frequencies updated.\n";
+
+    hold();
+
+    // Waveform updates.
+    generateTransmissionPusle();
+
+    // Update state information.
+    m_status = "SDR updated.";
+    m_sdrInfo = "SDR is connected.";
+    m_settingsStatusSDR = "Settings loaded to SDR.";
+
+    // Final frame.
+    clear();
+    systemInfo();
+    std::cout << green << "\n\n[APP] [INFO]: " << white << "Updating up the SDR...\n";
+    std::cout << blue << "\n[SDR] [INFO]: " << white << "Sampling frequencies updated.\n";
+    std::cout << blue << "[SDR] [INFO]: " << white << "Transmission parameters updated.\n";
+    std::cout << blue << "[SDR] [INFO]: " << white << "Reception parameters updated.\n";
+    std::cout << green << "\n[APP] [INFO]: " << white << "Update complete.\n";
+    std::cout << green << "[APP] [INPUT]: " << white << "Enter any key to continue.\n";
+    hold();
 }
 
 // ================================================================================================================================================================================ //
@@ -330,8 +431,8 @@ void Interface::startTransmission()
     // used in this code.
     // Adjust the max number so that the waves fit in perfectly.
     size_t maxBufferSize = 20400;
-    size_t wavesPerBuffer = std::floor(maxBufferSize / m_waveLengthSamples);
-    size_t bufferSize = wavesPerBuffer * m_waveLengthSamples;
+    size_t wavesPerBuffer = std::floor(maxBufferSize / m_pulseLengthSamples);
+    size_t bufferSize = wavesPerBuffer * m_pulseLengthSamples;
 
     // ----------------------- //
     //  T R A N S M I T T E R  //
@@ -386,15 +487,17 @@ void Interface::startTransmission()
     noteFile << "RX sampling rate: " << m_rxSamplingFrequencyActual/ 1e6 << " MHz\n";
     noteFile << "TX wave frequency: " << m_txFreqActual/ 1e6 << " MHz\n";
     noteFile << "RX wave frequency: " << m_rxFreqActual/ 1e6 << " MHz\n";
+    noteFile << "Wave bandwidth: " << m_waveBandwidth / 1e6 << " MHz\n";
     noteFile << "TX gain: " << m_txGainActual << " dB\n";
     noteFile << "RX gain: " << m_rxGainActual << " dB\n";
     noteFile << "TX filter BW: " << m_txBWActual/ 1e6 << " MHz\n";
     noteFile << "RX filter BW: " << m_rxBWActual/ 1e6 << " MHz\n";
-    noteFile << "Radar transmission duration: " << m_txDurationActual << " s\n";
-    noteFile << "Radar max range: " << m_maxRangeActual << " m\n";
-    noteFile << "Radar deadzone: " << m_deadzoneActual << " m\n";
+    noteFile << "Transmission duration: " << m_txDurationActual << " s\n";
     noteFile << "PRF: " << m_pulsesPerTransmission / m_txDuration << " pulses/s\n";
     noteFile << "Total pulses: " << m_pulsesPerTransmission << "\n";
+    noteFile << "Radar max range: " << m_maxRangeActual << " m\n";
+    noteFile << "Radar deadzone: " << m_deadzoneActual << " m\n";
+    noteFile << "Wave type: " << m_waveType << "\n";
     noteFile << "Window function: " << m_windowFunction << "\n\n";
     noteFile << "---------------------------------------------------------------------------------------\n";
     noteFile << "|                                     Note                                            |\n";
@@ -496,6 +599,7 @@ void Interface::transmitBuffer(std::vector<std::complex<float>> transmitWave,
 {
     // Generate a larger buffer that contains the waveform.
     std::vector<std::complex<float>> waveBuffer;
+    waveBuffer.reserve(transmitWave.size());
     for (int i = 0; i < wavesPerBuffer; i++) { waveBuffer.insert(waveBuffer.end(), transmitWave.begin(), transmitWave.end()); }
     std::complex<float>* bufferPtr = &waveBuffer.front();
     // Transmit the data until the stop signal is called.

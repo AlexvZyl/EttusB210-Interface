@@ -101,13 +101,10 @@ std::vector<std::complex<float>> generateConstSine(int nSamples, float frequency
 
 	else
 	{
-		// Calculate wave parameters.
-		int index = 0;
 		// Populate wave vector.
 		for (int n = 0; n < nSamples; n++)
 		{
-			wave[index] = std::exp(n * -2 * PI * frequency * i);
-			index++;
+			wave[n] = std::exp(n * -2 * PI * frequency * i);
 		}
 	}
 
@@ -152,21 +149,30 @@ std::vector<std::complex<float>> generateConstSine(int nSamples, float frequency
 //  Non Linear Frequency Chirp.                                                                                                                                                     //
 // ================================================================================================================================================================================ //
 
-std::vector<std::complex<float>> generateNonLinearChirp(int nSamples, float frequency, float amplitude, unsigned samplingFreq, std::string window)
+std::vector<std::complex<float>> generateNonLinearChirp(int nSamples, float bandwidth, float amplitude, unsigned samplingFreq, std::string window)
 {
 	// --------------------- //
 	//  G E N E R A T I O N  //
 	// --------------------- //
-
+	
+	// The transmission interval.
+	float t_i = (float)nSamples / (float)samplingFreq; 
+	// The wave.
 	std::vector<std::complex<float>> wave(nSamples);
+	// The sidelobe paramter.
+	int delta = 50e6;
 
-	// Calculate wave parameters.
-	int index = 0;
 	// Populate wave vector.
 	for (int n = 0; n < nSamples; n++)
 	{
-		wave[index] = std::exp(n * -2 * PI * frequency * i);
-		index++;
+		//  Current time.
+		float t = n / samplingFreq;  
+		// Calculate components of the NLFM equation.
+		float a = ( t_i * std::sqrt(delta^2 + 4) ) / (2 * delta);
+		float b = ( t_i * t_i * (delta^2+4) ) / ( 4 * delta^2 );
+		float c = ( t - ( t_i / 2 ) ) * (t - (t_i / 2));
+		float PHASE = a - std::sqrt(b - c);
+		wave[n] = amplitude * std::exp(2 * PI * i * PHASE * bandwidth);
 	}
 
 	// ------------------- //
