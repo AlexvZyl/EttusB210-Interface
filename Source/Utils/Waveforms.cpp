@@ -27,7 +27,8 @@ std::vector<std::complex<float>> generateLinearChirp(int nSamples, float bandwid
 	//  G E N E R A T I O N  //
 	// --------------------- //
 
-	std::vector<std::complex<float>> wave(nSamples);
+	std::vector<std::complex<float>> wave;
+	wave.reserve(nSamples);
 
 	// Ensure nSamples is odd.
 	if (nSamples % 2 == 0) { std::cout << red << "\n[WAVEFORM] [ERROR]: " << white << "nSamples is not an odd number.\n"; }
@@ -42,7 +43,7 @@ std::vector<std::complex<float>> generateLinearChirp(int nSamples, float bandwid
 		for (int n = floor(-(nSamples - 1) / 2); n <= ceil((nSamples - 1) / 2); n++)
 		{
 			FREQ = ((freqGradient * index) - (bandwidth / 2)) / samplingFreq;
-			wave[index] = std::exp(n * -2 * PI * FREQ * i);
+			wave.emplace_back(std::exp(n * 2 * PI * FREQ * i));
 			index++;
 		}
 	}
@@ -94,7 +95,8 @@ std::vector<std::complex<float>> generateConstSine(int nSamples, float frequency
 	//  G E N E R A T I O N  //
 	// --------------------- //
 
-	std::vector<std::complex<float>> wave(nSamples);
+	std::vector<std::complex<float>> wave;
+	wave.reserve(nSamples);
 
 	// Ensure nSamples is odd.
 	if (nSamples % 2 == 0) { std::cout << red << "\n[WAVEFORM] [ERROR]: " << white << "nSamples is not an odd number.\n"; }
@@ -104,7 +106,7 @@ std::vector<std::complex<float>> generateConstSine(int nSamples, float frequency
 		// Populate wave vector.
 		for (int n = 0; n < nSamples; n++)
 		{
-			wave[n] = std::exp(n * -2 * PI * frequency * i);
+			wave.emplace_back(std::exp(n * -2 * PI * frequency * i));
 		}
 	}
 
@@ -172,7 +174,7 @@ std::vector<std::complex<float>> generateNonLinearChirp(int nSamples, float band
 		float b = ( t_i * t_i * (delta^2+4) ) / ( 4 * delta^2 );
 		float c = ( t - ( t_i / 2 ) ) * (t - (t_i / 2));
 		float PHASE = a - std::sqrt(b - c);
-		wave[n] = amplitude * std::exp(2 * PI * i * PHASE * bandwidth);
+		wave[n] = amplitude * std::exp(2 * PI * i * PHASE * bandwidth * 0.1f);
 	}
 
 	// ------------------- //

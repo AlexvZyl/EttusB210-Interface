@@ -5,26 +5,26 @@
 
 #  Filing settings.
 folder: Data\Testing
-file-latest: B210_SAMPLES_Testing_011.bin
-file-target: B210_SAMPLES_Testing_012.bin
+file-latest: B210_SAMPLES_Testing_084.bin
+file-target: B210_SAMPLES_Testing_085.bin
 auto-filing: Enabled
 
 #  Radar settings.
 max-range: 400
-tx-duration: 1
+tx-duration: 30
 dead-zone: 100
 window-function: None
 wave-type: Non-Linear Frequency Chirp
 
 #  SDR settings.
-sample-rate-tx: 12000000
-sample-rate-rx: 12000000
+sample-rate-tx: 6000000
+sample-rate-rx: 6000000
 wave-frequency-tx: 900000000
 wave-frequency-rx: 900000000
 gain-tx: 80
 gain-rx: 0
-filter-bandwidth-tx: 24000000
-filter-bandwidth-rx: 24000000
+filter-bandwidth-tx: 12000000
+filter-bandwidth-rx: 12000000
 
 #  Device settings.
 clock-ref: internal

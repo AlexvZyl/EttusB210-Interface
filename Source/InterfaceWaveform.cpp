@@ -27,7 +27,7 @@ void Interface::waveFormMenu()
 	readInput(&answer);
 
 	// Handle errors.
-	while (answer < 0 || answer > 4)
+	while (answer < 0 || answer > 5)
 	{
 		clear();
 		systemInfo();

@@ -1,14 +1,25 @@
-﻿  InterfaceStreaming.cpp
+﻿  InterfaceWaveform.cpp
 C:\GitHub_Repos\EttusB210-Interface\Source\Interface.h(44,16): warning C4305: 'initializing': truncation from 'int' to 'const float'
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceStreaming.cpp(95,55): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceStreaming.cpp(101,55): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceStreaming.cpp(382,55): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceStreaming.cpp(388,55): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceStreaming.cpp(434,27): warning C4244: 'initializing': conversion from 'double' to 'size_t', possible loss of data
-C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceStreaming.cpp(449,77): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceWaveform.cpp(98,14): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceWaveform.cpp(103,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceWaveform.cpp(132,14): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceWaveform.cpp(137,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceWaveform.cpp(166,14): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceWaveform.cpp(171,17): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceWaveform.cpp(208,14): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceWaveform.cpp(224,39): warning C4244: '=': conversion from 'float' to 'unsigned int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceWaveform.cpp(228,36): warning C4244: '=': conversion from 'float' to 'unsigned int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceWaveform.cpp(229,39): warning C4244: '=': conversion from 'float' to 'unsigned int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceWaveform.cpp(265,14): warning C4244: 'argument': conversion from 'double' to 'unsigned int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceWaveform.cpp(284,34): warning C4244: '=': conversion from 'float' to 'unsigned int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceWaveform.cpp(285,35): warning C4244: '=': conversion from 'float' to 'unsigned int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceWaveform.cpp(304,48): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceWaveform.cpp(315,99): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceWaveform.cpp(319,102): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\GitHub_Repos\EttusB210-Interface\Source\InterfaceWaveform.cpp(323,97): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
   Generating code
-  8 of 4464 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
-    2 functions were new in current compilation
-    124 functions had inline decision re-evaluated but remain unchanged
+  1 of 4467 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    22 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   EttusB210-Interface.vcxproj -> C:\GitHub_Repos\EttusB210-Interface\Binaries\Executables\x64\Release\EttusB210-Interface.exe
